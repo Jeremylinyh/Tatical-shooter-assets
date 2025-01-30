@@ -50,7 +50,8 @@ local function determine_target_angle(door : Model, direction : number) : number
 	end
 	
 	local target_angle = door:GetAttribute("HowFarLeft")
-	if direction < 0 then
+	if (direction < 0 or target_angle == 0) and not (door:GetAttribute("HowFarRight") == 0) then
+		-- if both are 0, then it would be expected behavior regardless (probably right?)
 		target_angle = door:GetAttribute("HowFarRight") 
 	end
 	return target_angle
@@ -58,6 +59,7 @@ end
 
 -- open the indicated door
 local function useDoor(door : Model,direction : number,user : string) : nil
+	-- check that the door can be used, and prevent re-use
 	if not doorCanBeMoved(door) or direction == 0 then
 		return
 	end
@@ -66,10 +68,11 @@ local function useDoor(door : Model,direction : number,user : string) : nil
 	else
 		door:SetAttribute("Usedby","Enemy")
 	end
+	door.Center.CanCollide = false
 	
 	local target_angle = determine_target_angle(door,direction)
 	
-	--print(target_angle , door:GetPivot().XVector)
+	-- tween a cframe (this should be less verbose lol)
 	local interploant : CFrameValue = Instance.new("CFrameValue")
 	interploant.Value = door:GetPivot() -- initial value
 	local goal = {}
@@ -85,7 +88,9 @@ local function useDoor(door : Model,direction : number,user : string) : nil
 	interploant:Destroy()
 	door:PivotTo(door:GetAttribute("ClosedCFrame") * CFrame.Angles(0,target_angle,0))
 	
+	-- clean up
 	door:SetAttribute("Usedby","")
+	door.Center.CanCollide = true
 end
 
 -- The entry point to this "class"

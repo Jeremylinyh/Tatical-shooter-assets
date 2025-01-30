@@ -50,11 +50,6 @@ local function engageDoor(door : Model,becomeVisible : boolean)
 	else
 		CAS:UnbindAction("OpenDoor")
 	end
-	
-	local textlabel : TextLabel = door:WaitForChild("Center"):WaitForChild("Front"):WaitForChild("TextLabel")
-	processTextLabel(textlabel,becomeVisible)
-	textlabel = door:WaitForChild("Center"):WaitForChild("Back"):WaitForChild("TextLabel")
-	processTextLabel(textlabel,becomeVisible)
 end
 
 -- IMPORTANT: to add future stuff to be detected, add it here
