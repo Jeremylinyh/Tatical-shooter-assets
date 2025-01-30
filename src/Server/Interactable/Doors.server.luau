@@ -44,22 +44,37 @@ local function direction_from_user_position(door : Model, user : CFrame) : numbe
 	return math.sign(door:GetPivot().LookVector:Dot(difference.Unit))
 end
 
--- open the indicated door
-local function useDoor(door : Model,direction : number) : nil
-	if not doorCanBeMoved(door) or direction == 0 then
-		return
+local function determine_target_angle(door : Model, direction : number) : number
+	if door:GetPivot() ~= door:GetAttribute("ClosedCFrame") then
+		return 0
 	end
 	
 	local target_angle = door:GetAttribute("HowFarLeft")
 	if direction < 0 then
 		target_angle = door:GetAttribute("HowFarRight") 
 	end
+	return target_angle
+end
+
+-- open the indicated door
+local function useDoor(door : Model,direction : number,user : string) : nil
+	if not doorCanBeMoved(door) or direction == 0 then
+		return
+	end
+	if user then
+		door:SetAttribute("Usedby",user)
+	else
+		door:SetAttribute("Usedby","Enemy")
+	end
+	
+	local target_angle = determine_target_angle(door,direction)
 	
 	--print(target_angle , door:GetPivot().XVector)
 	local interploant : CFrameValue = Instance.new("CFrameValue")
-	interploant.Value = door:GetAttribute("ClosedCFrame")
+	interploant.Value = door:GetPivot() -- initial value
 	local goal = {}
-	goal.Value = interploant.Value * CFrame.Angles(0,target_angle,0)
+	goal.Value = door:GetAttribute("ClosedCFrame") * CFrame.Angles(0,target_angle,0)
+	
 	local tween : Tween = game:GetService("TweenService"):Create(interploant,TweenInfo.new(door:GetAttribute("Transition_Speed")),goal)
 	
 	interploant.Changed:Connect(function(value)
