@@ -11,6 +11,8 @@
 -- Usedby : who is using it?
 -- InitialDirection : if the door is to start open, what direction to open in? (0 = start closed)
 -- Transition_Speed : how fast auto open is?
+-- IMPORTANT: this script assumes that the door's closed position is between the open position of both sides. 
+--     Therefore, we add a negative sign for left beacuse we assume you meant that.
 
 
 local CS : CollectionService = game:GetService("CollectionService")
@@ -116,8 +118,8 @@ local function initiateDoor(door : Model) : nil
 	door:SetAttribute("ClosedCFrame", door:GetPivot() )
 	local rng : number = DoorRandom:NextNumber()
 	door:SetAttribute("Locked",rng < door:GetAttribute("Chance_of_being_locked"))
-	door:SetAttribute("HowFarLeft",math.rad(door:GetAttribute("HowFarLeft")))
-	door:SetAttribute("HowFarRight",math.rad(door:GetAttribute("HowFarRight")))
+	door:SetAttribute("HowFarLeft",-math.abs(math.rad(door:GetAttribute("HowFarLeft"))))
+	door:SetAttribute("HowFarRight",math.abs(math.rad(door:GetAttribute("HowFarRight"))))
 	useDoor(door,door:GetAttribute("InitialDirection"))
 	-- TODO: continue implement
 end
