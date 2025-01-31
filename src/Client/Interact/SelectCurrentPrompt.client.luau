@@ -11,7 +11,7 @@ local promptTag : string = "ProxPrompt"
 local previousShown = nil
 local prompts = CS:GetTagged(promptTag)
 
-local tweeninfo : TweenInfo = TweenInfo.new(0.16)
+local tweeninfo : TweenInfo = TweenInfo.new(0.6)
 
 --refresh if change occurs
 CS:GetInstanceAddedSignal(promptTag):Connect(function()

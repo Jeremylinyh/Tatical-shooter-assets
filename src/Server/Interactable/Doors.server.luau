@@ -96,8 +96,11 @@ local function useDoor(door : Model,direction : number,user : string) : nil
 end
 
 -- handles pushing the door by the given increment
-local function doorPush(door : Model,increment : number,user : string) : nil
-	
+local function doorPush(door : Model,increment : number,user : string,direction : number) : nil
+	if not doorCanBeMoved(door) then
+		return
+	end
+	door.currentAngle.Value -= increment * direction
 end
 
 -- The entry point to this "class"
@@ -120,10 +123,10 @@ local function connectEvents(door : Model) : nil
 	local pushDoorRemote : RemoteEvent = door:WaitForChild("Push")
 	pushDoorRemote.OnServerEvent:Connect(function(player : Player,increment : number)
 		if not doorCanBeUsed(player,door) then
-			return -- we be cautious, we trust our own script, but not the client
+			return
 		end
-		--door:SetAttribute("Usedby",player.Name)
-		useDoor(door,increment,player.Name)
+		
+		doorPush(door,increment,player.Name,direction_from_user_position(door,player.Character:GetPivot()))
 	end)
 	local pushDoorBindable : BindableEvent = pushDoorRemote:WaitForChild("BindableEvent")
 	pushDoorBindable.Event:Connect(useDoor)
@@ -132,7 +135,9 @@ local function connectEvents(door : Model) : nil
 	door.currentAngle.Changed:Connect(function(value)
 		value = math.clamp(value,door:GetAttribute("HowFarLeft"),door:GetAttribute("HowFarRight"))
 		door:PivotTo(door:GetAttribute("ClosedCFrame") * CFrame.Angles(0,value,0))
-		door.currentAngle.Value = value
+		if value ~= door.currentAngle.Value then
+			door.currentAngle.Value = value
+		end
 	end)
 end
 

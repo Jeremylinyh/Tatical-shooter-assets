@@ -15,6 +15,7 @@ UIS.PointerAction:Connect(function(wheel, _pan, _pinch, processed)
 	if processed then
 		return
 	end
+	
 	if currentReciever then
 		currentReciever:Fire(wheel)
 	end
