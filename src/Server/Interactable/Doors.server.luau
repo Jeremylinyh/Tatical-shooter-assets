@@ -46,8 +46,9 @@ local function direction_from_user_position(door : Model, user : CFrame) : numbe
 	return math.sign(door:GetPivot().LookVector:Dot(difference.Unit))
 end
 
+-- given the player want to open door fully, what is fully?
 local function determine_target_angle(door : Model, direction : number) : number
-	if door:GetPivot() ~= door:GetAttribute("ClosedCFrame") then
+	if door.currentAngle.Value ~= 0 then
 		return 0
 	end
 	
@@ -75,19 +76,13 @@ local function useDoor(door : Model,direction : number,user : string) : nil
 	local target_angle = determine_target_angle(door,direction)
 	
 	-- tween a cframe (this should be less verbose lol)
-	local interploant : CFrameValue = Instance.new("CFrameValue")
-	interploant.Value = door:GetPivot() -- initial value
 	local goal = {}
-	goal.Value = door:GetAttribute("ClosedCFrame") * CFrame.Angles(0,target_angle,0)
+	goal.Value = target_angle
+	local tween : Tween = game:GetService("TweenService"):Create(door.currentAngle,TweenInfo.new(door:GetAttribute("Transition_Speed")),goal)
 	
-	local tween : Tween = game:GetService("TweenService"):Create(interploant,TweenInfo.new(door:GetAttribute("Transition_Speed")),goal)
 	
-	interploant.Changed:Connect(function(value)
-		door:PivotTo(value)
-	end)
 	tween:Play()
 	tween.Completed:Wait()
-	interploant:Destroy()
 	door:PivotTo(door:GetAttribute("ClosedCFrame") * CFrame.Angles(0,target_angle,0))
 	
 	-- clean up
@@ -111,6 +106,10 @@ local function connectEvents(door : Model) : nil
 	local openDoorBindable : BindableEvent = openDoorRemote:WaitForChild("BindableEvent")
 	openDoorBindable.Event:Connect(useDoor)
 	
+	-- connecting door angle
+	door.currentAngle.Changed:Connect(function(value)
+		door:PivotTo(door:GetAttribute("ClosedCFrame") * CFrame.Angles(0,value,0))
+	end)
 end
 
 -- set default information such as wether the door is locked
