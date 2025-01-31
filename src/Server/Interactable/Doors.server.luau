@@ -11,8 +11,9 @@
 -- Usedby : who is using it?
 -- InitialDirection : if the door is to start open, what direction to open in? (0 = start closed)
 -- Transition_Speed : how fast auto open is?
--- IMPORTANT: this script assumes that the door's closed position is between the open position of both sides. 
---     Therefore, we add a negative sign for left beacuse we assume you meant that.
+-- currentAngle : change this to non 0 if you want the door to start ajar
+-- IMPORTANT: angles are measured in degrees because I felt like it. deal with it.
+-- 	 	angles are relative to the door in the closed position
 
 
 local CS : CollectionService = game:GetService("CollectionService")
@@ -48,8 +49,12 @@ end
 
 -- given the player want to open door fully, what is fully?
 local function determine_target_angle(door : Model, direction : number) : number
-	if door.currentAngle.Value ~= 0 then
-		return 0
+	local weShouldCloseTheDoor : boolean = door.currentAngle.Value ~= 0
+	-- if ajar close 
+	-- if we want it to behave otherwise, change this statement /\
+	
+	if weShouldCloseTheDoor then
+		return 0 
 	end
 	
 	local target_angle = door:GetAttribute("HowFarLeft")
@@ -90,6 +95,11 @@ local function useDoor(door : Model,direction : number,user : string) : nil
 	door.Center.CanCollide = true
 end
 
+-- handles pushing the door by the given increment
+local function doorPush(door : Model,increment : number,user : string) : nil
+	
+end
+
 -- The entry point to this "class"
 
 -- connect the indicated function
@@ -101,24 +111,40 @@ local function connectEvents(door : Model) : nil
 			return -- we be cautious, we trust our own script, but not the client
 		end
 		--door:SetAttribute("Usedby",player.Name)
-		useDoor(door,direction_from_user_position(door,player.Character:GetPivot()))
+		useDoor(door,direction_from_user_position(door,player.Character:GetPivot()),player.Name)
 	end)
 	local openDoorBindable : BindableEvent = openDoorRemote:WaitForChild("BindableEvent")
 	openDoorBindable.Event:Connect(useDoor)
 	
+	-- connecting pushing
+	local pushDoorRemote : RemoteEvent = door:WaitForChild("Push")
+	pushDoorRemote.OnServerEvent:Connect(function(player : Player,increment : number)
+		if not doorCanBeUsed(player,door) then
+			return -- we be cautious, we trust our own script, but not the client
+		end
+		--door:SetAttribute("Usedby",player.Name)
+		useDoor(door,increment,player.Name)
+	end)
+	local pushDoorBindable : BindableEvent = pushDoorRemote:WaitForChild("BindableEvent")
+	pushDoorBindable.Event:Connect(useDoor)
+	
 	-- connecting door angle
 	door.currentAngle.Changed:Connect(function(value)
+		value = math.clamp(value,door:GetAttribute("HowFarLeft"),door:GetAttribute("HowFarRight"))
 		door:PivotTo(door:GetAttribute("ClosedCFrame") * CFrame.Angles(0,value,0))
+		door.currentAngle.Value = value
 	end)
 end
 
 -- set default information such as wether the door is locked
 local function initiateDoor(door : Model) : nil
 	door:SetAttribute("ClosedCFrame", door:GetPivot() )
+	door.currentAngle.Value = math.rad(door.currentAngle.Value)
+	
 	local rng : number = DoorRandom:NextNumber()
 	door:SetAttribute("Locked",rng < door:GetAttribute("Chance_of_being_locked"))
-	door:SetAttribute("HowFarLeft",-math.abs(math.rad(door:GetAttribute("HowFarLeft"))))
-	door:SetAttribute("HowFarRight",math.abs(math.rad(door:GetAttribute("HowFarRight"))))
+	door:SetAttribute("HowFarLeft",math.rad(door:GetAttribute("HowFarLeft")))
+	door:SetAttribute("HowFarRight",math.rad(door:GetAttribute("HowFarRight")))
 	useDoor(door,door:GetAttribute("InitialDirection"))
 	-- TODO: continue implement
 end
