@@ -10,3 +10,16 @@ UIS.InputBegan:Connect(function(input,gp)
 		currentReciever:Fire(input)
 	end
 end)
+
+UIS.PointerAction:Connect(function(wheel, _pan, _pinch, processed)
+	if processed then
+		return
+	end
+	if currentReciever then
+		currentReciever:Fire(wheel)
+	end
+end)
+
+script.SetCurrentReciever.Event:Connect(function(reciever : BindableEvent)
+	currentReciever = reciever
+end)
