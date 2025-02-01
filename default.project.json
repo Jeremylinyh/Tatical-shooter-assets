@@ -15,7 +15,6 @@
       "$properties": {
         "CameraMaxZoomDistance": 128,
         "CharacterUseJumpPower": false,
-        "CameraMode": "LockFirstPerson",
         "CharacterMaxSlopeAngle": 60
       }
     }
