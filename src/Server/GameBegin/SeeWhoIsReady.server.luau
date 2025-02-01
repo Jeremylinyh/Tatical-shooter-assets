@@ -10,7 +10,7 @@ local allready : boolean = false
 local function informClient()
 	local sendable = {}
 	for i,v in pairs(tally) do
-		--print(i.Name)
+		--print(v)
 		sendable[i.Name] = v
 	end
 	
@@ -18,6 +18,14 @@ local function informClient()
 end
 
 players.PlayerAdded:Connect(function(player)
+	player:LoadCharacter()
+	local character = player.Character
+	if not character then
+		player.CharacterAdded:Wait()
+		character = player.Character
+	end
+	character.Parent = game:GetService("ServerStorage")
+	
 	tally[player] = false
 	informClient()
 end)
@@ -51,13 +59,18 @@ voteEvent.OnServerEvent:Connect(function(player,value : boolean)
 	if not allready then
 		allready = true
 		if not allYesVotes() then
+			allready = false
 			return
 		end
 		wait(1) -- continue to be ready for 3 seconds
 		if not allYesVotes() then
+			allready = false
 			return
 		end
 		if allready then
+			print("all ready")
+			player.Character.Parent = workspace
+			-- TODO: move character to the picked spawn
 			voteEvent:FireAllClients()
 		end
 	end
