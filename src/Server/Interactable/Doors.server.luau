@@ -106,7 +106,7 @@ local function doorPush(door : Model,increment : number,user : string,direction 
 		return
 	end
 	--
-	door.currentAngle.Target.Value = door.currentAngle.Value - increment * direction
+	door.currentAngle.Value = door.currentAngle.Value - increment * direction
 	--
 end
 
