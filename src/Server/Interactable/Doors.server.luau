@@ -27,6 +27,11 @@ local function isDoor(possiblyDoor : Model) : boolean
 	return CS:HasTag(possiblyDoor,classname)
 end
 
+-- tells you wether the door is closed
+local function DoorIsClosed(door : Model)
+	return  door.currentAngle.Value == 0
+end
+
 -- player is able to use doors, and the door is a door (in terms of SecOps)
 local function doorCanBeUsed(player : Player, door : Model) : boolean
 	if not player then
@@ -49,7 +54,7 @@ end
 
 -- given the player want to open door fully, what is fully?
 local function determine_target_angle(door : Model, direction : number) : number
-	local weShouldCloseTheDoor : boolean = door.currentAngle.Value ~= 0
+	local weShouldCloseTheDoor : boolean = not DoorIsClosed(door)
 	-- if ajar close 
 	-- if we want it to behave otherwise, change this statement /\
 	
@@ -100,7 +105,9 @@ local function doorPush(door : Model,increment : number,user : string,direction 
 	if not doorCanBeMoved(door) then
 		return
 	end
-	door.currentAngle.Value -= increment * direction
+	--
+	door.currentAngle.Target.Value = door.currentAngle.Value - increment * direction
+	--
 end
 
 -- The entry point to this "class"
@@ -125,12 +132,17 @@ local function connectEvents(door : Model) : nil
 		if not doorCanBeUsed(player,door) then
 			return
 		end
-		
 		doorPush(door,increment,player.Name,direction_from_user_position(door,player.Character:GetPivot()))
+		
 	end)
 	local pushDoorBindable : BindableEvent = pushDoorRemote:WaitForChild("BindableEvent")
 	pushDoorBindable.Event:Connect(useDoor)
 	
+	-- interploate
+	--door.currentAngle.Target.Value = door.currentAngle.Value
+	--door.currentAngle.Target.Changed:Connect(function(value)
+		-- If I can't make smooth scroll, why do I need smooth scroll?
+	--end)
 	-- connecting door angle
 	door.currentAngle.Changed:Connect(function(value)
 		value = math.clamp(value,door:GetAttribute("HowFarLeft"),door:GetAttribute("HowFarRight"))
