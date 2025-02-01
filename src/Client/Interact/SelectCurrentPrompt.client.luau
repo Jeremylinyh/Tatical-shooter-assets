@@ -68,10 +68,10 @@ local function alignmentTest()
 	end
 	
 	if previousShown then
-		local target : TextLabel = previousShown.SurfaceGui.TextLabel
+		local target : Frame = previousShown.SurfaceGui.Frame
 		
 		local goal = {}
-		goal.Size = UDim2.new(0,0,0.8,0)
+		goal.Size = UDim2.new(0,0,1,0)
 		local tween : Tween = TS:Create(target,tweeninfo,goal)
 		tween:Play()
 		
@@ -80,10 +80,10 @@ local function alignmentTest()
 	end
 	
 	if currentSelected then
-		local target : TextLabel = currentSelected.SurfaceGui.TextLabel
+		local target : Frame = currentSelected.SurfaceGui.Frame
 		
 		local goal = {}
-		goal.Size = UDim2.new(1,0,0.8,0)
+		goal.Size = UDim2.new(1,0,1,0)
 		local tween : Tween = TS:Create(target,tweeninfo,goal)
 		tween:Play()
 		

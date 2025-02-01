@@ -22,6 +22,12 @@ local DoorRandom : Random = Random.new()
 local doorAngle : number = 0
 local classname : string = "Door"
 
+-- sets text on prompts
+local function setActionText(door : Model,text : string)
+	local front = door:WaitForChild("Left")
+	local back = door:WaitForChild("Right")
+end
+
 -- check wether it is a door
 local function isDoor(possiblyDoor : Model) : boolean
 	return CS:HasTag(possiblyDoor,classname)
