@@ -70,7 +70,7 @@ voteEvent.OnServerEvent:Connect(function(player,value : boolean)
 		if allready then
 			print("all ready")
 			player.Character.Parent = workspace
-			-- TODO: move character to the picked spawn
+			script.Parent.SpawnPlayer:Fire()
 			voteEvent:FireAllClients()
 		end
 	end

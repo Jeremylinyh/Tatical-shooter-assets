@@ -25,6 +25,16 @@ changeSpawnEvent.OnServerEvent:Connect(function(player : Player,ToNext : boolean
 	processSpawnLocation(arrayOfSpawn[currentIndex[player] + 1],player)
 end)
 
+script.Parent:WaitForChild("SpawnPlayer").Event:Connect(function()
+	for i : Player,v : CFrame in pairs(currentSpawnLocation) do
+		if not i.Character then
+			i.CharacterAdded:Wait()
+		end
+		i.Character:PivotTo(v)
+	end
+	return
+end)
+
 game:GetService("Players").PlayerAdded:Connect(function(player)
 	if not player.Character then
 		player.CharacterAdded:Wait()
