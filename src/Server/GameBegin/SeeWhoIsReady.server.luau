@@ -68,8 +68,7 @@ voteEvent.OnServerEvent:Connect(function(player,value : boolean)
 			return
 		end
 		if allready then
-			print("all ready")
-			player.Character.Parent = workspace
+			--print("all ready")
 			script.Parent.SpawnPlayer:Fire()
 			voteEvent:FireAllClients()
 		end

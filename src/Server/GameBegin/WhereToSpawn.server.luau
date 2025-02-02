@@ -27,6 +27,7 @@ end)
 
 script.Parent:WaitForChild("SpawnPlayer").Event:Connect(function()
 	for i : Player,v : CFrame in pairs(currentSpawnLocation) do
+		i.Character.Parent = workspace
 		if not i.Character then
 			i.CharacterAdded:Wait()
 		end
