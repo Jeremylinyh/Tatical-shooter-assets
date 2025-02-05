@@ -25,6 +25,14 @@ changeSpawnEvent.OnServerEvent:Connect(function(player : Player,ToNext : boolean
 	processSpawnLocation(arrayOfSpawn[currentIndex[player] + 1],player)
 end)
 
+local function setCollisionGroup(character : Model)
+	for i, bodypart in pairs(character:GetChildren()) do
+		if bodypart:IsA("BasePart") or bodypart:IsA("MeshPart") then
+			bodypart.CollisionGroup = "Players"
+		end
+	end
+end
+
 script.Parent:WaitForChild("SpawnPlayer").Event:Connect(function()
 	for i : Player,v : CFrame in pairs(currentSpawnLocation) do
 		i.Character.Parent = workspace
@@ -32,6 +40,11 @@ script.Parent:WaitForChild("SpawnPlayer").Event:Connect(function()
 			i.CharacterAdded:Wait()
 		end
 		i.Character:PivotTo(v)
+		i.Character:FindFirstChildOfClass("Humanoid").BreakJointsOnDeath = false
+		setCollisionGroup(i.Character)
+		i.Character:FindFirstChildOfClass("Humanoid").Died:Connect(function()
+			script.Parent.RagdollCharacter:Fire(i.Character)
+		end)
 	end
 	return
 end)

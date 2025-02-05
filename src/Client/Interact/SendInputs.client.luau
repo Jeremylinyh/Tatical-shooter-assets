@@ -7,6 +7,7 @@ local currentReciever : BindableEvent = nil
 UIS.InputBegan:Connect(function(input,gp)
 	if gp then return end
 	if currentReciever then
+		--print(currentReciever:GetTags())
 		currentReciever:Fire(input)
 	end
 end)

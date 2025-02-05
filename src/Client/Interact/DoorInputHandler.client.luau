@@ -4,9 +4,9 @@ local CS : CollectionService = game:GetService("CollectionService")
 
 local doorActionTag : string = "DoorInput"
 
-CS:GetInstanceAddedSignal(doorActionTag):Connect(function(reciever : BindableEvent)
-	reciever.Event:Connect(function(input)
-		
+local function processInputEvent(reciever : BindableEvent)
+	reciever.Event:Connect(function(input : InputObject)
+		--print(input)
 		if typeof(input) == "number" then
 			reciever.Parent.Parent:WaitForChild("Push"):FireServer(input/6)
 		else
@@ -17,4 +17,10 @@ CS:GetInstanceAddedSignal(doorActionTag):Connect(function(reciever : BindableEve
 			end
 		end
 	end)
-end)
+end
+
+for i,v : BindableEvent in CS:GetTagged(doorActionTag) do
+	processInputEvent(v)
+end
+
+CS:GetInstanceAddedSignal(doorActionTag):Connect(processInputEvent)
