@@ -176,7 +176,12 @@ local leantimescale : number = 3
 local function findTimeDifference(lastMod : number,scale : number) : number
 	return(time()-lastMod) * scale
 end
-	
+
+local LeanEvent = game:GetService('ReplicatedStorage'):WaitForChild("Replication"):WaitForChild("LeanAngle")
+RS.PostSimulation:Connect(function()
+	LeanEvent:FireServer(goalCurrentLeanState)
+end)
+
 RS.PreRender:Connect(function(delta)
 	local humanoid : Humanoid = getHumanoid()
 	if not humanoid then
