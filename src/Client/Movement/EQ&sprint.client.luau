@@ -11,11 +11,7 @@ playerState.Run = 27
 playerState.Crouch = 6
 playerState.Crawl = 3
 
-local defaultHeight : number = 0.3
-local crouchState = {}
-crouchState.Stand = defaultHeight
-crouchState.Crouch = defaultHeight-2
-crouchState.Crawl = defaultHeight-3.7
+local crouchState = require(script.Parent:WaitForChild("CrouchHeights"))
 
 local leanState = {}
 leanState.Right = math.rad(60)
@@ -48,6 +44,8 @@ local function setCurrentCrouchState(goal : crouchState)
 	previousCrouchState = goalCameraDownness
 	currentCrouchState = goal
 	lastModifiedCrouch = time()
+	
+	script.CrouchStateChanged:Fire(goal)
 end
 
 local function setCurrentWalkSpeed(goal : playerState)
@@ -65,11 +63,11 @@ end
 -- false = released
 local function SprintKeyPressed(pressed : boolean)
 	if pressed then
-	setCurrentCrouchState(crouchState.Stand)
-	setCurrentWalkSpeed(playerState.Run)
-else 
-	setCurrentWalkSpeed(playerState.Walk)
-end
+		setCurrentCrouchState(crouchState.Stand)
+		setCurrentWalkSpeed(playerState.Run)
+	elseif currentWalkSpeed == playerState.Run then
+		setCurrentWalkSpeed(playerState.Walk)
+	end
 end
 
 -- if uncrouch is true, uncrouch
@@ -116,18 +114,18 @@ end
 
 local function crawl()
 	if currentWalkSpeed == playerState.Run then
-	-- perform the slide I mean dive
-	-- TODO: implement
-	-- return
-end
-if currentCrouchState == crouchState.Crawl then
-	-- stand
-	setCurrentCrouchState(crouchState.Stand)
-	setCurrentWalkSpeed(playerState.Walk)
-else
-	setCurrentCrouchState(crouchState.Crawl)
-	setCurrentWalkSpeed(playerState.Crawl)
-end 
+		-- perform the slide I mean dive
+		-- TODO: implement
+		-- return
+	end
+	if currentCrouchState == crouchState.Crawl then
+		-- stand
+		setCurrentCrouchState(crouchState.Stand)
+		setCurrentWalkSpeed(playerState.Walk)
+	else
+		setCurrentCrouchState(crouchState.Crawl)
+		setCurrentWalkSpeed(playerState.Crawl)
+	end 
 end 
 
 local function getHumanoid() : Humanoid

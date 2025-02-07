@@ -3,6 +3,9 @@
 local constraintType : string = "BallSocketConstraint" --"HingeConstraint"
 
 local function addBallSocketTo(character : model)
+	local humanoid : Humanoid = character:WaitForChild("Humanoid")
+	humanoid:ChangeState(Enum.HumanoidStateType.Physics)
+	
 	for i, bodypart in pairs(character:GetChildren()) do
 		local weld : Motor6D = bodypart:FindFirstChildOfClass("Motor6D")
 		--print(weld)
@@ -46,6 +49,9 @@ end
 
 -- assumes ragdoll happend
 local function unRagdoll(character : Model,original : string)
+	local humanoid : Humanoid = character:WaitForChild("Humanoid")
+	humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
+	
 	for i, bodypart in pairs(character:GetChildren()) do
 		local weld : Motor6D = bodypart:FindFirstChildOfClass("Motor6D")
 		local custom = bodypart:FindFirstChildOfClass(constraintType)
