@@ -72,18 +72,30 @@ else
 end
 end
 
-local function crouch()
+-- if uncrouch is true, uncrouch
+local function crouch(uncrouch : boolean)
+	if uncrouch then
+		if currentCrouchState == crouchState.Crawl then
+			setCurrentCrouchState(crouchState.Crouch)
+			setCurrentWalkSpeed(playerState.Crouch)
+		elseif currentCrouchState == crouchState.Crouch then
+			setCurrentCrouchState(crouchState.Stand)
+			setCurrentWalkSpeed(playerState.Walk)
+		end
+		return
+	end
+	
 	if currentCrouchState == crouchState.Crawl then
-	-- stand
-	setCurrentCrouchState(crouchState.Stand)
-	setCurrentWalkSpeed(playerState.Walk)
-elseif currentCrouchState == crouchState.Stand then
-	setCurrentCrouchState(crouchState.Crouch)
-	setCurrentWalkSpeed(playerState.Crouch)
+		-- stand
+		setCurrentCrouchState(crouchState.Stand)
+		setCurrentWalkSpeed(playerState.Walk)
+	elseif currentCrouchState == crouchState.Stand then
+		setCurrentCrouchState(crouchState.Crouch)
+		setCurrentWalkSpeed(playerState.Crouch)
 	else
-	setCurrentCrouchState(crouchState.Crawl)
-	setCurrentWalkSpeed(playerState.Crawl)
-end 
+		setCurrentCrouchState(crouchState.Crawl)
+		setCurrentWalkSpeed(playerState.Crawl)
+	end 
 end 
 
 -- false = left
@@ -141,6 +153,8 @@ UIS.InputBegan:Connect(function(input,gp)
 		crawl()
 	elseif input.KeyCode == Enum.KeyCode.C then
 		crouch()
+	elseif input.KeyCode == Enum.KeyCode.X then
+		crouch(true)
 	elseif input.KeyCode == Enum.KeyCode.LeftShift then
 		SprintKeyPressed(true)
 	end 
