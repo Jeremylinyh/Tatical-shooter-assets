@@ -15,12 +15,10 @@ end)
 
 local neckC0 = CFrame.new(0, 0.8, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1);
 local neckRotation : number = 0
-game:GetService("RunService").RenderStepped:Connect(function(delta)
-	--local player : Player = game:GetService("Players").LocalPlayer
-	--workspace.CurrentCamera.CFrame = 
-		--game:GetService("Players").LocalPlayer.Character:WaitForChild("Head").CFrame
-	--local neck : Motor6D = player.Character:WaitForChild("Head"):WaitForChild("Neck")
-	--neck.C0 = neckC0 * CFrame.fromEulerAnglesYXZ(neckRotation, 0, 0)
+game:GetService("RunService").PostSimulation:Connect(function(delta)
+	local currentY = workspace.CurrentCamera.CFrame.LookVector.Y
+	local currentAngle : number = math.asin(currentY)
+	game:GetService("ReplicatedStorage"):WaitForChild("Replication"):WaitForChild("NeckRot"):FireServer(currentAngle)
 end)
 
 
