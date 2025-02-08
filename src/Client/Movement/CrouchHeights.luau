@@ -1,4 +1,4 @@
-local defaultHeight : number = 0.3
+local defaultHeight : number = 0
 local crouchState = {}
 crouchState.Stand = defaultHeight
 crouchState.Crouch = defaultHeight-1.5
