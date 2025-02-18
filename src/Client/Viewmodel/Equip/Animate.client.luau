@@ -6,7 +6,8 @@ local viewmodelConnection = nil
 local arms : Model = script.Parent.Parent:WaitForChild("Arms")
 local LeftIK : IKControl = arms:WaitForChild("Humanoid"):WaitForChild("Left")
 local RightIK : IKControl = arms:WaitForChild("Humanoid"):WaitForChild("Right")
-local equipSpeed : number = 1 --TODO: gloabalize
+local equipSpeed : number = 1000 --TODO: gloabalize
+local gunstats = require(game:GetService("ReplicatedStorage"):WaitForChild("Weapon"):WaitForChild("GunStats"))
 
 local function process(delta : number)
 	local camera = workspace.CurrentCamera
@@ -42,7 +43,9 @@ local function influenza(goal : number)
 end
 
 -- true : draw | false : holster
-script.Parent.Event:Connect(function(equip : boolean)
+script.Parent.Event:Connect(function(equip : boolean,weaponClass : string)
+	equipSpeed = gunstats[weaponClass].EquipTime
+	
 	if equip and not viewmodelConnection then
 		viewmodelConnection = RS.PreRender:Connect(process)
 		arms.Parent = game.Workspace

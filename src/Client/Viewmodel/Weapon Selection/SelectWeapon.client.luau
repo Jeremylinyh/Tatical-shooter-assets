@@ -15,8 +15,39 @@ local currentlyEquipped : Equipped = Equipped.None
 
 local currentlyProcessing : boolean = false -- disallow input while performing the action
 
+local function weaponClassValid(class : string) : boolean
+	return class ~= nil 
+end
+
+local function getWeaponClass(from : Equipped) : string
+	local weapon : Model = nil
+	local character : Model = game:GetService("Players").LocalPlayer.Character
+	if not character then
+		return nil
+	end
+	
+	if from == Equipped.Primary then
+		weapon = character:FindFirstChild("Primary")
+	else
+		weapon = character:FindFirstChild("Secondary")
+	end
+	
+	if from  == Equipped.None or (not weapon) or (not table.find(weapon:GetTags(),"Firearm")) then
+		return nil
+	end
+	
+	return weapon:GetAttribute("Type")
+end
+
 -- This function must wait until weapon is fully done animating before returning!!!
 local function equipWeapon(object : Equipped,equipping : boolean)
+	local objectClass = getWeaponClass()
+	if not weaponClassValid(objectClass) then
+		return
+	end
+	
+	script.Parent.Parent.Equip:Fire(equipping)
+	
 	if equipping then
 		currentlyEquipped = object
 	else

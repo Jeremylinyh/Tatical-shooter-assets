@@ -9,16 +9,13 @@
       "$path": "src/Server"
     },
     "StarterPlayer": {
-      "StarterCharacter": {
-        "$className": "Model"
-      },
       "StarterPlayerScripts": {
         "$path": "src/Client"
       },
       "$properties": {
+        "CharacterUseJumpPower": false,
         "CameraMaxZoomDistance": 128,
-        "CharacterMaxSlopeAngle": 60,
-        "CharacterUseJumpPower": false
+        "CharacterMaxSlopeAngle": 60
       }
     }
   }
