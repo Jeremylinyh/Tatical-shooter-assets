@@ -10,25 +10,27 @@ local function addBallSocketTo(character : model)
 		local weld : Motor6D = bodypart:FindFirstChildOfClass("Motor6D")
 		--print(weld)
 		if weld and not bodypart:FindFirstChildOfClass(constraintType) then
-			local firstatt = Instance.new("Attachment")
-			firstatt.Parent = weld.Part0
-			firstatt.CFrame = weld.C0
+			if not bodypart:FindFirstChildOfClass("HingeConstraint") then
+				local firstatt = Instance.new("Attachment")
+				firstatt.Parent = weld.Part0
+				firstatt.CFrame = weld.C0
 
-			local secatt = Instance.new("Attachment")
-			secatt.Parent = weld.Part1
-			secatt.CFrame = weld.C1
+				local secatt = Instance.new("Attachment")
+				secatt.Parent = weld.Part1
+				secatt.CFrame = weld.C1
 
-			local ball = Instance.new(constraintType)
-			ball.Attachment0 = firstatt
-			ball.Attachment1 = secatt
+				local ball = Instance.new(constraintType)
+				ball.Attachment0 = firstatt
+				ball.Attachment1 = secatt
 
-			bodypart.CanCollide = true
-			bodypart.CanTouch = false
-			bodypart.CanQuery = true
-			bodypart.CollisionGroup = "Debris"
-			--ball.Active = true
-			ball.Parent = bodypart
-			ball.Enabled = true
+				bodypart.CanCollide = true
+				bodypart.CanTouch = false
+				bodypart.CanQuery = true
+				bodypart.CollisionGroup = "Debris"
+				--ball.Active = true
+				ball.Parent = bodypart
+				ball.Enabled = true
+			end
 			--bodypart.CollisionGroup = "Default"
 
 			bodypart:SetNetworkOwnershipAuto()

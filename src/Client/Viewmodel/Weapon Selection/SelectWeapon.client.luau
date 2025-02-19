@@ -2,6 +2,8 @@
 
 local UIS : UserInputService = game:GetService("UserInputService")
 
+local gunstats = require(game:GetService("ReplicatedStorage"):WaitForChild("Weapon"):WaitForChild("GunStats"))
+
 local connection : RBXScriptConnection = nil
 local primaryKeycode : Enum.KeyCode = Enum.KeyCode.One
 local secondaryKeycode : Enum.KeyCode = Enum.KeyCode.Two
@@ -19,7 +21,9 @@ local function weaponClassValid(class : string) : boolean
 	return class ~= nil 
 end
 
-local function getWeaponClass(from : Equipped) : string
+local primary
+local secondary
+local function getWeapon(from : Equipped) : string
 	local weapon : Model = nil
 	local character : Model = game:GetService("Players").LocalPlayer.Character
 	if not character then
@@ -27,34 +31,36 @@ local function getWeaponClass(from : Equipped) : string
 	end
 	
 	if from == Equipped.Primary then
-		weapon = character:FindFirstChild("Primary")
+		weapon = character:FindFirstChild("Primary") or primary
 	else
-		weapon = character:FindFirstChild("Secondary")
+		weapon = character:FindFirstChild("Secondary") or secondary
 	end
 	
 	if from  == Equipped.None or (not weapon) or (not table.find(weapon:GetTags(),"Firearm")) then
 		return nil
 	end
 	
-	return weapon:GetAttribute("Type")
+	return weapon
 end
 
 -- This function must wait until weapon is fully done animating before returning!!!
-local function equipWeapon(object : Equipped,equipping : boolean)
-	local objectClass = getWeaponClass()
-	if not weaponClassValid(objectClass) then
+local function equipWeapon(slot : Equipped,equipping : boolean)
+	local object = getWeapon(slot)
+	
+	if (not object) or not weaponClassValid(object:GetAttribute("Type")) then
 		return
 	end
 	
-	script.Parent.Parent.Equip:Fire(equipping)
+	script.Parent.Parent.Equip:Invoke(equipping,object)
 	
 	if equipping then
-		currentlyEquipped = object
+		currentlyEquipped = slot
 	else
 		currentlyEquipped = Equipped.None
 	end
-	-- TODO: implement
-	print(equipping,object,currentlyEquipped)
+	
+	
+	--print(equipping,object:GetAttribute("Type"),currentlyEquipped)
 end
 
 local function primaryExist() : boolean
@@ -62,7 +68,7 @@ local function primaryExist() : boolean
 end
 
 local function secondaryExist() : boolean 
-	return false
+	return true
 end
 
 local function currentOneExist(main : Equipped) : boolean
@@ -77,7 +83,14 @@ local function currentOneExist(main : Equipped) : boolean
 	end
 end
 
+game:GetService("ReplicatedStorage"):WaitForChild("GunEvent"):WaitForChild("CurrentGunChanged").OnClientEvent:Connect(function()
+	primary = getWeapon(Equipped.Primary) or primary
+	secondary = getWeapon(Equipped.Secondary) or secondary
+end)
+
 local function EntryPointLogic(mainly : Equipped, secondly : Equipped) -- shameless admiration
+	currentlyProcessing = true
+	
 	if currentlyEquipped == Equipped.None then
 		if currentOneExist(mainly) then
 			-- draw primary
@@ -98,22 +111,25 @@ local function EntryPointLogic(mainly : Equipped, secondly : Equipped) -- shamel
 			equipWeapon(mainly,true)
 		end
 	end
+	
+	currentlyProcessing = false
 end
 
 local function processInput(input : InputObject,gp)
 	if gp or currentlyProcessing then
+		--print("blocked")
 		return
 	end
 	
-	currentlyProcessing = true
-	
 	if input.KeyCode == primaryKeycode then
 		EntryPointLogic(Equipped.Primary,Equipped.Secondary)
+		currentlyProcessing = false
+		return
 	elseif input.KeyCode == secondaryKeycode then
 		EntryPointLogic(Equipped.Secondary,Equipped.Primary)
+		currentlyProcessing = false
+		return
 	end
-	
-	currentlyProcessing = false
 end
 
 script.Parent.OnOffSwitch.Event:Connect(function(turnOn : boolean)
