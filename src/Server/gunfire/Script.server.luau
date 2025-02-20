@@ -111,7 +111,9 @@ local function placeBulletHole(raycastResult : RaycastResult)
 	attach.Part0 = bulletHole
 	attach.Part1 = raycastResult.Instance
 	
-	bulletHole:WaitForChild("Sparks"):Emit(100)
+	local bulletEmitter : ParticleEmitter = bulletHole:WaitForChild("Sparks")
+	wait()
+	bulletEmitter:Emit(6)
 	
 	Debris:AddItem(bulletHole,6) -- TODO: fade
 end
