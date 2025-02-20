@@ -12,13 +12,22 @@ local gunstats = require(game:GetService("ReplicatedStorage"):WaitForChild("Weap
 local pointingDownward : CFrameValue = Instance.new("CFrameValue")
 pointingDownward.Value = CFrame.Angles(math.rad(-90),0,0)
 
-local hipfireCF = CFrame.new(0.36,-0.1,0)
-local aimValue : CFrameValue = Instance.new("CFrameValue")
-aimValue.Value = hipfireCF
+local hipCF = CFrame.new(0.36,-0.1,0)
+local cantCF = CFrame.new(-0.27,-0.1,0) * CFrame.Angles(0,0,math.rad(45))
+local hipfireCF : CFrameValue = Instance.new("CFrameValue")
+hipfireCF.Value = hipCF
 
+local aimValue : CFrameValue = Instance.new("CFrameValue")
+aimValue.Value = hipfireCF.Value
+
+local hipPosTween : Tween = nil
 local aimTween : Tween = nil
 
 local currentWeapon : Model
+
+local function IsAiming() : boolean
+	return aimValue.Value == CFrame.new()
+end
 
 local function process(delta : number)
 	if not currentWeapon then
@@ -96,15 +105,48 @@ local function changeAim(target : CFrame)
 	aimTween:Play()
 end
 
+local function changeHip(target : CFrame)
+	if not currentWeapon then
+		return
+	end
+
+	if hipPosTween then
+		hipPosTween:Cancel()
+	end
+
+	local goal = {}
+	goal.Value = target
+
+	local weaponClass:string = currentWeapon:GetAttribute("Type")
+	local aimTime : number = gunstats[weaponClass].AimTime
+
+	hipPosTween = TS:Create(hipfireCF,TweenInfo.new(aimTime),goal)
+	hipPosTween:Play()
+	hipPosTween.Completed:Wait()
+	
+	if not IsAiming() then
+		changeAim(hipfireCF.Value)
+	end
+end
+
+
+
 UIS.InputBegan:Connect(function(input,gp)
 	if input.KeyCode == Enum.KeyCode.T or input.UserInputType == Enum.UserInputType.MouseButton2 then
 		changeAim(CFrame.new())
+	elseif input.KeyCode == Enum.KeyCode.B then
+		if hipfireCF.Value == hipCF then
+			changeHip(cantCF)
+		else
+			changeHip(hipCF)
+		end
+	
 	end
 end)
 
 UIS.InputEnded:Connect(function(input,gp)
 	if input.KeyCode == Enum.KeyCode.T or input.UserInputType == Enum.UserInputType.MouseButton2 then
-		changeAim(hipfireCF)
+		changeAim(hipfireCF.Value)
 	end
 end)
 
