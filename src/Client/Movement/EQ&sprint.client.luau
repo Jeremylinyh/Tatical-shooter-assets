@@ -5,6 +5,8 @@ local players : Players = game:GetService("Players")
 local RS : RunService = game:GetService("RunService")
 local UIS : UserInputService = game:GetService('UserInputService')
 
+local gunstats = require(game:GetService("ReplicatedStorage"):WaitForChild("Weapon"):WaitForChild("GunStats"))
+
 local playerState = {}
 playerState.Walk = 12
 playerState.Run = 27
@@ -188,6 +190,14 @@ RS.PreRender:Connect(function(delta)
 	
 	local walkTimeDifference : number = findTimeDifference(lastModifiedWalk,timescale)
 	goalWalkSpeed = lerpNumber(currentWalkSpeed,previousWalkSpeed,walkTimeDifference)
+	-- TODO: add acceleration to the aim slow down (shouldn't be noticible that much ig)
+	local currentlyAiming : string = game:GetService("Players").LocalPlayer.PlayerScripts:WaitForChild("Viewmodel"):WaitForChild("IsAiming"):Invoke()
+	if currentlyAiming then
+		local currentGun = gunstats[currentlyAiming]
+		if currentGun then
+			goalWalkSpeed *= currentGun.AimWalkSpeedDecreaseFactor
+		end
+	end
 	humanoid.WalkSpeed = goalWalkSpeed
 	
 	local downTimeDifference : number = findTimeDifference(lastModifiedCrouch,timescale)

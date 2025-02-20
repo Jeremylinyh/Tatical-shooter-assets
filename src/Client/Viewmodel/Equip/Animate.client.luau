@@ -13,7 +13,7 @@ local pointingDownward : CFrameValue = Instance.new("CFrameValue")
 pointingDownward.Value = CFrame.Angles(math.rad(-90),0,0)
 
 local hipCF = CFrame.new(0.36,-0.1,0)
-local cantCF = CFrame.new(-0.27,-0.1,0) * CFrame.Angles(0,0,math.rad(45))
+local cantCF = CFrame.new(-0.36,-0.1,0) * CFrame.Angles(0,0,math.rad(45))
 local hipfireCF : CFrameValue = Instance.new("CFrameValue")
 hipfireCF.Value = hipCF
 
@@ -25,21 +25,21 @@ local aimTween : Tween = nil
 
 local currentWeapon : Model
 
-local function IsAiming() : boolean
-	return aimValue.Value == CFrame.new()
+local function IsAiming() : string
+	if (aimValue.Value == CFrame.new()) then
+		return currentWeapon:GetAttribute("Type")
+	else
+		return false
+	end
 end
+script.Parent.Parent:WaitForChild("IsAiming").OnInvoke = IsAiming
 
 local function process(delta : number)
 	if not currentWeapon then
 		return
 	end
 	
-	local camera = workspace.CurrentCamera
-	if not camera then
-		return
-	end
-	
-	local placeGunAt : CFrame = camera.CFrame
+	local placeGunAt : CFrame = workspace.CurrentCamera.CFrame
 	placeGunAt *= pointingDownward.Value
 	placeGunAt *= aimValue.Value
 	
@@ -89,6 +89,12 @@ end
 local function changeAim(target : CFrame)
 	if not currentWeapon then
 		return
+	end
+	if target == CFrame.new() then
+		-- goal is to aim
+		script.Parent.Parent.AimChanged:Fire(currentWeapon:GetAttribute("Type"))
+	else
+		script.Parent.Parent.AimChanged:Fire(nil)
 	end
 	
 	if aimTween then
