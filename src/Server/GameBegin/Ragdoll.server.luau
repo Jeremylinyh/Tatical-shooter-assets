@@ -33,7 +33,7 @@ local function addBallSocketTo(character : model)
 			end
 			--bodypart.CollisionGroup = "Default"
 
-			bodypart:SetNetworkOwnershipAuto()
+			--bodypart:SetNetworkOwnershipAuto()
 			--bodypart:SetNetworkOwner(nil)
 			weld.Enabled = false
 		end
@@ -80,7 +80,7 @@ script.Parent:WaitForChild("RagdollCharacter").Event:Connect(function(character 
 		wait(undo)
 		unRagdoll(character,original)
 	else
-		wait(6)
+		wait(30)
 		anchorAll(character)
 		return
 	end
