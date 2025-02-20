@@ -3,6 +3,7 @@
 local Debris : Debris = game:GetService("Debris")
 local TweenService : TweenService = game:GetService("TweenService")
 local CS : CollectionService = game:GetService("CollectionService")
+local TweenService : TweenService = game:GetService("TweenService")
 
 local GunTag : string = "Firearm"
 
@@ -99,23 +100,30 @@ local function handleWindowHit(raycastResult : RaycastResult)
 end
 
 local function placeBulletHole(raycastResult : RaycastResult)
-	local cframe = CFrame.lookAt(raycastResult.Position,raycastResult.Position + raycastResult.Normal)
-	
-	local bulletHole : Part = game:GetService("ServerStorage"):WaitForChild("VFX"):WaitForChild("Hole"):Clone()
-	bulletHole.Parent = workspace
-	bulletHole.CFrame = cframe
-	bulletHole.Anchored = false
-	
-	local attach : WeldConstraint = Instance.new("WeldConstraint")
-	attach.Parent = bulletHole
-	attach.Part0 = bulletHole
-	attach.Part1 = raycastResult.Instance
-	
-	local bulletEmitter : ParticleEmitter = bulletHole:WaitForChild("Sparks")
-	wait()
-	bulletEmitter:Emit(6)
-	
-	Debris:AddItem(bulletHole,6) -- TODO: fade
+	coroutine.wrap(function(raycastResult : RaycastResult)
+		local cframe = CFrame.lookAt(raycastResult.Position,raycastResult.Position + raycastResult.Normal)
+
+		local bulletHole : Part = game:GetService("ServerStorage"):WaitForChild("VFX"):WaitForChild("Hole"):Clone()
+		bulletHole.Parent = workspace
+		bulletHole.CFrame = cframe
+		bulletHole.Anchored = false
+
+		local attach : WeldConstraint = Instance.new("WeldConstraint")
+		attach.Parent = bulletHole
+		attach.Part0 = bulletHole
+		attach.Part1 = raycastResult.Instance
+
+		local bulletEmitter : ParticleEmitter = bulletHole:WaitForChild("Sparks")
+		wait()
+		bulletEmitter:Emit(6)
+		wait(6)
+		local goal = {}
+		goal.Transparency = 1
+		local T : Tween = TweenService:Create(bulletHole.Decal,TweenInfo.new(1),goal)
+		T:Play()
+		T.Completed:Wait()
+		bulletHole:Destroy()
+	end)(raycastResult)
 end
 
 local function bullet(player : Player,cam : CFrame)
