@@ -51,7 +51,13 @@ local function equipWeapon(slot : Equipped,equipping : boolean)
 		return
 	end
 	
-	script.Parent.Parent.Equip:Invoke(equipping,object)
+	if not equipping then
+		script.Parent:WaitForChild("EquippingWeapon"):Fire(equipping,object)
+	end
+	script.Parent.Parent.Equip:Invoke(equipping,object) -- if unequip, do it before
+	if equipping then
+		script.Parent:WaitForChild("EquippingWeapon"):Fire(equipping,object)
+	end
 	
 	if equipping then
 		currentlyEquipped = slot
@@ -116,8 +122,12 @@ local function EntryPointLogic(mainly : Equipped, secondly : Equipped) -- shamel
 end
 
 local function processInput(input : InputObject,gp)
-	if gp or currentlyProcessing then
+	if gp then
 		--print("blocked")
+		return
+	end
+	
+	if currentlyProcessing then
 		return
 	end
 	

@@ -13,9 +13,9 @@
         "$path": "src/Client"
       },
       "$properties": {
-        "CharacterUseJumpPower": false,
+        "CharacterMaxSlopeAngle": 60,
         "CameraMaxZoomDistance": 128,
-        "CharacterMaxSlopeAngle": 60
+        "CharacterUseJumpPower": false
       }
     }
   }
