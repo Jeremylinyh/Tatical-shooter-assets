@@ -5,7 +5,7 @@ gunstats.EquipTime = 0.36 -- how long does it take to draw the gun
 gunstats.AimTime = 0.16
 gunstats.AimWalkSpeedDecreaseFactor = 0.5
 gunstats.Burst = math.huge -- math.huge for full auto
-gunstats.CooldownBetweenShots = 0.1
+gunstats.CooldownBetweenShots = 0.01
 -- IMPORTANT!!!!!!
 -- Should double check the following, I was idiot back then
 -- IMPORTANT!!!!!!

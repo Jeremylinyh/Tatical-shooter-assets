@@ -98,6 +98,24 @@ local function handleWindowHit(raycastResult : RaycastResult)
 	--:Destroy()
 end
 
+local function placeBulletHole(raycastResult : RaycastResult)
+	local cframe = CFrame.lookAt(raycastResult.Position,raycastResult.Position + raycastResult.Normal)
+	
+	local bulletHole : Part = game:GetService("ServerStorage"):WaitForChild("VFX"):WaitForChild("Hole"):Clone()
+	bulletHole.Parent = workspace
+	bulletHole.CFrame = cframe
+	bulletHole.Anchored = false
+	
+	local attach : WeldConstraint = Instance.new("WeldConstraint")
+	attach.Parent = bulletHole
+	attach.Part0 = bulletHole
+	attach.Part1 = raycastResult.Instance
+	
+	--bulletHole:WaitForChild("Sparks"):Emit(100)
+	
+	Debris:AddItem(bulletHole,6) -- TODO: fade
+end
+
 local function bullet(player : Player,cam : CFrame)
 	local playerCurrentGun : Model = getPlayerCurrentGun(player)
 	local currentGunType : string = playerCurrentGun:GetAttribute("Type")
@@ -110,7 +128,7 @@ local function bullet(player : Player,cam : CFrame)
 	raycastParams.FilterDescendantsInstances = {player.Character}
 	raycastParams.FilterType = Enum.RaycastFilterType.Exclude
 	raycastParams.IgnoreWater = true
-	raycastParams.CollisionGroup = "Default"
+	raycastParams.CollisionGroup = "Bullets"
 	
 	local statsgun = gunstats[currentGunType]
 	
@@ -129,7 +147,7 @@ local function bullet(player : Player,cam : CFrame)
 	local currentspeed = statsgun.BulletLength
 	local gravity = 0--9.8/currentspeed
 
-	local visual = game.ServerStorage.BulletIcon:Clone()
+	local visual = game.ServerStorage.VFX.BulletIcon:Clone()
 	local front = Instance.new("Attachment")
 	local back = Instance.new("Attachment")
 
@@ -174,7 +192,7 @@ local function bullet(player : Player,cam : CFrame)
 		local raycastResult = workspace:Raycast(currentpos.Position, nextpos.Position-currentpos.Position,raycastParams)
 		--print(raycastResult.Instance.Parent:FindFirstChild("Humanoid"))
 		if raycastResult then-- and raycastResult.Distance > (handlength-2) then
-			local hitwindow = false
+			placeBulletHole(raycastResult)
 
 			local damagedealt = statsgun.Damage*(currentspeed/statsgun.BulletLength) -- WTF is this (will be refactored)
 
@@ -201,26 +219,28 @@ local function bullet(player : Player,cam : CFrame)
 			reverseparams.FilterDescendantsInstances = {raycastResult.Instance}
 			reverseparams.FilterType = Enum.RaycastFilterType.Include
 			reverseparams.IgnoreWater = true
-			reverseparams.CollisionGroup = "Default"
+			reverseparams.CollisionGroup = "Bullets"
 			local reversecast = workspace:Raycast(nextpos.Position, currentpos.Position-nextpos.Position,reverseparams)
 			if reversecast then
+				--print(reversecast)
+				placeBulletHole(reversecast)
 				--print( currentspeed)
-				if not hitwindow then
+				--if not hitwindow then
 
 					currentspeed = currentspeed - (raycastResult.Position-reversecast.Position).Magnitude*1*statsgun.Brittleness
 					--print(hitwindow, densities[raycastResult.Material],raycastResult.Material)
 
-				else
+				--else
 
-					raycastResult.Instance.CanQuery = true
-					raycastResult.Instance.CanCollide = false
-					raycastResult.Instance.CanTouch = false
-					raycastResult.Instance.CollisionGroup = "Suspicious"
-					raycastResult.Instance.Transparency = 1
-					raycastResult.Instance.Parent = workspace
-					game:GetService("CollectionService"):RemoveTag(raycastResult.Instance,"window")
+				--	raycastResult.Instance.CanQuery = true
+				--	raycastResult.Instance.CanCollide = false
+				--	raycastResult.Instance.CanTouch = false
+				--	raycastResult.Instance.CollisionGroup = "Suspicious"
+				--	raycastResult.Instance.Transparency = 1
+				--	raycastResult.Instance.Parent = workspace
+				--	game:GetService("CollectionService"):RemoveTag(raycastResult.Instance,"window")
 
-				end
+				--end
 				--print(currentspeed)	
 				--print(currentspeed)
 				--print((currentspeed-reversecast.Distance),(raycastResult.Position-reversecast.Position).Magnitude)
@@ -228,8 +248,8 @@ local function bullet(player : Player,cam : CFrame)
 			end
 			--assuming penetration
 
-			if hitwindow then
-			end
+			--if hitwindow then
+			--end
 
 			--break
 		end

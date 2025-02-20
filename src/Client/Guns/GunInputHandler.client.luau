@@ -20,7 +20,7 @@ local function fireWeapon(fireButton : RemoteEvent,weaponType : string)
 	
 	while firing and currentBurstStreak < gunstats[weaponType].Burst do
 		-- fire
-		print("pew")
+		--print("pew")
 		fireButton:FireServer(workspace.CurrentCamera.CFrame)
 		currentBurstStreak += 1
 		wait(gunstats[weaponType].CooldownBetweenShots)
