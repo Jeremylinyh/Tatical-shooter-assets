@@ -144,30 +144,33 @@ local function getHumanoid() : Humanoid
 end
 
 local EQactivatedBy : Enum.KeyCode = Enum.KeyCode.Unknown 
-UIS.InputBegan:Connect(function(input,gp)
-	if gp then return end
-	if input.KeyCode == Enum.KeyCode.E or input.KeyCode == Enum.KeyCode.Q then
-		EQactivatedBy = input.KeyCode
-		leanRightWhen(input.KeyCode == Enum.KeyCode.E)
-	elseif input.KeyCode == Enum.KeyCode.LeftControl then
-		crawl()
-	elseif input.KeyCode == Enum.KeyCode.C then
-		crouch()
-	elseif input.KeyCode == Enum.KeyCode.X then
-		crouch(true)
-	elseif input.KeyCode == Enum.KeyCode.LeftShift then
-		SprintKeyPressed(true)
-	end 
-end)
 
-UIS.InputEnded:Connect(function(input,gp)
-	if input.KeyCode == EQactivatedBy and input.KeyCode ~= Enum.KeyCode.Unknown then
-		leanRightWhen(false,true)
-		EQactivatedBy = Enum.KeyCode.Unknown
-	return
-	elseif input.KeyCode == Enum.KeyCode.LeftShift then
-		SprintKeyPressed(false)
-	end
+game:GetService("ReplicatedStorage"):WaitForChild("Vote"):WaitForChild("StartGame").OnClientEvent:Connect(function()
+	UIS.InputBegan:Connect(function(input,gp)
+		if gp then return end
+		if input.KeyCode == Enum.KeyCode.E or input.KeyCode == Enum.KeyCode.Q then
+			EQactivatedBy = input.KeyCode
+			leanRightWhen(input.KeyCode == Enum.KeyCode.E)
+		elseif input.KeyCode == Enum.KeyCode.LeftControl then
+			crawl()
+		elseif input.KeyCode == Enum.KeyCode.C then
+			crouch()
+		elseif input.KeyCode == Enum.KeyCode.X then
+			crouch(true)
+		elseif input.KeyCode == Enum.KeyCode.LeftShift then
+			SprintKeyPressed(true)
+		end 
+	end)
+
+	UIS.InputEnded:Connect(function(input,gp)
+		if input.KeyCode == EQactivatedBy and input.KeyCode ~= Enum.KeyCode.Unknown then
+			leanRightWhen(false,true)
+			EQactivatedBy = Enum.KeyCode.Unknown
+			return
+		elseif input.KeyCode == Enum.KeyCode.LeftShift then
+			SprintKeyPressed(false)
+		end
+	end)
 end)
 
 local timescale : number = 3

@@ -5,10 +5,16 @@ local LeanEvent = game:GetService('ReplicatedStorage'):WaitForChild("Replication
 local waistC0 = CFrame.new(0, 0.2, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1);
 
 LeanEvent.OnServerEvent:Connect(function(player,tilt)
+	if not player then
+		return
+	end
+	if not player.Character then
+		return
+	end
 	if tilt and tonumber(tilt) then
 		local eqlean = -tonumber(tilt)/2
-		local neck = player.Character.Head.Neck;
-		local waist = player.Character.UpperTorso.Waist;
+		local neck = player.Character:WaitForChild("Head"):WaitForChild("Neck");
+		local waist = player.Character:WaitForChild("UpperTorso"):WaitForChild("Waist");
 		waist.C0 = waistC0 * CFrame.fromEulerAnglesYXZ(0, 0, eqlean);
 
 	end

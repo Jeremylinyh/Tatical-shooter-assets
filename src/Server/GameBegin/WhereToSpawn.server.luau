@@ -42,7 +42,10 @@ script.Parent:WaitForChild("SpawnPlayer").Event:Connect(function()
 		i.Character:PivotTo(v)
 		i.Character:FindFirstChildOfClass("Humanoid").BreakJointsOnDeath = false
 		setCollisionGroup(i.Character)
-		i.Character:FindFirstChildOfClass("Humanoid").Died:Connect(function()
+		local beginRagdoll : RBXScriptConnection = nil
+		beginRagdoll = i.Character:FindFirstChildOfClass("Humanoid").Died:Connect(function()
+			beginRagdoll:Disconnect()
+			--print(i)
 			script.Parent.RagdollCharacter:Fire(i.Character)
 		end)
 	end

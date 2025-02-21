@@ -9,6 +9,13 @@ local function addBallSocketTo(character : model)
 	for i, bodypart in pairs(character:GetChildren()) do
 		local weld : Motor6D = bodypart:FindFirstChildOfClass("Motor6D")
 		--print(weld)
+		for i,v in pairs(bodypart:GetChildren()) do
+			if v:IsA("Attachment") then
+				--print(v.CFrame.Rotation)
+				v.CFrame = CFrame.new(v.CFrame.Position)
+				--print(v,v.CFrame.Rotation)
+			end
+		end
 		if weld and not bodypart:FindFirstChildOfClass(constraintType) then
 			if not bodypart:FindFirstChildOfClass("HingeConstraint") then
 				local firstatt = Instance.new("Attachment")
@@ -31,6 +38,8 @@ local function addBallSocketTo(character : model)
 				ball.Parent = bodypart
 				ball.Enabled = true
 			end
+			
+			
 			--bodypart.CollisionGroup = "Default"
 
 			--bodypart:SetNetworkOwnershipAuto()
@@ -42,6 +51,7 @@ end
 
 -- anchors everything
 local function anchorAll(character : Model)
+	--print(character)
 	for i, bodypart in pairs(character:GetChildren()) do
 		if bodypart:IsA("MeshPart") or bodypart:IsA("BasePart") then
 			bodypart.Anchored = true
