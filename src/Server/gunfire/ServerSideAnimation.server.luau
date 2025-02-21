@@ -1,1 +1,0 @@
--- I am no longer allergic to making animations

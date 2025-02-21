@@ -10,26 +10,31 @@ local GunTag : string = "Firearm"
 local gunstats = require(game:GetService("ReplicatedStorage"):WaitForChild("Weapon"):WaitForChild("GunStats"))
 
 local function getPlayerCurrentGun(player : Player) : Model
-	return player.Character:WaitForChild("Primary") -- TODO: do it for real
+	return script.Parent:WaitForChild("GetCurrentGunType"):Invoke(player)
 end
 
 local function isReloading(player : Player) : boolean
-	return false
+	return false -- TODO: implement
 end
 
 local function lastFiredWithinReasonableTime(player : Player, playerCurrentGun : Model) : boolean
-	return true
+	return playerCurrentGun:GetAttribute("Magazine") > 0
 end
 
 local function allowedToFire(player : Player, currentWeapon : Model) : boolean
-	return true
+	return true 
 end
 
-local function gunIsFullyDrawn(player : Player) : boolean
-	return true
+local function gunIsFullyDrawn(player : Player,gun : Model) : boolean
+	local drawnTime : number = script.Parent:WaitForChild("LastEquippedTime"):Invoke(player)
+	local neededTime :number = gunstats[gun:GetAttribute("Type")].EquipTime
+	return (time()-drawnTime) > neededTime
 end
 
 local function prefireChecksPassed(player : Player, playerCurrentGun : Model) : boolean
+	if not playerCurrentGun or (not gunstats[playerCurrentGun:GetAttribute("Type")]) then
+		return false
+	end
 	if not player:IsA("Player") then
 		return false
 	end
@@ -47,7 +52,7 @@ local function prefireChecksPassed(player : Player, playerCurrentGun : Model) : 
 	end
 
 
-	if not gunIsFullyDrawn(player) then
+	if not gunIsFullyDrawn(player,playerCurrentGun) then
 		return false
 	end
 	
@@ -128,11 +133,12 @@ end
 
 local function bullet(player : Player,cam : CFrame)
 	local playerCurrentGun : Model = getPlayerCurrentGun(player)
-	local currentGunType : string = playerCurrentGun:GetAttribute("Type")
 	
 	if not prefireChecksPassed(player,playerCurrentGun) then
 		return
 	end
+	
+	local currentGunType : string = playerCurrentGun:GetAttribute("Type")
 	
 	local raycastParams = RaycastParams.new()
 	raycastParams.FilterDescendantsInstances = {player.Character}
@@ -290,7 +296,7 @@ local function bullet(player : Player,cam : CFrame)
 		--front.CFrame = nextpos
 	end 
 	--print("bullet destroyed")
-	--visual:Destroy()
+	visual:Destroy()
 	front:Destroy()
 	back:Destroy()
 	--bull:Destroy()

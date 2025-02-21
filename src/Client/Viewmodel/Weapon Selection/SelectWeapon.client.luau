@@ -23,7 +23,7 @@ end
 
 local primary
 local secondary
-local function getWeapon(from : Equipped) : string
+local function getWeapon(from : Equipped) : Model
 	local weapon : Model = nil
 	local character : Model = game:GetService("Players").LocalPlayer.Character
 	if not character then
@@ -70,11 +70,11 @@ local function equipWeapon(slot : Equipped,equipping : boolean)
 end
 
 local function primaryExist() : boolean
-	return true
+	return getWeapon(Equipped.Primary)
 end
 
 local function secondaryExist() : boolean 
-	return true
+	return getWeapon(Equipped.Secondary)
 end
 
 local function currentOneExist(main : Equipped) : boolean

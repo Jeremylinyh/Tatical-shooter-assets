@@ -26,6 +26,9 @@ local aimTween : Tween = nil
 local currentWeapon : Model
 
 local function IsAiming() : string
+	if not currentWeapon then
+		return false
+	end
 	if (aimValue.Value == CFrame.new()) then
 		return currentWeapon:GetAttribute("Type")
 	else
@@ -57,21 +60,30 @@ end
 
 -- true : draw | false : holster
 local function UnholsterWeapon(equip : boolean,weapon : Model)
+	-- forward this to the server
+	game:GetService("ReplicatedStorage"):WaitForChild("GunEvent"):WaitForChild("ChangeInEquipped"):FireServer(equip,weapon.Name)
+	
 	local weaponClass:string = weapon:GetAttribute("Type")
 	equipSpeed = gunstats[weaponClass].EquipTime 
 	
 	if equip and not viewmodelConnection then
-		weapon.Holster.Enabled = false
+		--weapon.Holster.Enabled = false
 		viewmodelConnection = RS.PreRender:Connect(process)
 		arms.Parent = game.Workspace
 		currentWeapon = (weapon)
+		
+		if currentWeapon:FindFirstChild("Holster") then
+			currentWeapon:WaitForChild("Holster"):Destroy()
+			currentWeapon:WaitForChild("Head"):Destroy()
+		end
+		
 		weapon.Parent = workspace
 		influenza(0)
 	elseif viewmodelConnection then
 		
 		influenza(math.rad(-90))
 		currentWeapon = (nil)
-		weapon.Holster.Enabled = true
+		--weapon.Holster.Enabled = true
 		if viewmodelConnection then
 			viewmodelConnection:Disconnect()
 			viewmodelConnection = nil

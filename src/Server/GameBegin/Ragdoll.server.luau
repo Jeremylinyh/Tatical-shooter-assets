@@ -5,6 +5,14 @@ local constraintType : string = "BallSocketConstraint" --"HingeConstraint"
 local function addBallSocketTo(character : model)
 	local humanoid : Humanoid = character:WaitForChild("Humanoid")
 	humanoid:ChangeState(Enum.HumanoidStateType.Physics)
+	for i,v in pairs(humanoid:GetChildren()) do
+		if v:IsA("IKControl") then
+			v.Weight = 0
+			wait()
+			v.Enabled = false
+			v:Destroy()
+		end
+	end
 	
 	for i, bodypart in pairs(character:GetChildren()) do
 		local weld : Motor6D = bodypart:FindFirstChildOfClass("Motor6D")
@@ -17,6 +25,9 @@ local function addBallSocketTo(character : model)
 			end
 		end
 		if weld and not bodypart:FindFirstChildOfClass(constraintType) then
+			--if bodypart:FindFirstChildOfClass("HingeConstraint") then
+			--	bodypart:FindFirstChildOfClass("HingeConstraint"):Destroy()
+			--end
 			if not bodypart:FindFirstChildOfClass("HingeConstraint") then
 				local firstatt = Instance.new("Attachment")
 				firstatt.Parent = weld.Part0
