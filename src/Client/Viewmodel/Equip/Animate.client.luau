@@ -69,7 +69,7 @@ local function process(delta : number)
 	workspace.CurrentCamera.CFrame *= CFrame.Angles((newRecoil-recoil)/3,newSpread-spread,0)
 	spread = newSpread
 	recoil = newRecoil
-	placeGunAt *= CFrame.new(0,0,recoil) * CFrame.Angles(recoil,spread,0) 
+	placeGunAt *= CFrame.Angles(recoil,spread,0) * CFrame.new(0,0,recoil*1.6)
 	--workspace.CurrentCamera.CFrame *= recoil
 	
 	placeGunAt *= pointingDownward.Value
