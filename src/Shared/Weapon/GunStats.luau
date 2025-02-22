@@ -11,6 +11,10 @@ gunstats.WeaponSwayForce = 0.9 -- higher = less sway
 gunstats.RecoilCosinePeriod = 6-- 2pi * this number
 gunstats.RecoilBase = 100 -- this^-x
 gunstats.RecoilTimeScale = 3
+gunstats.RecoilMinScale = 0.3
+gunstats.RecoilMaxScale = 0.36
+gunstats.MinSpread = math.rad(1)
+gunstats.MaxSpread = math.rad(10)
 -- IMPORTANT!!!!!!
 -- Should double check the following, I was idiot back then
 -- IMPORTANT!!!!!!
@@ -24,14 +28,12 @@ gunstats.SmokeWait = 1 -- how long until smoke
 gunstats.Damage = 100
 gunstats.FullDamage = 10 -- under this distance, full damage
 gunstats.DropOff = 0.1 -- each stud minus damage by 1
-gunstats.Brittleness = 6 -- this number times density when bullet in wall
+gunstats.Brittleness = 1 -- this number times density when bullet in wall
 gunstats.BulletDestroy = 600 -- after this distance, deal no damage
 gunstats.BulletLength = 45 -- length of the visible bullet
 gunstats.CastLength = 1 -- length of each raycast
 --gunstats.StepCoolDown = 0.1 -- wait this long before the bullet take the next step
 gunstats.Gravity = -1 -- how much the bullet is affected by gravity
-gunstats.MinSpread = math.rad(1)
-gunstats.MaxSpread = math.rad(10)
 gunstats.KnockBack = 1
 gunstats.MinRecoil = 0.1
 gunstats.SpreadDecay = 1 -- speed to re-aim, affect weapon sway (probably)

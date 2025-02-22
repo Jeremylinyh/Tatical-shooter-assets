@@ -6,6 +6,7 @@ local CS : CollectionService = game:GetService("CollectionService")
 local TweenService : TweenService = game:GetService("TweenService")
 
 local GunTag : string = "Firearm"
+local lowestBond : number = -100
 
 local gunstats = require(game:GetService("ReplicatedStorage"):WaitForChild("Weapon"):WaitForChild("GunStats"))
 
@@ -140,11 +141,7 @@ local function bullet(player : Player,cam : CFrame)
 	
 	local currentGunType : string = playerCurrentGun:GetAttribute("Type")
 	
-	local raycastParams = RaycastParams.new()
-	raycastParams.FilterDescendantsInstances = {player.Character}
-	raycastParams.FilterType = Enum.RaycastFilterType.Exclude
-	raycastParams.IgnoreWater = true
-	raycastParams.CollisionGroup = "Bullets"
+	
 	
 	local statsgun = gunstats[currentGunType]
 	
@@ -201,13 +198,20 @@ local function bullet(player : Player,cam : CFrame)
 	--	currentspeed = 0
 	--end
 
-	while maxdis > 0 and currentspeed > 0 and (nextpos.Position-currentpos.Position).Magnitude>0 and nextpos.Position.Y > -100 do
+	while maxdis > 0 and currentspeed > 0 and currentpos.Position.Y > lowestBond do
 
-		maxdis -= currentspeed
+		--maxdis -= currentspeed
+		--print(maxdis)
 		--print(maxdis,(nextpos.Position-currentpos.Position).Magnitude)
+		local raycastParams = RaycastParams.new()
+		raycastParams.FilterDescendantsInstances = {player.Character}
+		raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+		raycastParams.IgnoreWater = true
+		raycastParams.CollisionGroup = "Bullets"
 		local raycastResult = workspace:Raycast(currentpos.Position, nextpos.Position-currentpos.Position,raycastParams)
 		--print(raycastResult.Instance.Parent:FindFirstChild("Humanoid"))
 		if raycastResult then-- and raycastResult.Distance > (handlength-2) then
+			--print(raycastResult.Instance)
 			placeBulletHole(raycastResult)
 
 			local damagedealt = statsgun.Damage*(currentspeed/statsgun.BulletLength) -- WTF is this (will be refactored)
@@ -215,9 +219,9 @@ local function bullet(player : Player,cam : CFrame)
 			if raycastResult.Instance.Parent:FindFirstChild("Humanoid") then
 				--print("death")
 				if raycastResult.Instance.Name == "Head" then
-					raycastResult.Instance.Parent.Humanoid.Health -= damagedealt*16
+					raycastResult.Instance.Parent.Humanoid:TakeDamage(damagedealt*4)
 				else
-					raycastResult.Instance.Parent.Humanoid.Health -= damagedealt*4
+					raycastResult.Instance.Parent.Humanoid:TakeDamage(damagedealt)
 				end
 
 			elseif raycastResult.Instance:HasTag("window") then
@@ -234,20 +238,26 @@ local function bullet(player : Player,cam : CFrame)
 			local reverseparams = RaycastParams.new()
 			reverseparams.FilterDescendantsInstances = {raycastResult.Instance}
 			reverseparams.FilterType = Enum.RaycastFilterType.Include
-			reverseparams.IgnoreWater = true
-			reverseparams.CollisionGroup = "Bullets"
-			local reversecast = workspace:Raycast(nextpos.Position, currentpos.Position-nextpos.Position,reverseparams)
+			reverseparams.CollisionGroup = "Bullet"
+			local reversecast = workspace:Raycast(nextpos.Position, (currentpos.Position-nextpos.Position),reverseparams)
 			if reversecast then
 				--print(reversecast)
-				placeBulletHole(reversecast)
+				
 				--print( currentspeed)
 				--if not hitwindow then
 
-					currentspeed = currentspeed - (raycastResult.Position-reversecast.Position).Magnitude*1*statsgun.Brittleness
+					currentspeed -= (raycastResult.Position-reversecast.Position).Magnitude*1*statsgun.Brittleness
 					--print(hitwindow, densities[raycastResult.Material],raycastResult.Material)
 
 				--else
-
+				--print(currentspeed)
+				if currentspeed > 0 and nextpos.Position.Y > lowestBond then
+					placeBulletHole(reversecast)
+				else
+					--print("stuck")
+					break
+				end
+				currentpos = CFrame.new(reversecast.Position)
 				--	raycastResult.Instance.CanQuery = true
 				--	raycastResult.Instance.CanCollide = false
 				--	raycastResult.Instance.CanTouch = false
@@ -261,6 +271,9 @@ local function bullet(player : Player,cam : CFrame)
 				--print(currentspeed)
 				--print((currentspeed-reversecast.Distance),(raycastResult.Position-reversecast.Position).Magnitude)
 				--print(raycastResult.Instance == reversecast.Instance)
+			else
+				--print("break")
+				break
 			end
 			--assuming penetration
 
@@ -281,10 +294,11 @@ local function bullet(player : Player,cam : CFrame)
 		local t = TweenService:Create(front,TweenInfo.new(statsgun.Speed,Enum.EasingStyle.Linear),goal)
 		t:Play()
 
-		currentpos = nextpos
+		if not raycastResult then
+			currentpos = nextpos
+		end
 		nextpos = nextpos+cam.LookVector*currentspeed-Vector3.yAxis*gravity
 		t.Completed:Wait()
-
 		--local goal = {}
 		--goal.CFrame = currentpos
 		--TweenService:Create(bull,TweenInfo.new(windspeeds[currentgun],Enum.EasingStyle.Linear),goal):Play()
@@ -295,7 +309,7 @@ local function bullet(player : Player,cam : CFrame)
 		--print(currentspeed)
 		--front.CFrame = nextpos
 	end 
-	--print("bullet destroyed")
+	--print("bullet destroyed",currentspeed,currentpos.Position.Y)
 	visual:Destroy()
 	front:Destroy()
 	back:Destroy()

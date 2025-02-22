@@ -15,17 +15,17 @@ table.insert(reloadButtons,Enum.KeyCode.R)
 local currentBurstStreak : number = 0
 local firing : boolean = false
 
-local function fireWeapon(fireButton : RemoteEvent,weaponType : string)
+local function fireWeapon(fireButton : RemoteEvent,weaponType : Model)
 	currentBurstStreak = 0
 	
-	while firing and currentBurstStreak < gunstats[weaponType].Burst do
+	while firing and currentBurstStreak < gunstats[weaponType:GetAttribute("Type")].Burst and weaponType:GetAttribute("Magazine")>0 do
 		-- fire
 		--print("pew")
 		fireButton:FireServer(workspace.CurrentCamera.CFrame 
-			* game:GetService("Players").LocalPlayer.PlayerScripts.Viewmodel.GetCurrentRecoil:Invoke())
+			*game:GetService("Players").LocalPlayer.PlayerScripts.Viewmodel.GetCurrentRecoil:Invoke())
 		game:GetService("Players").LocalPlayer.PlayerScripts.Viewmodel.Gunfire:Fire(time())
 		currentBurstStreak += 1
-		wait(gunstats[weaponType].CooldownBetweenShots)
+		wait(gunstats[weaponType:GetAttribute("Type")].CooldownBetweenShots)
 	end
 	
 	--reciever.FireWeapon:FireServer(workspace.CurrentCamera)
@@ -37,7 +37,7 @@ local function processInputEvent(reciever : BindableEvent)
 			if began then
 				-- commence firing
 				firing = true
-				fireWeapon(reciever:WaitForChild("FireWeapon"),reciever.Parent:GetAttribute("Type"))
+				fireWeapon(reciever:WaitForChild("FireWeapon"),reciever.Parent)
 			else
 				-- stop firing
 				firing = false

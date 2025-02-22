@@ -28,6 +28,11 @@ game:GetService("ReplicatedStorage"):WaitForChild("Replication"):WaitForChild("N
 	if not player.Character then
 		return
 	end
+	if not (player.Character:WaitForChild("Humanoid").Health > 0) then
+		shouldMoveArms = false
+		return
+	end
+	
 	neckRotation = math.clamp(neckRotation,-math.rad(90),math.rad(45))
 	rotateNeck(player,neckRotation)
 	if shouldMoveArms then

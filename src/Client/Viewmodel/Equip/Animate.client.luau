@@ -28,24 +28,32 @@ local currentWeapon : Model
 --local recoilAmount : number = 0
 
 local recoil : number = 0
+local spread : number = 0
+
 local shotTimes = {}
 local previousCFrame = CFrame.new()
 
+local bulletRandom = Random.new() -- set seed for spread pattern?
 local function applyRecoil() : number
 	--recoilAmount += recoilVelocity
 	--recoilVelocity -= recoilAmount
 	local recoilAmount = 0
+	local weaponStats = gunstats[currentWeapon:GetAttribute("Type")]
 	for i,v in pairs(shotTimes) do
 		local delta : number = time() - v
-		delta *= gunstats[currentWeapon:GetAttribute("Type")].RecoilTimeScale
+		delta *= weaponStats.RecoilTimeScale
 			
-		local base : number = gunstats[currentWeapon:GetAttribute("Type")].RecoilBase
+		local base : number = weaponStats.RecoilBase
 		local scale : number = math.pow(base,-delta)
 		
-		local trig : number = -math.cos(delta * gunstats[currentWeapon:GetAttribute("Type")].RecoilCosinePeriod) + 1
+		local trig : number = -math.cos(delta * weaponStats.RecoilCosinePeriod) + 1
 		recoilAmount = math.max(trig*scale,recoilAmount)
 	end
-	return recoilAmount/3
+	return recoilAmount*math.lerp(weaponStats.RecoilMinScale,weaponStats.RecoilMaxScale,bulletRandom:NextNumber())
+end
+
+local function applySpread() : number
+	return spread/2
 end
 
 local function process(delta : number)
@@ -57,9 +65,11 @@ local function process(delta : number)
 	arms:PivotTo(placeGunAt)
 	
 	local newRecoil : number = applyRecoil()
-	workspace.CurrentCamera.CFrame *= CFrame.Angles((newRecoil-recoil)/3,0,0)
+	local newSpread : number = applySpread()
+	workspace.CurrentCamera.CFrame *= CFrame.Angles((newRecoil-recoil)/3,newSpread-spread,0)
+	spread = newSpread
 	recoil = newRecoil
-	placeGunAt *= CFrame.Angles(recoil,0,0)
+	placeGunAt *= CFrame.new(0,0,recoil) * CFrame.Angles(recoil,spread,0) 
 	--workspace.CurrentCamera.CFrame *= recoil
 	
 	placeGunAt *= pointingDownward.Value
@@ -213,10 +223,13 @@ end)
 
 script.Parent.Parent:WaitForChild("Gunfire").Event:Connect(function(timeOfFire)
 	table.insert(shotTimes,timeOfFire)
+	spread = 0-- 1 *(bulletRandom:NextNumber()-0.5)/3
+	wait(1)
+	table.remove(shotTimes,table.find(shotTimes,timeOfFire))
 end)
 
 script.Parent.Parent:WaitForChild("GetCurrentRecoil").OnInvoke = function()
-	return CFrame.Angles(recoil,0,0)
+	return CFrame.Angles(recoil,spread,0)
 end
 
 script.Parent.OnInvoke = UnholsterWeapon
