@@ -218,3 +218,7 @@ RS.PreRender:Connect(function(delta)
 	-- think that when right is up, cosine is up
 	humanoid.CameraOffset = goalCameraOffset
 end)
+
+script:WaitForChild("GetLeanAngle").OnInvoke = function()
+	return -goalCurrentLeanState/3
+end

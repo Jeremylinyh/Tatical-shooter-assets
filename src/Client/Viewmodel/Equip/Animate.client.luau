@@ -24,6 +24,48 @@ local hipPosTween : Tween = nil
 local aimTween : Tween = nil
 
 local currentWeapon : Model
+--local recoilVelocity : number = 0
+--local recoilAmount : number = 0
+
+local shotTimes = {}
+local previousCFrame = CFrame.new()
+
+local function applyRecoil() : CFrame
+	--recoilAmount += recoilVelocity
+	--recoilVelocity -= recoilAmount
+	local recoilAmount = 0
+	for i,v in pairs(shotTimes) do
+		local delta : number = time() - v
+		delta *= gunstats[currentWeapon:GetAttribute("Type")].RecoilTimeScale
+			
+		local base : number = gunstats[currentWeapon:GetAttribute("Type")].RecoilBase
+		local scale : number = math.pow(base,-delta)
+		
+		local trig : number = -math.cos(delta * gunstats[currentWeapon:GetAttribute("Type")].RecoilCosinePeriod) + 1
+		recoilAmount = math.max(trig*scale,recoilAmount)
+	end
+	return CFrame.Angles(recoilAmount/3,0,0)
+end
+
+local function process(delta : number)
+	if not currentWeapon then
+		return
+	end
+	
+	local placeGunAt : CFrame = workspace.CurrentCamera.CFrame
+	arms:PivotTo(placeGunAt)
+	
+	local recoil : CFrame = applyRecoil()
+	placeGunAt *= recoil
+	--workspace.CurrentCamera.CFrame *= recoil
+	
+	placeGunAt *= pointingDownward.Value
+	placeGunAt *= aimValue.Value
+	placeGunAt *= CFrame.Angles(0,0,game:GetService("Players").LocalPlayer.PlayerScripts.Movement["EQ&sprint"].GetLeanAngle:Invoke()/2)
+	
+	previousCFrame = previousCFrame:Lerp(placeGunAt.Rotation,gunstats[currentWeapon:GetAttribute("Type")].WeaponSwayForce)
+	currentWeapon:PivotTo(CFrame.new(placeGunAt.Position) * previousCFrame.Rotation)
+end
 
 local function IsAiming() : string
 	if not currentWeapon then
@@ -36,20 +78,6 @@ local function IsAiming() : string
 	end
 end
 script.Parent.Parent:WaitForChild("IsAiming").OnInvoke = IsAiming
-
-local function process(delta : number)
-	if not currentWeapon then
-		return
-	end
-	
-	local placeGunAt : CFrame = workspace.CurrentCamera.CFrame
-	arms:PivotTo(placeGunAt)
-	
-	placeGunAt *= pointingDownward.Value
-	placeGunAt *= aimValue.Value
-	
-	currentWeapon:PivotTo(placeGunAt)
-end
 
 local function influenza(goal : number)
 	local target = {}
@@ -74,6 +102,8 @@ local function UnholsterWeapon(equip : boolean,weapon : Model)
 		arms.Parent = game.Workspace
 		currentWeapon = (weapon)
 		
+		previousCFrame = workspace.CurrentCamera.CFrame
+		
 		if weapon:FindFirstChild("Holster") then
 			weapon.Holster:Destroy()
 		end
@@ -93,7 +123,9 @@ local function UnholsterWeapon(equip : boolean,weapon : Model)
 			viewmodelConnection = nil
 			
 		end
-		
+		table.clear(shotTimes)
+		--recoilVelocity = 0
+		--recoilAmount = 0
 		weapon.Parent = script.Parent.Parent
 		arms.Parent = script.Parent.Parent
 		
@@ -174,6 +206,10 @@ end)
 
 script.Parent.Parent:WaitForChild("SetCurrentArm").Event:Connect(function(a)
 	arms = a
+end)
+
+script.Parent.Parent:WaitForChild("Gunfire").Event:Connect(function(timeOfFire)
+	table.insert(shotTimes,timeOfFire)
 end)
 
 script.Parent.OnInvoke = UnholsterWeapon
