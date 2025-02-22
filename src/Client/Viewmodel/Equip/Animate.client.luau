@@ -62,7 +62,6 @@ local function process(delta : number)
 	end
 	
 	local placeGunAt : CFrame = workspace.CurrentCamera.CFrame
-	arms:PivotTo(placeGunAt)
 	
 	local newRecoil : number = applyRecoil()
 	local newSpread : number = applySpread()
@@ -72,12 +71,15 @@ local function process(delta : number)
 	placeGunAt *= CFrame.Angles(recoil,spread,0) * CFrame.new(0,0,recoil*1.6)
 	--workspace.CurrentCamera.CFrame *= recoil
 	
+	--placeGunAt *= CFrame.new(workspace.CurrentCamera.CFrame.LookVector*-3)
 	placeGunAt *= pointingDownward.Value
 	placeGunAt *= aimValue.Value
 	placeGunAt *= CFrame.Angles(0,0,game:GetService("Players").LocalPlayer.PlayerScripts.Movement["EQ&sprint"].GetLeanAngle:Invoke()/2)
 	
 	previousCFrame = previousCFrame:Lerp(placeGunAt.Rotation,gunstats[currentWeapon:GetAttribute("Type")].WeaponSwayForce)
 	currentWeapon:PivotTo(CFrame.new(placeGunAt.Position) * previousCFrame.Rotation)
+	arms.RightHand.CFrame = currentWeapon.Body.VRightHand.WorldCFrame
+	arms.LeftHand.CFrame = currentWeapon.Body.VLeftHand.WorldCFrame
 end
 
 local function IsAiming() : string

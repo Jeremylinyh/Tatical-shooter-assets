@@ -8,7 +8,7 @@ local UIS : UserInputService = game:GetService('UserInputService')
 local gunstats = require(game:GetService("ReplicatedStorage"):WaitForChild("Weapon"):WaitForChild("GunStats"))
 
 local playerState = {}
-playerState.Walk = 12
+playerState.Walk = 9
 playerState.Run = 27
 playerState.Crouch = 6
 playerState.Crawl = 3
