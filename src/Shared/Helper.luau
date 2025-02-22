@@ -14,6 +14,9 @@ function module.loadAnimationFromID(ID : number,animator : Animator,priority : E
 	animation.AnimationId = "rbxassetid://"..ID
 	local animationTrack = animator:LoadAnimation(animation)
 	animationTrack.Looped = true
+	if priority then
+		animationTrack.Priority = priority
+	end
 	return animationTrack
 end
 

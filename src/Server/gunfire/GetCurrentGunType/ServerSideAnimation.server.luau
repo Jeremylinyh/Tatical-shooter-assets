@@ -35,19 +35,28 @@ local function raiseWeapon(player : Player,gun : Model,raise)
 	end
 end
 
-local longGunAimID = 135789080814808
 local function drawWeapon(player : Player,gun : Model,equipping : boolean)
+	-- move gun to face
+	
+	-- play animations
+	local animID = gunstats[gun:GetAttribute("Type")].AnimationIDhold
 	if not playerAnimations[player] then
 		playerAnimations[player] = {}
 	end
-	if not playerAnimations[player][longGunAimID] then
-		playerAnimations[player][longGunAimID] = helper.loadAnimationFromID(135789080814808,player.Character.Humanoid.Animator)
+	if not playerAnimations[player][animID] then
+		playerAnimations[player][animID] = helper.loadAnimationFromID(135789080814808,player.Character.Humanoid.Animator,Enum.AnimationPriority.Action4)
 	end
 	if equipping then
-		playerAnimations[player][longGunAimID]:Play()
+		playerAnimations[player][animID]:Play()
+		gun:WaitForChild("Holster").Enabled = false
+		gun:WaitForChild("Head").Enabled = true
+		gun:WaitForChild("Head").Attachment1 = player.Character:WaitForChild("RightHand"):WaitForChild("RightGripAttachment")
 	else
-		playerAnimations[player][longGunAimID]:Stop()
+		playerAnimations[player][animID]:Stop()
+		gun:WaitForChild("Holster").Enabled = true
+		gun:WaitForChild("Head").Enabled = false
 	end
+	game:GetService("ServerScriptService"):WaitForChild("Replication"):WaitForChild("RotateHead"):WaitForChild("MoveArms"):Fire(equipping)
 end
 
 game:GetService("ReplicatedStorage"):WaitForChild("GunEvent"):WaitForChild("ChangeInEquipped").OnServerEvent:Connect(function(player,equipping,slot)
@@ -65,14 +74,14 @@ game:GetService("ReplicatedStorage"):WaitForChild("GunEvent"):WaitForChild("Chan
 	
 	drawWeapon(player,gunType,equipping)
 	if equipping then
-		game:GetService("ServerScriptService"):WaitForChild("Replication"):WaitForChild("RotateHead"):WaitForChild("MoveArms"):Fire(equipping)
+		--game:GetService("ServerScriptService"):WaitForChild("Replication"):WaitForChild("RotateHead"):WaitForChild("MoveArms"):Fire(equipping)
 		wait(gunstats[gunType:GetAttribute("Type")].EquipTime)
 		currentlyEquipped[player] = gunType
 		
 	else
 		currentlyEquipped[player] = nil
 		wait(gunstats[gunType:GetAttribute("Type")].EquipTime)
-		game:GetService("ServerScriptService"):WaitForChild("Replication"):WaitForChild("RotateHead"):WaitForChild("MoveArms"):Fire(equipping)
+		--game:GetService("ServerScriptService"):WaitForChild("Replication"):WaitForChild("RotateHead"):WaitForChild("MoveArms"):Fire(equipping)
 		
 	end
 	--print(currentlyEquipped)

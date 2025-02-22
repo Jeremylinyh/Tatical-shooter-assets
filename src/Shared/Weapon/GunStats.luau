@@ -6,6 +6,7 @@ gunstats.AimTime = 0.16
 gunstats.AimWalkSpeedDecreaseFactor = 0.5
 gunstats.Burst = math.huge -- math.huge for full auto
 gunstats.CooldownBetweenShots = 0.06
+gunstats.AnimationIDhold = 135789080814808
 -- IMPORTANT!!!!!!
 -- Should double check the following, I was idiot back then
 -- IMPORTANT!!!!!!

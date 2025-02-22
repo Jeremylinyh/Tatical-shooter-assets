@@ -1,3 +1,4 @@
+--!native
 -- show the bodypart rotations to all
 
 local shouldMoveArms : boolean = false

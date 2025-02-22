@@ -69,10 +69,17 @@ local function UnholsterWeapon(equip : boolean,weapon : Model)
 	equipSpeed = gunstats[weaponClass].EquipTime 
 	
 	if equip and not viewmodelConnection then
-		weapon.Holster.Enabled = false
+		--weapon.Holster.Enabled = false
 		viewmodelConnection = RS.PreRender:Connect(process)
 		arms.Parent = game.Workspace
 		currentWeapon = (weapon)
+		
+		if weapon:FindFirstChild("Holster") then
+			weapon.Holster:Destroy()
+		end
+		if weapon:FindFirstChild("Head") then
+			weapon.Head:Destroy()
+		end
 		
 		weapon.Parent = workspace
 		influenza(0)
@@ -80,7 +87,7 @@ local function UnholsterWeapon(equip : boolean,weapon : Model)
 		
 		influenza(math.rad(-90))
 		currentWeapon = (nil)
-		weapon.Holster.Enabled = true
+		--weapon.Holster.Enabled = true
 		if viewmodelConnection then
 			viewmodelConnection:Disconnect()
 			viewmodelConnection = nil
