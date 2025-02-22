@@ -16,7 +16,10 @@ function module.loadAnimationFromID(ID : number,animator : Animator,priority : E
 	animationTrack.Looped = true
 	if priority then
 		animationTrack.Priority = priority
+	else
+		animationTrack.Priority = Enum.AnimationPriority.Core
 	end
+	--print(animationTrack.Priority)
 	return animationTrack
 end
 

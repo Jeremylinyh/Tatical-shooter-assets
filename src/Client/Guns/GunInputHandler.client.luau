@@ -21,7 +21,8 @@ local function fireWeapon(fireButton : RemoteEvent,weaponType : string)
 	while firing and currentBurstStreak < gunstats[weaponType].Burst do
 		-- fire
 		--print("pew")
-		fireButton:FireServer(workspace.CurrentCamera.CFrame)
+		fireButton:FireServer(workspace.CurrentCamera.CFrame 
+			* game:GetService("Players").LocalPlayer.PlayerScripts.Viewmodel.GetCurrentRecoil:Invoke())
 		game:GetService("Players").LocalPlayer.PlayerScripts.Viewmodel.Gunfire:Fire(time())
 		currentBurstStreak += 1
 		wait(gunstats[weaponType].CooldownBetweenShots)

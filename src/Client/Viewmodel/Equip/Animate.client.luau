@@ -27,10 +27,11 @@ local currentWeapon : Model
 --local recoilVelocity : number = 0
 --local recoilAmount : number = 0
 
+local recoil : number = 0
 local shotTimes = {}
 local previousCFrame = CFrame.new()
 
-local function applyRecoil() : CFrame
+local function applyRecoil() : number
 	--recoilAmount += recoilVelocity
 	--recoilVelocity -= recoilAmount
 	local recoilAmount = 0
@@ -44,7 +45,7 @@ local function applyRecoil() : CFrame
 		local trig : number = -math.cos(delta * gunstats[currentWeapon:GetAttribute("Type")].RecoilCosinePeriod) + 1
 		recoilAmount = math.max(trig*scale,recoilAmount)
 	end
-	return CFrame.Angles(recoilAmount/3,0,0)
+	return recoilAmount/3
 end
 
 local function process(delta : number)
@@ -55,8 +56,10 @@ local function process(delta : number)
 	local placeGunAt : CFrame = workspace.CurrentCamera.CFrame
 	arms:PivotTo(placeGunAt)
 	
-	local recoil : CFrame = applyRecoil()
-	placeGunAt *= recoil
+	local newRecoil : number = applyRecoil()
+	workspace.CurrentCamera.CFrame *= CFrame.Angles((newRecoil-recoil)/3,0,0)
+	recoil = newRecoil
+	placeGunAt *= CFrame.Angles(recoil,0,0)
 	--workspace.CurrentCamera.CFrame *= recoil
 	
 	placeGunAt *= pointingDownward.Value
@@ -211,5 +214,9 @@ end)
 script.Parent.Parent:WaitForChild("Gunfire").Event:Connect(function(timeOfFire)
 	table.insert(shotTimes,timeOfFire)
 end)
+
+script.Parent.Parent:WaitForChild("GetCurrentRecoil").OnInvoke = function()
+	return CFrame.Angles(recoil,0,0)
+end
 
 script.Parent.OnInvoke = UnholsterWeapon

@@ -46,7 +46,9 @@ local function drawWeapon(player : Player,gun : Model,equipping : boolean)
 	if not playerAnimations[player][animID] then
 		playerAnimations[player][animID] = helper.loadAnimationFromID(135789080814808,player.Character.Humanoid.Animator,Enum.AnimationPriority.Action4)
 	end
+	--print(playerAnimations[player][animID].Priority)
 	if equipping then
+		playerAnimations[player][animID].Priority = Enum.AnimationPriority.Action4
 		playerAnimations[player][animID]:Play()
 		gun:WaitForChild("Holster").Enabled = false
 		gun:WaitForChild("Head").Enabled = true
