@@ -229,7 +229,7 @@ script.Parent.Parent:WaitForChild("Gunfire").Event:Connect(function(timeOfFire)
 end)
 
 script.Parent.Parent:WaitForChild("GetCurrentRecoil").OnInvoke = function()
-	return CFrame.Angles(recoil,spread,0)
+	return previousCFrame.Rotation
 end
 
 script.Parent.OnInvoke = UnholsterWeapon
