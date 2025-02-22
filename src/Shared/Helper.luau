@@ -9,4 +9,12 @@ function module.InputInList(input : InputObject,list)
 	return false
 end
 
+function module.loadAnimationFromID(ID : number,animator : Animator,priority : Enum.AnimationPriority) : AnimationTrack
+	local animation = Instance.new("Animation")
+	animation.AnimationId = "rbxassetid://"..ID
+	local animationTrack = animator:LoadAnimation(animation)
+	animationTrack.Looped = true
+	return animationTrack
+end
+
 return module

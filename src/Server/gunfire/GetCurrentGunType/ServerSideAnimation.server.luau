@@ -3,9 +3,12 @@
 local TS : TweenService = game:GetService("TweenService")
 
 local gunstats = require(game:GetService("ReplicatedStorage"):WaitForChild("Weapon"):WaitForChild("GunStats"))
+local helper = require(game:GetService("ReplicatedStorage"):WaitForChild("Helper"))
 
 local currentlyEquipped : Model = {}
 local lastEquippedTime = {}
+local playerArms = {}
+local playerAnimations = {}
 
 local function gunAtSlotStat(player : Player,slot : string) : Model
 	if not player then
@@ -21,27 +24,6 @@ local function gunAtSlotStat(player : Player,slot : string) : Model
 	return gun
 end
 
-local function setIKweight(thingy : IKControl,target : number)
-	coroutine.wrap(function(thingy : IKControl,target : number)
-		if not thingy.Enabled then
-			thingy.Enabled = true
-			thingy.Weight = 0
-
-		end
-
-		local goal = {}
-		goal.Weight = target
-		local tw : Tween = TS:Create(thingy,TweenInfo.new(0.1),goal)
-		tw:Play()
-		tw.Completed:Wait()
-		wait()
-		goal.Weight = target
-		if target == 0 then
-			--thingy.Enabled = false
-		end
-	end) (thingy,target)
-end
-
 local function raiseWeapon(player : Player,gun : Model,raise)
 	if raise then
 		gun:WaitForChild("Holster").Enabled = false
@@ -53,16 +35,19 @@ local function raiseWeapon(player : Player,gun : Model,raise)
 	end
 end
 
-local function drawWeapon(player : Player,gun : Model,goal : number)
-	local leftIK : IKControl = player.Character:WaitForChild("Humanoid"):WaitForChild("IKLeft")
-	leftIK.Target = gun:WaitForChild("Body"):WaitForChild("LeftHand")
-	setIKweight(leftIK,goal)
-	
-	local rightIK : IKControl = player.Character:WaitForChild("Humanoid"):WaitForChild("IKRight")
-	rightIK.Target = gun:WaitForChild("Body"):WaitForChild("RightHand")
-	setIKweight(rightIK,goal)
-	
-	raiseWeapon(player,gun,goal == 1)
+local longGunAimID = 135789080814808
+local function drawWeapon(player : Player,gun : Model,equipping : boolean)
+	if not playerAnimations[player] then
+		playerAnimations[player] = {}
+	end
+	if not playerAnimations[player][longGunAimID] then
+		playerAnimations[player][longGunAimID] = helper.loadAnimationFromID(135789080814808,player.Character.Humanoid.Animator)
+	end
+	if equipping then
+		playerAnimations[player][longGunAimID]:Play()
+	else
+		playerAnimations[player][longGunAimID]:Stop()
+	end
 end
 
 game:GetService("ReplicatedStorage"):WaitForChild("GunEvent"):WaitForChild("ChangeInEquipped").OnServerEvent:Connect(function(player,equipping,slot)
@@ -77,15 +62,18 @@ game:GetService("ReplicatedStorage"):WaitForChild("GunEvent"):WaitForChild("Chan
 		currentlyEquipped[player] = nil
 		return
 	end
+	
+	drawWeapon(player,gunType,equipping)
 	if equipping then
-		drawWeapon(player,gunType,1)
+		game:GetService("ServerScriptService"):WaitForChild("Replication"):WaitForChild("RotateHead"):WaitForChild("MoveArms"):Fire(equipping)
 		wait(gunstats[gunType:GetAttribute("Type")].EquipTime)
 		currentlyEquipped[player] = gunType
 		
 	else
 		currentlyEquipped[player] = nil
-		drawWeapon(player,gunType,0)
 		wait(gunstats[gunType:GetAttribute("Type")].EquipTime)
+		game:GetService("ServerScriptService"):WaitForChild("Replication"):WaitForChild("RotateHead"):WaitForChild("MoveArms"):Fire(equipping)
+		
 	end
 	--print(currentlyEquipped)
 end)

@@ -3,12 +3,14 @@
 local UIS: UserInputService = game:GetService("UserInputService")
 
 local currentGun : Model = nil
+local currentlyEquipped : boolean = false
 
 script.Parent:WaitForChild("EquippingWeapon").Event:Connect(function(equipping : boolean,gun : Model)
 	if equipping then
 		currentGun = gun
+		currentlyEquipped =true
 	else
-		currentGun = nil
+		currentlyEquipped = false
 	end
 end)
 
@@ -16,7 +18,7 @@ UIS.InputBegan:Connect(function(input,gp)
 	if gp then
 		return
 	end
-	if not currentGun then
+	if not currentGun or not currentlyEquipped then
 		return
 	end
 	currentGun:WaitForChild("RecieveInput"):Fire(input,true)

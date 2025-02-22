@@ -5,7 +5,7 @@ local TS : TweenService = game:GetService("TweenService")
 local UIS : UserInputService = game:GetService("UserInputService")
 
 local viewmodelConnection = nil
-local arms : Model = script.Parent.Parent:WaitForChild("Arms")
+local arms : Model = nil
 local equipSpeed : number = 1000 
 local gunstats = require(game:GetService("ReplicatedStorage"):WaitForChild("Weapon"):WaitForChild("GunStats"))
 
@@ -43,6 +43,8 @@ local function process(delta : number)
 	end
 	
 	local placeGunAt : CFrame = workspace.CurrentCamera.CFrame
+	arms:PivotTo(placeGunAt)
+	
 	placeGunAt *= pointingDownward.Value
 	placeGunAt *= aimValue.Value
 	
@@ -67,15 +69,10 @@ local function UnholsterWeapon(equip : boolean,weapon : Model)
 	equipSpeed = gunstats[weaponClass].EquipTime 
 	
 	if equip and not viewmodelConnection then
-		--weapon.Holster.Enabled = false
+		weapon.Holster.Enabled = false
 		viewmodelConnection = RS.PreRender:Connect(process)
 		arms.Parent = game.Workspace
 		currentWeapon = (weapon)
-		
-		if currentWeapon:FindFirstChild("Holster") then
-			currentWeapon:WaitForChild("Holster"):Destroy()
-			currentWeapon:WaitForChild("Head"):Destroy()
-		end
 		
 		weapon.Parent = workspace
 		influenza(0)
@@ -83,7 +80,7 @@ local function UnholsterWeapon(equip : boolean,weapon : Model)
 		
 		influenza(math.rad(-90))
 		currentWeapon = (nil)
-		--weapon.Holster.Enabled = true
+		weapon.Holster.Enabled = true
 		if viewmodelConnection then
 			viewmodelConnection:Disconnect()
 			viewmodelConnection = nil
@@ -166,6 +163,10 @@ UIS.InputEnded:Connect(function(input,gp)
 	if input.KeyCode == Enum.KeyCode.T or input.UserInputType == Enum.UserInputType.MouseButton2 then
 		changeAim(hipfireCF.Value)
 	end
+end)
+
+script.Parent.Parent:WaitForChild("SetCurrentArm").Event:Connect(function(a)
+	arms = a
 end)
 
 script.Parent.OnInvoke = UnholsterWeapon

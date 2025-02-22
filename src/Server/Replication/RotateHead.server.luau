@@ -1,10 +1,37 @@
--- show the neck rotation to all
+-- show the bodypart rotations to all
+
+local shouldMoveArms : boolean = false
+
+local function rotateJoint(player,jointName : string,original : CFrame,rotation : number)
+	local joint : Motor6D = player.Character:WaitForChild(jointName):FindFirstChildOfClass("Motor6D")
+	joint.C0 = original * CFrame.Angles(rotation,0,0)
+end
+
+local rightArmC0 = CFrame.new(1, 0.651, 0.06,1, 0, 0, 0, 1, 0, 0, 0, 1)
+local leftArmC0 = CFrame.new(-1, 0.651, 0.06,1, 0, 0, 0, 1, 0, 0, 0, 1)
+local function rotateArms(player,neckRotation : number)
+	rotateJoint(player,"RightUpperArm",rightArmC0,neckRotation)
+	rotateJoint(player,"LeftUpperArm",leftArmC0,neckRotation)
+end
+
 local neckC0 = CFrame.new(0, 0.8, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1);
+local function rotateNeck(player,neckRotation : number)
+	rotateJoint(player,"Head",neckC0,neckRotation)
+end
+
 game:GetService("ReplicatedStorage"):WaitForChild("Replication"):WaitForChild("NeckRot").OnServerEvent:Connect(function(player,neckRotation : number)
-	neckRotation = math.clamp(neckRotation,-math.rad(90),math.rad(45))
 	if not player.Character then
 		return
 	end
-	local neck : Motor6D = player.Character:WaitForChild("Head"):WaitForChild("Neck")
-	neck.C0 = neckC0 * CFrame.Angles(neckRotation,0,0) 
+	neckRotation = math.clamp(neckRotation,-math.rad(90),math.rad(45))
+	rotateNeck(player,neckRotation)
+	if shouldMoveArms then
+		rotateArms(player,neckRotation)
+	else
+		rotateArms(player,0)
+	end
+end)
+
+script:WaitForChild("MoveArms").Event:Connect(function(value : boolean)
+	shouldMoveArms = value
 end)
