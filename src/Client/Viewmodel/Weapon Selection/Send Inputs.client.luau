@@ -10,6 +10,7 @@ script.Parent:WaitForChild("EquippingWeapon").Event:Connect(function(equipping :
 		currentGun = gun
 		currentlyEquipped =true
 	else
+		currentGun:WaitForChild("CancelInput"):Fire()
 		currentlyEquipped = false
 	end
 end)

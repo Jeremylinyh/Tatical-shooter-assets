@@ -9,7 +9,7 @@ local gunstats = require(game:GetService("ReplicatedStorage"):WaitForChild("Weap
 
 local playerState = {}
 playerState.Walk = 9
-playerState.Run = 27
+playerState.Run = 18
 playerState.Crouch = 6
 playerState.Crawl = 3
 

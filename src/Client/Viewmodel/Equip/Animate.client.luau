@@ -30,6 +30,12 @@ local currentWeapon : Model
 local recoil : number = 0
 local spread : number = 0
 
+local walkSwayStart : number = 0
+local walkSwayGoal  : number = 1
+local walkStart : number = 0
+local walkGoal : number = 0
+local prevWalk : number = 0
+
 local shotTimes = {}
 local previousCFrame = CFrame.new()
 
@@ -56,30 +62,16 @@ local function applySpread() : number
 	return spread/2
 end
 
-local function process(delta : number)
-	if not currentWeapon then
-		return
-	end
+local function applyWalkingSway() : CFrame
+	local divisor : number = 10
+	local location : number = time() - walkSwayStart
+	local swayAmount : number = math.clamp(math.lerp(-walkSwayGoal + 1,walkSwayGoal,location),0,1)
+	location = time() - walkStart
+	local walkSwayAmount : number = math.lerp(prevWalk,walkGoal,math.clamp(location*3,0,1))
 	
-	local placeGunAt : CFrame = workspace.CurrentCamera.CFrame
-	
-	local newRecoil : number = applyRecoil()
-	local newSpread : number = applySpread()
-	workspace.CurrentCamera.CFrame *= CFrame.Angles((newRecoil-recoil)/3,newSpread-spread,0)
-	spread = newSpread
-	recoil = newRecoil
-	placeGunAt *= CFrame.Angles(recoil,spread,0) * CFrame.new(0,0,recoil*1.6)
-	--workspace.CurrentCamera.CFrame *= recoil
-	
-	--placeGunAt *= CFrame.new(workspace.CurrentCamera.CFrame.LookVector*-3)
-	placeGunAt *= pointingDownward.Value
-	placeGunAt *= aimValue.Value
-	placeGunAt *= CFrame.Angles(0,0,game:GetService("Players").LocalPlayer.PlayerScripts.Movement["EQ&sprint"].GetLeanAngle:Invoke()/2)
-	
-	previousCFrame = previousCFrame:Lerp(placeGunAt.Rotation,gunstats[currentWeapon:GetAttribute("Type")].WeaponSwayForce)
-	currentWeapon:PivotTo(CFrame.new(placeGunAt.Position) * previousCFrame.Rotation)
-	arms.RightHand.CFrame = currentWeapon.Body.VRightHand.WorldCFrame
-	arms.LeftHand.CFrame = currentWeapon.Body.VLeftHand.WorldCFrame
+	--local speed = game:GetService("Players").LocalPlayer.Character.PrimaryPart.AssemblyLinearVelocity.Magnitude
+	local trig : number = math.cos(time()*6) * swayAmount * walkSwayAmount
+	return CFrame.new(trig/divisor,trig*trig/divisor,0)
 end
 
 local function IsAiming() : string
@@ -93,6 +85,39 @@ local function IsAiming() : string
 	end
 end
 script.Parent.Parent:WaitForChild("IsAiming").OnInvoke = IsAiming
+
+local function setWalkSwayGoal(goal : number)
+	--print(goal)
+	walkSwayStart = 0
+	walkSwayGoal = goal
+end
+
+local function process(delta : number)
+	if (not currentWeapon) or (not currentWeapon:FindFirstChild("Body")) then
+		return
+	end
+	
+	local placeGunAt : CFrame = workspace.CurrentCamera.CFrame
+	
+	local newRecoil : number = applyRecoil()
+	local newSpread : number = applySpread()
+	local climb : number = gunstats[currentWeapon:GetAttribute("Type")].Climb
+	workspace.CurrentCamera.CFrame *= CFrame.Angles((newRecoil-recoil)/3 + newRecoil/climb,newSpread-spread,0)
+	spread = newSpread
+	recoil = newRecoil
+	placeGunAt *= CFrame.Angles(recoil,spread,0) * CFrame.new(0,0,recoil*1.6)
+	--workspace.CurrentCamera.CFrame *= recoil
+	placeGunAt *= applyWalkingSway()
+	--placeGunAt *= CFrame.new(workspace.CurrentCamera.CFrame.LookVector*-3)
+	placeGunAt *= pointingDownward.Value
+	placeGunAt *= aimValue.Value
+	placeGunAt *= CFrame.Angles(0,0,game:GetService("Players").LocalPlayer.PlayerScripts.Movement["EQ&sprint"].GetLeanAngle:Invoke()/2)
+	
+	previousCFrame = placeGunAt--previousCFrame:Lerp(placeGunAt.Rotation,gunstats[currentWeapon:GetAttribute("Type")].WeaponSwayForce)
+	currentWeapon:PivotTo(CFrame.new(placeGunAt.Position) * previousCFrame.Rotation)
+	arms.RightHand.CFrame = currentWeapon.Body.VRightHand.WorldCFrame
+	arms.LeftHand.CFrame = currentWeapon.Body.VLeftHand.WorldCFrame
+end
 
 local function influenza(goal : number)
 	local target = {}
@@ -155,8 +180,10 @@ local function changeAim(target : CFrame)
 	end
 	if target == CFrame.new() then
 		-- goal is to aim
+		setWalkSwayGoal(0)
 		script.Parent.Parent.AimChanged:Fire(currentWeapon:GetAttribute("Type"))
 	else
+		setWalkSwayGoal(1)
 		script.Parent.Parent.AimChanged:Fire(nil)
 	end
 	
@@ -198,8 +225,6 @@ local function changeHip(target : CFrame)
 	end
 end
 
-
-
 UIS.InputBegan:Connect(function(input,gp)
 	if input.KeyCode == Enum.KeyCode.T or input.UserInputType == Enum.UserInputType.MouseButton2 then
 		changeAim(CFrame.new())
@@ -228,6 +253,12 @@ script.Parent.Parent:WaitForChild("Gunfire").Event:Connect(function(timeOfFire)
 	spread = 0-- 1 *(bulletRandom:NextNumber()-0.5)/3
 	wait(1)
 	table.remove(shotTimes,table.find(shotTimes,timeOfFire))
+end)
+
+game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Running:Connect(function(a)
+	prevWalk = walkGoal
+	walkGoal = a/16
+	walkStart = time()
 end)
 
 script.Parent.Parent:WaitForChild("GetCurrentRecoil").OnInvoke = function()

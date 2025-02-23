@@ -15,7 +15,7 @@ gunstats.RecoilMinScale = 0.1
 gunstats.RecoilMaxScale = 0.16
 gunstats.MinSpread = math.rad(1)
 gunstats.MaxSpread = math.rad(10)
-gunstats.Climb = 0.1
+gunstats.Climb = 36 -- climb/this number
 -- IMPORTANT!!!!!!
 -- Should double check the following, I was idiot back then
 -- IMPORTANT!!!!!!

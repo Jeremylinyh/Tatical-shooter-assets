@@ -24,7 +24,7 @@ local function ejectShell(weapon : Model)
 		shell.Parent = workspace
 		local center : Part = shell.PrimaryPart
 		shell.PrimaryPart.AssemblyLinearVelocity = game:GetService("Players").LocalPlayer.Character.PrimaryPart.AssemblyLinearVelocity
-		center:ApplyImpulse(weapon.Eject.CFrame.RightVector/16)
+		center:ApplyImpulse(weapon.Eject.CFrame.RightVector/16 + weapon.Eject.CFrame.UpVector/64)
 		Deb:AddItem(shell,1)
 	end)(weapon)
 	
@@ -94,6 +94,9 @@ local function processInputEvent(reciever : BindableEvent)
 				firing = false
 			end
 		end
+	end)
+	reciever.Parent:WaitForChild("CancelInput").Event:Connect(function()
+		firing = false
 	end)
 end
 
