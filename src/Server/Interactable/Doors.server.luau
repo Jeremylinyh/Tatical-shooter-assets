@@ -55,7 +55,7 @@ end
 
 local function direction_from_user_position(door : Model, user : CFrame) : number
 	local difference = door:GetPivot().Position - user.Position
-	return math.sign(door:GetPivot().LookVector:Dot(difference.Unit))
+	return math.sign(door:GetAttribute("ClosedCFrame").LookVector:Dot(difference.Unit))
 end
 
 -- given the player want to open door fully, what is fully?

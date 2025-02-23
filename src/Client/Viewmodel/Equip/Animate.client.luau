@@ -255,7 +255,9 @@ script.Parent.Parent:WaitForChild("Gunfire").Event:Connect(function(timeOfFire)
 	table.remove(shotTimes,table.find(shotTimes,timeOfFire))
 end)
 
-game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Running:Connect(function(a)
+local player = game:GetService("Players").LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+character:WaitForChild("Humanoid").Running:Connect(function(a)
 	prevWalk = walkGoal
 	walkGoal = a/16
 	walkStart = time()

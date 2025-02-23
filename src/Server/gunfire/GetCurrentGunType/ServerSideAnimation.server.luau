@@ -58,7 +58,7 @@ local function drawWeapon(player : Player,gun : Model,equipping : boolean)
 		gun:WaitForChild("Holster").Enabled = true
 		gun:WaitForChild("Head").Enabled = false
 	end
-	game:GetService("ServerScriptService"):WaitForChild("Replication"):WaitForChild("RotateHead"):WaitForChild("MoveArms"):Fire(equipping)
+	game:GetService("ServerScriptService"):WaitForChild("Replication"):WaitForChild("RotateHead"):WaitForChild("MoveArms"):Fire(player,equipping)
 end
 
 game:GetService("ReplicatedStorage"):WaitForChild("GunEvent"):WaitForChild("ChangeInEquipped").OnServerEvent:Connect(function(player,equipping,slot)

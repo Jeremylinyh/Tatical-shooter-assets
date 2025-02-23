@@ -16,6 +16,8 @@ LeanEvent.OnServerEvent:Connect(function(player,tilt)
 		local neck = player.Character:WaitForChild("Head"):WaitForChild("Neck");
 		local waist = player.Character:WaitForChild("UpperTorso"):WaitForChild("Waist");
 		waist.C0 = waistC0 * CFrame.fromEulerAnglesYXZ(0, 0, eqlean);
+		waist.C0 *= player.Character.LowerTorso.CFrame.Rotation:Inverse()
+		waist.C0 *= player.Character:GetPivot().Rotation
 
 	end
 end)
