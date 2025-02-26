@@ -102,7 +102,7 @@ end
 -- redundancy 100
 local currentLean : number = currentLeanState
 local function leanRightWhen(right : boolean,center : boolean)
-	if center then
+	if center or currentCrouchState == crouchState.Crawl then
 		setLeanState(leanState.None)
 		return
 	end 
