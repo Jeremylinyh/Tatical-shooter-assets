@@ -42,12 +42,22 @@ local function lerpNumber(x : number, y : number, a : number) : number
 	return x*a + y*(1-a)
 end 
 
+local function setLeanState(goal : leanState)
+	previousLeanState = goalCurrentLeanState
+	currentLeanState = goal
+	lastModifiedLean = time()
+end
+
 local function setCurrentCrouchState(goal : crouchState)
 	previousCrouchState = goalCameraDownness
 	currentCrouchState = goal
 	lastModifiedCrouch = time()
 	
 	script.CrouchStateChanged:Fire(goal)
+	
+	if goal == crouchState.Crawl then
+		setLeanState(leanState.None)
+	end
 end
 
 local function setCurrentWalkSpeed(goal : playerState)
@@ -55,12 +65,6 @@ local function setCurrentWalkSpeed(goal : playerState)
 	currentWalkSpeed = goal
 	lastModifiedWalk = time()
 end 
-
-local function setLeanState(goal : leanState)
-	previousLeanState = goalCurrentLeanState
-	currentLeanState = goal
-	lastModifiedLean = time()
-end
 
 -- false = released
 local function SprintKeyPressed(pressed : boolean)

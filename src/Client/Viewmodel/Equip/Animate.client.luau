@@ -37,7 +37,7 @@ local walkGoal : number = 0
 local prevWalk : number = 0
 
 local shotTimes = {}
-local previousCFrame = CFrame.new()
+local previousCameraCFrame = CFrame.new()
 
 local bulletRandom = Random.new() -- set seed for spread pattern?
 local function applyRecoil() : number
@@ -92,12 +92,62 @@ local function setWalkSwayGoal(goal : number)
 	walkSwayGoal = goal
 end
 
+-- modified to remove some stuff, but yeah, its from entry point, deal with it
+local smoothedYaw = 0
+local smoothedPitch = 0
+function EntryPointProcessScript(deltaTime) 
+	local currentCamera = workspace.CurrentCamera
+	local u15 = math.pi / 2;
+	-- Get the direction vector of the camera relative to the previous frame's CFrame
+	local relativeDirection = previousCameraCFrame:vectorToObjectSpace(currentCamera.CFrame.lookVector)
+
+	-- Calculate yaw and pitch angles of the camera's look direction
+	local yawAngle = math.atan2(relativeDirection.X, relativeDirection.Z)
+	local pitchAngle = math.atan2(relativeDirection.Y, relativeDirection.Z)
+
+	-- Adjust yawAngle based on the smoothing threshold
+	if u15 < yawAngle then
+		yawAngle = yawAngle - math.pi
+	elseif yawAngle < -u15 then
+		yawAngle = yawAngle + math.pi
+	end
+
+	-- Adjust pitchAngle based on the smoothing threshold
+	if u15 < pitchAngle then
+		pitchAngle = pitchAngle - math.pi
+	elseif pitchAngle < -u15 then
+		pitchAngle = pitchAngle + math.pi
+	end
+
+	-- Smooth the yaw and pitch rotations
+	smoothedYaw = math.min(3, (smoothedYaw + yawAngle) * 0.9)
+	smoothedPitch = math.min(3, (smoothedPitch + pitchAngle) * 0.95)
+
+	-- Update previousCameraCFrame with the current camera's CFrame
+	previousCameraCFrame = currentCamera.CFrame
+	local v7 = CFrame.new()
+	-- Apply smoothed rotation to the head offset based on the new yaw and pitch values
+	return v7 * CFrame.new(0, -1, 0) * CFrame.Angles(-smoothedPitch * 0.04, 0, smoothedYaw * 0.03) * CFrame.Angles(0, smoothedYaw * 0.03, 0) * CFrame.new(0, 1, 0)
+end
+
+
 local function process(delta : number)
 	if (not currentWeapon) or (not currentWeapon:FindFirstChild("Body")) then
 		return
 	end
 	
 	local placeGunAt : CFrame = workspace.CurrentCamera.CFrame
+	--placeGunAt = applyExponentialSmoothingToRotation(placeGunAt,previousCFrame,0.5)
+	--previousCFrame = placeGunAt
+	
+	--local mouseDelta : Vector2 = UIS:GetMouseDelta()
+	--mouseDelta /= 10
+	--placeGunAt *= CFrame.Angles(-mouseDelta.X,mouseDelta.Y,0)
+	
+	--placeGunAt = CFrame.new(placeGunAt.Position) * previousCFrame.Rotation:Lerp(placeGunAt.Rotation
+	--	,gunstats[currentWeapon:GetAttribute("Type")].WeaponSwayForce /60)
+	--previousCFrame = placeGunAt
+	
 	
 	local newRecoil : number = applyRecoil()
 	local newSpread : number = applySpread()
@@ -113,8 +163,7 @@ local function process(delta : number)
 	placeGunAt *= aimValue.Value
 	placeGunAt *= CFrame.Angles(0,0,game:GetService("Players").LocalPlayer.PlayerScripts.Movement["EQ&sprint"].GetLeanAngle:Invoke()/2)
 	
-	previousCFrame = placeGunAt--previousCFrame:Lerp(placeGunAt.Rotation,gunstats[currentWeapon:GetAttribute("Type")].WeaponSwayForce)
-	currentWeapon:PivotTo(CFrame.new(placeGunAt.Position) * previousCFrame.Rotation)
+	currentWeapon:PivotTo(EntryPointProcessScript(delta))
 	arms.RightHand.CFrame = currentWeapon.Body.VRightHand.WorldCFrame
 	arms.LeftHand.CFrame = currentWeapon.Body.VLeftHand.WorldCFrame
 end
