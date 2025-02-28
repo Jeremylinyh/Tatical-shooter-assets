@@ -179,6 +179,7 @@ end)
 
 local timescale : number = 3
 local leantimescale : number = 3
+local crouchtimescale : number = 3
 
 local function findTimeDifference(lastMod : number,scale : number) : number
 	return(time()-lastMod) * scale
@@ -207,11 +208,11 @@ RS.PreRender:Connect(function(delta)
 	end
 	humanoid.WalkSpeed = goalWalkSpeed
 	
-	local downTimeDifference : number = findTimeDifference(lastModifiedCrouch,timescale)
+	local downTimeDifference : number = findTimeDifference(lastModifiedCrouch,crouchtimescale)
 	goalCameraDownness = lerpNumber(currentCrouchState,previousCrouchState,downTimeDifference)
 	local goalCameraOffset : Vector3 = Vector3.new(0,goalCameraDownness,humanoid.CameraOffset.Z)
 	
-	local leanTimeDifference : number = findTimeDifference(lastModifiedLean,timescale)
+	local leanTimeDifference : number = findTimeDifference(lastModifiedLean,leantimescale)
 	goalCurrentLeanState = lerpNumber(currentLeanState,previousLeanState,leanTimeDifference*leantimescale)
 	
 	workspace.CurrentCamera.CFrame *= CFrame.Angles(0,0,-goalCurrentLeanState/3)
