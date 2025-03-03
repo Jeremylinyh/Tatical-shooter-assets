@@ -5,15 +5,16 @@ local CS : CollectionService = game:GetService("CollectionService")
 local doorActionTag : string = "DoorInput"
 
 local function processInputEvent(reciever : BindableEvent)
+	local doorModel : Model = reciever.Parent.Parent
 	reciever.Event:Connect(function(input : InputObject)
 		--print(input)
 		if typeof(input) == "number" then
-			reciever.Parent.Parent:WaitForChild("Push"):FireServer(input/6)
+			doorModel:WaitForChild("Push"):FireServer(input/6)
 		else
 			--it's a input event
 			local keyboard : InputObject = input
 			if keyboard.KeyCode == Enum.KeyCode.F then
-				reciever.Parent.Parent:WaitForChild("Use"):FireServer()
+				doorModel:WaitForChild("Use"):FireServer()
 			end
 		end
 	end)

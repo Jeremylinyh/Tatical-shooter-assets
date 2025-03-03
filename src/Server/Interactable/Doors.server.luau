@@ -22,7 +22,7 @@ local DoorRandom : Random = Random.new()
 local doorAngle : number = 0
 local classname : string = "Door"
 
--- sets text on prompts
+-- sets text on prompts (this currently does nohing)
 local function setActionText(door : Model,text : string)
 	local front = door:WaitForChild("Left")
 	local back = door:WaitForChild("Right")

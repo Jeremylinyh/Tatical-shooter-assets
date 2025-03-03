@@ -48,7 +48,7 @@ local function addBallSocketTo(character : model)
 
 				bodypart.CanCollide = true
 				bodypart.CanTouch = false
-				bodypart.CanQuery = true
+				bodypart.CanQuery = false
 				bodypart.CollisionGroup = "Debris"
 				--ball.Active = true
 				ball.Parent = bodypart
@@ -75,6 +75,7 @@ local function anchorAll(character : Model)
 	for i, bodypart in pairs(character:GetChildren()) do
 		if bodypart:IsA("MeshPart") or bodypart:IsA("BasePart") then
 			bodypart.Anchored = true
+			bodypart.CanQuery = true
 		end
 	end
 end

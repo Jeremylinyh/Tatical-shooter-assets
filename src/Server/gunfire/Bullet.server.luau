@@ -214,7 +214,7 @@ local function bullet(player : Player,cam : CFrame)
 			--print(raycastResult.Instance)
 			placeBulletHole(raycastResult)
 
-			local damagedealt = statsgun.Damage*(currentspeed/statsgun.BulletLength) -- WTF is this (will be refactored)
+			local damagedealt = 100 --statsgun.Damage*(currentspeed/statsgun.BulletLength) -- WTF is this (will be refactored)
 
 			if raycastResult.Instance.Parent:FindFirstChild("Humanoid") then
 				--print("death")
@@ -239,7 +239,8 @@ local function bullet(player : Player,cam : CFrame)
 			reverseparams.FilterDescendantsInstances = {raycastResult.Instance}
 			reverseparams.FilterType = Enum.RaycastFilterType.Include
 			reverseparams.CollisionGroup = "Bullet"
-			local reversecast = workspace:Raycast(nextpos.Position, (currentpos.Position-nextpos.Position),reverseparams)
+			local difference : Vector3 = currentpos.Position-nextpos.Position
+			local reversecast = workspace:Raycast(nextpos.Position, (difference),reverseparams)
 			if reversecast then
 				--print(reversecast)
 				
@@ -257,7 +258,7 @@ local function bullet(player : Player,cam : CFrame)
 					--print("stuck")
 					break
 				end
-				currentpos = CFrame.new(reversecast.Position)
+				currentpos = CFrame.new(reversecast.Position + difference.Unit)
 				--	raycastResult.Instance.CanQuery = true
 				--	raycastResult.Instance.CanCollide = false
 				--	raycastResult.Instance.CanTouch = false
