@@ -10,12 +10,15 @@ local EnemyRandom : Random = Random.new()
 local activeNPCcount : number = 0
 local isLoud : boolean = false
 
+local waitBetweenEachSpawning = 3
+local maxActiveAllowed = 8
+
 Players.PlayerAdded:Connect(function(player)
-	player:SetAttribute("Threat",0.5)
+	player:SetAttribute("Threat",3)
 end)
 
 local function getThreatLevel(player : Player)
-	return player:GetAttribute("Threat",0.5)
+	return player:GetAttribute("Threat")
 end
 
 
@@ -35,7 +38,7 @@ local function IdentifyTarget() : Model
 	end
 
 	for i,v : Player in PlayerList do
-		if not v.Character then
+		if not v.Character and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health > 0 then
 			continue
 		end
 		local threat = math.abs(getThreatLevel(v))
@@ -59,49 +62,53 @@ local function selectEnemyTemplate() : Model
 	return game:GetService("ServerStorage"):WaitForChild("NPC"):WaitForChild("Assault").Enemy:Clone()
 end
 
-local function SetupSquad(spawnAt : CFrame,squadCount : number)
-	if not squadCount then
-		squadCount = 4
-	end	
-
-	local target : Player = IdentifyTarget()
+local function SetupSquad(spawnPart : Part)
 	local squadMembers = {}
+	local indidualSpawn = spawnPart:GetChildren()
+	local squadCount = #indidualSpawn
 	
-	local NPC : Model = selectEnemyTemplate()
-	
-	for count = 0, squadCount, 1 do
-		
+	for count = 1, squadCount, 1 do
+		local NPC : Model = selectEnemyTemplate()
 		NPC.Parent = workspace
-		NPC:PivotTo(spawnAt)
+		NPC.Parent = workspace
+		NPC:PivotTo(indidualSpawn[count].WorldCFrame)
 		table.insert(squadMembers,NPC)
 	end
 
-	if not target or not target.Character then
-		NPC : Destroy()
-		return
-	end
-	return squadMembers, target
+	
+	return squadMembers
 end
 
 -- select the random active one
 local function selectSpawnPart(target : CFrame) : Part
-local spawnList = workspace:WaitForChild("EnemyDeploymentLocations"):WaitForChild("Active"):GetChildren()
-return spawnList[EnemyRandom:NextInteger(1,#EnemyRandom)]
+	local spawnList = workspace:WaitForChild("EnemySpawns"):WaitForChild("Active"):GetChildren()
+	return spawnList[EnemyRandom:NextInteger(1,#spawnList)]
 end
 
-game:GetService("ReplicatedStorage"):WaitForChild("GameState"):WaitForChild("LoudBegin"):Connect(function()
+game:GetService("ServerScriptService"):WaitForChild("GlobalStates"):WaitForChild("LoudBegin").Event
+	:Connect(function()
 	isLoud = true
 	while isLoud do
-		local members,target = SetupSquad() 
-		if not members or #members <= 0 or not target or not target.Character then
-			return
+			local target : Player = IdentifyTarget()
+			local members = SetupSquad(selectSpawnPart(target)) 
+		
+		script.Parent:WaitForChild("EnemySquadBehaviorInit"):Fire(members,target)
+		--print(#members)
+		for i,v in pairs(members) do
+			activeNPCcount += 1
+			local death
+			death = v.Humanoid.Died:Connect(function()
+				death:Disconnect()
+				activeNPCcount -= 1
+			end)
 		end
-		local spawnSquadAt : Part = selectSpawnPart(target.Character:GetPivot())
-		for i,v : Attachment in spawnSquadAt:GetChildren() do
-			members[i].Parent = workspace
-			members[i]:PivotTo(v.WorldCFrame)
+		
+		wait(waitBetweenEachSpawning)
+		--print(activeNPCcount)
+		while activeNPCcount >= maxActiveAllowed do
+				wait(waitBetweenEachSpawning)
+			--print(activeNPCcount,"no longer spawning")
 		end
-		script.Parent:WaitForChild("EnemySquadBehavior"):Fire(members,target)
 	end
 end)
 

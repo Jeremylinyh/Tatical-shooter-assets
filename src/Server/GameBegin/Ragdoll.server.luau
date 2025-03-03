@@ -1,6 +1,11 @@
 -- ragdolls any character sent it's way
 
 local constraintType : string = "BallSocketConstraint" --"HingeConstraint"
+local isLoud : boolean = false
+game:GetService("ServerScriptService"):WaitForChild("GlobalStates"):WaitForChild("LoudBegin").Event
+	:Connect(function()
+		isLoud = true
+	end)
 
 local function addBallSocketTo(character : model)
 	local humanoid : Humanoid = character:WaitForChild("Humanoid")
@@ -62,6 +67,10 @@ end
 
 -- anchors everything
 local function anchorAll(character : Model)
+	if isLoud then
+		character:Destroy()
+		return
+	end
 	--print(character)
 	for i, bodypart in pairs(character:GetChildren()) do
 		if bodypart:IsA("MeshPart") or bodypart:IsA("BasePart") then
@@ -112,7 +121,7 @@ script.Parent:WaitForChild("RagdollCharacter").Event:Connect(function(character 
 		wait(undo)
 		unRagdoll(character,original)
 	else
-		wait(30)
+		wait(6)
 		anchorAll(character)
 		return
 	end
