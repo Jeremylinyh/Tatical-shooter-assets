@@ -10,13 +10,13 @@ local npcRandom = Random.new()
 local function openFire(NPC : Model,target : Model)
 	NPC:SetAttribute("indecisive",false)
 	print("shoot")
-	local animation = helper.loadAnimationFromID(135789080814808,NPC.Humanoid:WaitForChild("Animator")
+	local animation = helper.loadAnimationFromID(913402848,NPC.Humanoid:WaitForChild("Animator")
 		,Enum.AnimationPriority.Action4)
 	animation:Play()
 end
 local function surrender(NPC : Model)
-	--136665893355061
-	local animation = helper.loadAnimationFromID(117981674622954,NPC.Humanoid:WaitForChild("Animator")
+	--913402848
+	local animation = helper.loadAnimationFromID(913402848,NPC.Humanoid:WaitForChild("Animator")
 		,Enum.AnimationPriority.Action4)
 	NPC:SetAttribute("indecisive",false)
 	animation:Play()

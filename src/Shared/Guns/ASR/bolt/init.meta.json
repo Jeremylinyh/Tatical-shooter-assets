@@ -1,0 +1,13 @@
+{
+  "className": "UnionOperation",
+  "properties": {
+    "CFrame": [-2.450033, 2.369557, 20.431646, 0.480439, -0.877025, -0.001772, 0.874371, 0.478826, 0.078732, -0.068201, -0.039376, 0.996894],
+    "CanCollide": false,
+    "CanQuery": false,
+    "CanTouch": false,
+    "CastShadow": false,
+    "Color": [17, 17, 17],
+    "Material": "SmoothPlastic",
+    "Size": [0.243429, 0.034776, 0.121714]
+  }
+}

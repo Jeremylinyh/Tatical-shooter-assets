@@ -17,11 +17,11 @@ game:GetService("ServerScriptService"):WaitForChild("GameBegin"):WaitForChild("S
 	clientTextReciver:FireAllClients(textCollection)
 end)
 
-wait(6)
+wait(60)
 if notReady then
 	local textCollection = {0.1,indicators.Coordinator.."Ready up! Everyone is dying in here!.|"
-		,indicators.PlayerCharacter.."Relax, this mission is training!|"
-		,indicators.Coordinator.."Well I got other stuff after.|"
+		,indicators.PlayerCharacter.."Relax, this mission is only training.|"
+		,indicators.Coordinator.."Well I got stuff after.|"
 	}
 	clientTextReciver:FireAllClients(textCollection)
 end

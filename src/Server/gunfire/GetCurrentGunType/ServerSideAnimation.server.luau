@@ -44,7 +44,7 @@ local function drawWeapon(player : Player,gun : Model,equipping : boolean)
 		playerAnimations[player] = {}
 	end
 	if not playerAnimations[player][animID] then
-		playerAnimations[player][animID] = helper.loadAnimationFromID(135789080814808,player.Character.Humanoid.Animator,Enum.AnimationPriority.Action4)
+		playerAnimations[player][animID] = helper.loadAnimationFromID(animID,player.Character.Humanoid.Animator,Enum.AnimationPriority.Action4)
 	end
 	--print(playerAnimations[player][animID].Priority)
 	if equipping then

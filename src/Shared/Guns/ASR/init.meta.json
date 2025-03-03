@@ -1,0 +1,12 @@
+{
+  "className": "Model",
+  "properties": {
+    "Attributes": {
+      "LastFired": 0,
+      "Magazine": 30,
+      "Type": "ASR"
+    },
+    "Scale": 0.069551,
+    "Tags": ["Firearm"]
+  }
+}

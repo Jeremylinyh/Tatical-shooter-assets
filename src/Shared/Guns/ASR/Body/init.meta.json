@@ -1,0 +1,15 @@
+{
+  "className": "UnionOperation",
+  "properties": {
+    "CFrame": [-2.431723, 1.90489, 20.468378, 0.480439, -0.877025, -0.001772, 0.874371, 0.478826, 0.078732, -0.068201, -0.039376, 0.996894],
+    "CanCollide": false,
+    "CanQuery": false,
+    "CanTouch": false,
+    "CastShadow": false,
+    "CollisionGroup": "Debris",
+    "CollisionGroupId": 2,
+    "Color": [17, 17, 17],
+    "Material": "SmoothPlastic",
+    "Size": [3.289, 0.817542, 0.226903]
+  }
+}

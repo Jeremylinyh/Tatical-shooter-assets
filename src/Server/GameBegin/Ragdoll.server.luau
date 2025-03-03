@@ -91,6 +91,17 @@ end
 script.Parent:WaitForChild("RagdollCharacter").Event:Connect(function(character : Model,undo : number)
 	local original = character:FindFirstChildOfClass("MeshPart").CollisionGroup
 	
+	for i,v in pairs(character.Humanoid:GetPlayingAnimationTracks()) do
+		v:Stop()
+	end
+	local primary = character:FindFirstChild("Primary")
+	if primary and primary:FindFirstChild("Drop") then
+		primary.Drop:Fire()
+	end
+	primary = character:FindFirstChild("Secondary")
+	if primary and primary:FindFirstChild("Drop") then
+		primary.Drop:Fire()
+	end
 	
 	addBallSocketTo(character)
 	

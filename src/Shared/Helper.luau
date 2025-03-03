@@ -1,3 +1,5 @@
+-- useful functions all script can benefit from
+
 local module = {}
 
 function module.InputInList(input : InputObject,list)

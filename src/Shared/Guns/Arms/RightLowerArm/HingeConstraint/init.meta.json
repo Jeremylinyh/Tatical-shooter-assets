@@ -1,0 +1,8 @@
+{
+  "className": "HingeConstraint",
+  "properties": {
+    "LimitsEnabled": true,
+    "LowerAngle": -180,
+    "UpperAngle": 30
+  }
+}

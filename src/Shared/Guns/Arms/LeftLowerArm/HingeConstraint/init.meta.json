@@ -1,0 +1,6 @@
+{
+  "className": "HingeConstraint",
+  "properties": {
+    "LimitsEnabled": true
+  }
+}

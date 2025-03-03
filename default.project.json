@@ -9,12 +9,960 @@
       "$path": "src/Server"
     },
     "StarterPlayer": {
+      "StarterCharacter": {
+        "$className": "Model",
+        "BodyColor": {
+          "$className": "BodyColors",
+          "$properties": {
+            "LeftArmColor3": [0.686274, 0.580392, 0.513725],
+            "HeadColor3": [0.686274, 0.580392, 0.513725],
+            "RightArmColor3": [0.686274, 0.580392, 0.513725],
+            "LeftLegColor3": [0.105882, 0.164705, 0.207843],
+            "RightLegColor3": [0.105882, 0.164705, 0.207843],
+            "TorsoColor3": [0.686274, 0.580392, 0.513725]
+          }
+        },
+        "Head": {
+          "$className": "Part",
+          "FaceCenterAttachment": {
+            "$className": "Attachment",
+            "OriginalPosition": {
+              "$className": "Vector3Value",
+              "$properties": {
+                "Value": [0, 0, -0.000272]
+              }
+            },
+            "$properties": {
+              "CFrame": [0, 0, -0.000272, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "FaceFrontAttachment": {
+            "$className": "Attachment",
+            "OriginalPosition": {
+              "$className": "Vector3Value",
+              "$properties": {
+                "Value": [0, 0, -0.600272]
+              }
+            },
+            "$properties": {
+              "CFrame": [0, 0, -0.600272, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "HairAttachment": {
+            "$className": "Attachment",
+            "OriginalPosition": {
+              "$className": "Vector3Value",
+              "$properties": {
+                "Value": [0, 0.599999, -0.000272]
+              }
+            },
+            "$properties": {
+              "CFrame": [0, 0.599999, -0.000272, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "HatAttachment": {
+            "$className": "Attachment",
+            "OriginalPosition": {
+              "$className": "Vector3Value",
+              "$properties": {
+                "Value": [0, 0.599999, -0.000272]
+              }
+            },
+            "$properties": {
+              "CFrame": [0, 0.599999, -0.000272, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "HingeConstraint": {
+            "$className": "HingeConstraint",
+            "$properties": {
+              "LowerAngle": -30,
+              "UpperAngle": 30,
+              "LimitsEnabled": true
+            }
+          },
+          "Mesh": {
+            "$className": "SpecialMesh",
+            "$properties": {
+              "Scale": [1.25, 1.25, 1.25]
+            }
+          },
+          "Neck": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C1": [0, -0.5, -0.000272, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C0": [0, 0.887959, 0.059709, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "NeckRigAttachment": {
+            "$className": "Attachment",
+            "OriginalPosition": {
+              "$className": "Vector3Value",
+              "$properties": {
+                "Value": [0, -0.5, -0.000272]
+              }
+            },
+            "$properties": {
+              "CFrame": [0, -0.5, -0.000272, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "OriginalSize": {
+            "$className": "Vector3Value",
+            "$properties": {
+              "Value": [2, 1, 1]
+            }
+          },
+          "face": {
+            "$className": "Decal",
+            "$properties": {
+              "Texture": "rbxasset://textures/face.png"
+            }
+          },
+          "$properties": {
+            "Size": [2, 1, 1],
+            "CollisionGroup": "Players",
+            "Color": [175, 148, 131],
+            "BottomSurface": "Smooth",
+            "CollisionGroupId": 1,
+            "CFrame": [-2.592508, 4.491537, 23.389368, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "TopSurface": "Smooth"
+          }
+        },
+        "Humanoid": {
+          "$className": "Humanoid",
+          "$properties": {
+            "DisplayDistanceType": "None",
+            "RigType": "R15",
+            "HealthDisplayDistance": 0,
+            "UseJumpPower": false,
+            "MaxSlopeAngle": 60,
+            "HipHeight": 1.973971,
+            "HealthDisplayType": "AlwaysOff",
+            "JumpPower": 0,
+            "NameDisplayDistance": 0,
+            "JumpHeight": 3
+          }
+        },
+        "HumanoidRootPart": {
+          "$className": "Part",
+          "OriginalSize": {
+            "$className": "Vector3Value",
+            "$properties": {
+              "Value": [2, 2, 1]
+            }
+          },
+          "RootRigAttachment": {
+            "$className": "Attachment",
+            "OriginalPosition": {
+              "$className": "Vector3Value",
+              "$properties": {
+                "Value": [0, -0.349999, 0]
+              }
+            },
+            "$properties": {
+              "CFrame": [0, -1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "$properties": {
+            "CFrame": [-2.558746, 2.991917, 23.389095, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "CanCollide": false,
+            "Transparency": 1,
+            "CanTouch": false,
+            "CollisionGroup": "Players",
+            "Size": [2, 2, 1],
+            "CollisionGroupId": 1,
+            "CanQuery": false
+          }
+        },
+        "LeftFoot": {
+          "$className": "MeshPart",
+          "HingeConstraint": {
+            "$className": "HingeConstraint",
+            "$properties": {
+              "LimitsEnabled": true,
+              "LowerAngle": -30,
+              "UpperAngle": 30
+            }
+          },
+          "LeftAnkle": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C1": [-0.064824, 0.00169, 0.100316, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C0": [-0.064824, -0.49039, 0.004521, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftAnkleRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-0.064824, 0.00169, 0.100316, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftFoot": {
+            "$className": "WrapTarget",
+            "$properties": {
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031743",
+              "Stiffness": 1,
+              "ImportOrigin": [0.446206, 1.759108, 0.087234, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "CageOrigin": [-0.003505, -0.013295, 0.014818, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "OriginalSize": {
+            "$className": "Vector3Value",
+            "$properties": {
+              "Value": [0.791291, 0.448562, 1.194592]
+            }
+          },
+          "$properties": {
+            "Color": [27, 42, 53],
+            "CFrame": [-2.931921, 0.233129, 23.288778, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "InitialSize": [0.791291, 0.448562, 1.194592],
+            "CollisionGroup": "Players",
+            "RenderFidelity": "Precise",
+            "CollisionGroupId": 1,
+            "Size": [0.791291, 0.448562, 1.194592],
+            "CanCollide": false,
+            "MeshId": "http://www.roblox.com/asset/?id=1660648380"
+          }
+        },
+        "LeftHand": {
+          "$className": "MeshPart",
+          "BallSocketConstraint": {
+            "$className": "BallSocketConstraint",
+            "$properties": {
+              "UpperAngle": 80,
+              "LimitsEnabled": true
+            }
+          },
+          "LeftGripAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-0.01546, -0.152499, -0.006243, 1, 0, 0, 0, 0, 1, 0, -1, 0]
+            }
+          },
+          "LeftHand": {
+            "$className": "WrapTarget",
+            "$properties": {
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031681",
+              "CageOrigin": [0.013838, -0.196017, 0.016318, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "Stiffness": 1,
+              "ImportOrigin": [1.496375, 0.006742, -0.022669, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftWrist": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C1": [-0.015459, 0.122498, -0.006242, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C0": [-0.061237, -0.375807, -0.000198, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftWristRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-0.015459, 0.122498, -0.006242, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "$properties": {
+            "CanCollide": false,
+            "Color": [175, 148, 131],
+            "Size": [0.762772, 0.938823, 0.747549],
+            "RenderFidelity": "Precise",
+            "InitialSize": [0.762772, 0.938823, 0.747549],
+            "CFrame": [-4.023834, 2.111219, 23.395338, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "CollisionGroup": "Players",
+            "MeshId": "http://www.roblox.com/asset/?id=1660648264",
+            "CollisionGroupId": 1
+          }
+        },
+        "LeftLowerArm": {
+          "$className": "MeshPart",
+          "HingeConstraint": {
+            "$className": "HingeConstraint",
+            "$properties": {
+              "LimitsEnabled": true,
+              "UpperAngle": 0,
+              "LowerAngle": -120
+            }
+          },
+          "LeftElbow": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C1": [-0.061237, 0.384192, -0.000198, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C0": [-0.209897, -0.344119, -0.024085, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftElbowRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-0.061237, 0.384192, -0.0002, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftLowerArm": {
+            "$className": "WrapTarget",
+            "$properties": {
+              "Stiffness": 1,
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031690",
+              "CageOrigin": [-0.012987, -0.069168, 0.0278, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "ImportOrigin": [1.476632, -0.627031, -0.028002, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftWristRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-0.061237, -0.375807, -0.000198, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "$properties": {
+            "Color": [175, 148, 131],
+            "CanCollide": false,
+            "CFrame": [-3.989284, 2.61043, 23.389293, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "MeshId": "http://www.roblox.com/asset/?id=1660648303",
+            "RenderFidelity": "Precise",
+            "CollisionGroupId": 1,
+            "CollisionGroup": "Players",
+            "InitialSize": [0.813783, 0.909431, 0.862115],
+            "Size": [0.813783, 0.909431, 0.862115]
+          }
+        },
+        "LeftLowerLeg": {
+          "$className": "MeshPart",
+          "HingeConstraint": {
+            "$className": "HingeConstraint",
+            "$properties": {
+              "LowerAngle": -120,
+              "UpperAngle": 0,
+              "LimitsEnabled": true
+            }
+          },
+          "LeftAnkleRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-0.064824, -0.49039, 0.004522, 1, 0, 0, 0, 0, 1, 0, -1, 0]
+            }
+          },
+          "LeftKnee": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C0": [-0.064825, -0.388599, 0.028787, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C1": [-0.064824, 0.435609, 0.004521, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftKneeRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-0.064824, 0.435609, 0.004521, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftLowerLeg": {
+            "$className": "WrapTarget",
+            "$properties": {
+              "Stiffness": 1,
+              "CageOrigin": [0.001668, 0.000206, -0.006416, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "ImportOrigin": [0.441032, 1.245015, 0.011017, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031742"
+            }
+          },
+          "OriginalSize": {
+            "$className": "Vector3Value",
+            "$properties": {
+              "Value": [0.71061, 0.904104, 0.881967]
+            }
+          },
+          "$properties": {
+            "CollisionGroup": "Players",
+            "MeshId": "http://www.roblox.com/asset/?id=1660648395",
+            "InitialSize": [0.71061, 0.904104, 0.881967],
+            "CanCollide": false,
+            "RenderFidelity": "Precise",
+            "CollisionGroupId": 1,
+            "Color": [27, 42, 53],
+            "Size": [0.71061, 0.904104, 0.881967],
+            "CFrame": [-2.942997, 0.725085, 23.384572, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1]
+          }
+        },
+        "LeftUpperArm": {
+          "$className": "MeshPart",
+          "BallSocketConstraint": {
+            "$className": "BallSocketConstraint",
+            "$properties": {
+              "TwistUpperAngle": 0,
+              "TwistLowerAngle": 0,
+              "LimitsEnabled": true,
+              "UpperAngle": 100
+            }
+          },
+          "LeftElbowRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-0.209897, -0.344119, -0.024085, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftShoulder": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C0": [-1, 0.650959, 0.059709, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C1": [0.290102, 0.38388, -0.024085, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftShoulderAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-0.209898, 0.573881, -0.024085, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftShoulderRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.290102, 0.38388, -0.024085, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftUpperArm": {
+            "$className": "WrapTarget",
+            "$properties": {
+              "ImportOrigin": [1.310011, -1.503525, -0.015357, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031684",
+              "Stiffness": 1,
+              "CageOrigin": [0.002402, 0.042511, -0.009144, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "$properties": {
+            "Color": [175, 148, 131],
+            "Size": [0.664127, 1.068652, 0.81289],
+            "InitialSize": [0.664127, 1.105775, 0.81289],
+            "CanCollide": false,
+            "CollisionGroup": "Players",
+            "MeshId": "http://www.roblox.com/asset/?id=1660648319",
+            "CollisionGroupId": 1,
+            "CFrame": [-3.857054, 3.341903, 23.413181, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "RenderFidelity": "Precise"
+          }
+        },
+        "LeftUpperLeg": {
+          "$className": "MeshPart",
+          "HingeConstraint": {
+            "$className": "HingeConstraint",
+            "$properties": {
+              "LowerAngle": 0,
+              "LimitsEnabled": true,
+              "UpperAngle": 80
+            }
+          },
+          "LeftHip": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C1": [-0.064825, 0.4334, 0.028787, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C0": [-0.5, -0.278464, 0.047964, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftHipRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-0.064825, 0.4334, 0.028787, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftKneeRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-0.064825, -0.388599, 0.028787, 1, 0, 0, 0, -1, 0, 0, 0, -1]
+            }
+          },
+          "LeftUpperLeg": {
+            "$className": "WrapTarget",
+            "$properties": {
+              "Stiffness": 1,
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031688",
+              "ImportOrigin": [0.456428, 0.435866, 0.022177, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "CageOrigin": [-0.013728, -0.029107, 0.007107, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "OriginalSize": {
+            "$className": "Vector3Value",
+            "$properties": {
+              "Value": [0.667392, 1.317455, 0.824007]
+            }
+          },
+          "$properties": {
+            "Size": [0.667392, 1.317455, 0.824007],
+            "MeshId": "http://www.roblox.com/asset/?id=1660648407",
+            "CollisionGroupId": 1,
+            "CFrame": [-2.961547, 1.549084, 23.360307, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "CanCollide": false,
+            "CollisionGroup": "Players",
+            "Color": [27, 42, 53],
+            "InitialSize": [0.667392, 1.317455, 0.824007],
+            "RenderFidelity": "Precise"
+          }
+        },
+        "LowerTorso": {
+          "$className": "MeshPart",
+          "LeftHipRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-0.5, -0.278464, 0.047964, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LowerTorso": {
+            "$className": "WrapTarget",
+            "$properties": {
+              "ImportOrigin": [0.000078, -0.188488, 0.03448, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "Stiffness": 1,
+              "CageOrigin": [-0.000079, -0.128928, 0.014312, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031736"
+            }
+          },
+          "RightHipRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.499999, -0.278464, 0.047964, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "Root": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C0": [0, -1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C1": [0, -0.278464, 0.047964, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RootRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0, -0.278464, 0.047964, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "WaistBackAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0, -0.278463, 0.547964, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "WaistCenterAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0, -0.278463, 0.047964, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "WaistFrontAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0, -0.278463, -0.452035, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "WaistRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0, 0.121535, 0.047964, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "$properties": {
+            "RenderFidelity": "Precise",
+            "CollisionGroupId": 1,
+            "InitialSize": [1.651959, 0.500104, 0.998407],
+            "CFrame": [-2.542505, 2.270564, 23.341131, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "CollisionGroup": "Players",
+            "MeshId": "http://www.roblox.com/asset/?id=1660648469",
+            "Color": [175, 148, 131],
+            "Size": [1.651959, 0.500104, 0.998407]
+          }
+        },
+        "RightFoot": {
+          "$className": "MeshPart",
+          "HingeConstraint": {
+            "$className": "HingeConstraint",
+            "$properties": {
+              "LowerAngle": -30,
+              "UpperAngle": 30,
+              "LimitsEnabled": true
+            }
+          },
+          "RightAnkle": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C1": [0.064824, 0.00169, 0.100317, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C0": [0.064824, -0.49039, 0.004521, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightAnkleRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.064824, 0.00169, 0.100317, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightFoot": {
+            "$className": "WrapTarget",
+            "$properties": {
+              "ImportOrigin": [-0.446168, 1.759108, 0.087207, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "Stiffness": 1,
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031811",
+              "CageOrigin": [0.003467, -0.013295, 0.014845, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "$properties": {
+            "MeshId": "http://www.roblox.com/asset/?id=1660648424",
+            "CanCollide": false,
+            "RenderFidelity": "Precise",
+            "CFrame": [-2.061791, 0.252718, 23.28878, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "CollisionGroupId": 1,
+            "InitialSize": [0.79129, 0.448562, 1.194591],
+            "Size": [0.79129, 0.448562, 1.194591],
+            "Color": [27, 42, 53],
+            "CollisionGroup": "Players"
+          }
+        },
+        "RightHand": {
+          "$className": "MeshPart",
+          "BallSocketConstraint": {
+            "$className": "BallSocketConstraint",
+            "$properties": {
+              "UpperAngle": 80,
+              "LimitsEnabled": true
+            }
+          },
+          "RightGripAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.015459, -0.152499, -0.006243, 1, 0, 0, 0, 0, 1, 0, -1, 0]
+            }
+          },
+          "RightHand": {
+            "$className": "WrapTarget",
+            "$properties": {
+              "Stiffness": 1,
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031772",
+              "CageOrigin": [-0.013752, -0.196063, 0.016373, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "ImportOrigin": [-1.496461, 0.006787, -0.022724, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightWrist": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C1": [0.015459, 0.122498, -0.006243, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C0": [0.061237, -0.375807, -0.000198, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightWristRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.015459, 0.122498, -0.006242, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "$properties": {
+            "MeshId": "http://www.roblox.com/asset/?id=1660648337",
+            "CanCollide": false,
+            "RenderFidelity": "Precise",
+            "Size": [0.762772, 0.938823, 0.747549],
+            "Color": [175, 148, 131],
+            "CFrame": [-1.055506, 2.178046, 23.395338, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "CollisionGroupId": 1,
+            "InitialSize": [0.762772, 0.938823, 0.747549],
+            "CollisionGroup": "Players"
+          }
+        },
+        "RightLowerArm": {
+          "$className": "MeshPart",
+          "HingeConstraint": {
+            "$className": "HingeConstraint",
+            "$properties": {
+              "UpperAngle": 0,
+              "LowerAngle": -120,
+              "LimitsEnabled": true
+            }
+          },
+          "RightElbow": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C1": [0.061237, 0.384192, -0.000198, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C0": [0.209897, -0.344119, -0.024085, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightElbowRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.061237, 0.384192, -0.000198, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightLowerArm": {
+            "$className": "WrapTarget",
+            "$properties": {
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031749",
+              "CageOrigin": [0.012973, -0.070406, 0.027712, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "Stiffness": 1,
+              "ImportOrigin": [-1.476618, -0.625793, -0.027914, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightWristRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.061237, -0.375807, -0.000198, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "$properties": {
+            "Size": [0.813783, 0.909431, 0.862116],
+            "CFrame": [-1.112488, 2.675197, 23.389293, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "CollisionGroup": "Players",
+            "CanCollide": false,
+            "MeshId": "http://www.roblox.com/asset/?id=1660648342",
+            "RenderFidelity": "Precise",
+            "Color": [175, 148, 131],
+            "InitialSize": [0.813783, 0.909431, 0.862116],
+            "CollisionGroupId": 1
+          }
+        },
+        "RightLowerLeg": {
+          "$className": "MeshPart",
+          "HingeConstraint": {
+            "$className": "HingeConstraint",
+            "$properties": {
+              "LimitsEnabled": true,
+              "LowerAngle": -120,
+              "UpperAngle": 0
+            }
+          },
+          "RightAnkleRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.064824, -0.490391, 0.004522, 1, 0, 0, 0, 0, 1, 0, -1, 0]
+            }
+          },
+          "RightKnee": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C0": [0.064825, -0.388599, 0.028786, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C1": [0.064824, 0.435609, 0.004521, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightKneeRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.064824, 0.435609, 0.004521, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightLowerLeg": {
+            "$className": "WrapTarget",
+            "$properties": {
+              "ImportOrigin": [-0.441133, 1.24442, 0.010727, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031814",
+              "CageOrigin": [-0.001567, 0.0008, -0.006127, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "Stiffness": 1
+            }
+          },
+          "$properties": {
+            "MeshId": "http://www.roblox.com/asset/?id=1660648441",
+            "CFrame": [-2.072867, 0.744675, 23.384574, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "Size": [0.71061, 0.904104, 0.881968],
+            "CollisionGroupId": 1,
+            "InitialSize": [0.71061, 0.904104, 0.881968],
+            "CanCollide": false,
+            "RenderFidelity": "Precise",
+            "Color": [27, 42, 53],
+            "CollisionGroup": "Players"
+          }
+        },
+        "RightUpperArm": {
+          "$className": "MeshPart",
+          "BallSocketConstraint": {
+            "$className": "BallSocketConstraint",
+            "$properties": {
+              "TwistUpperAngle": 0,
+              "LimitsEnabled": true,
+              "TwistLowerAngle": 0,
+              "UpperAngle": 100
+            }
+          },
+          "RightElbowRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.209897, -0.344118, -0.024085, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightShoulder": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C0": [0.999999, 0.650959, 0.059709, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C1": [-0.290102, 0.38388, -0.024085, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightShoulderAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.209897, 0.573881, -0.024085, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightShoulderRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-0.290102, 0.38388, -0.024085, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightUpperArm": {
+            "$className": "WrapTarget",
+            "$properties": {
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031744",
+              "Stiffness": 1,
+              "ImportOrigin": [-1.313013, -1.504105, -0.017113, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "CageOrigin": [0.000599, 0.043092, -0.007389, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "$properties": {
+            "CanCollide": false,
+            "CFrame": [-1.277504, 3.399978, 23.413181, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "RenderFidelity": "Precise",
+            "InitialSize": [0.664127, 1.105775, 0.812891],
+            "Size": [0.664127, 1.068652, 0.812891],
+            "MeshId": "http://www.roblox.com/asset/?id=1660648351",
+            "CollisionGroupId": 1,
+            "Color": [175, 148, 131],
+            "CollisionGroup": "Players"
+          }
+        },
+        "RightUpperLeg": {
+          "$className": "MeshPart",
+          "HingeConstraint": {
+            "$className": "HingeConstraint",
+            "$properties": {
+              "UpperAngle": 80,
+              "LimitsEnabled": true,
+              "LowerAngle": 0
+            }
+          },
+          "RightHip": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C0": [0.499999, -0.278464, 0.047964, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C1": [0.064825, 0.4334, 0.028786, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightHipRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.064825, 0.4334, 0.028786, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightKneeRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.064825, -0.388599, 0.028787, 1, 0, 0, 0, -1, 0, 0, 0, -1]
+            }
+          },
+          "RightUpperLeg": {
+            "$className": "WrapTarget",
+            "$properties": {
+              "Stiffness": 1,
+              "ImportOrigin": [-0.456293, 0.432147, 0.023177, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031748",
+              "CageOrigin": [0.013592, -0.025388, 0.006107, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "$properties": {
+            "MeshId": "http://www.roblox.com/asset/?id=1660648451",
+            "CollisionGroup": "Players",
+            "Color": [27, 42, 53],
+            "CollisionGroupId": 1,
+            "CanCollide": false,
+            "RenderFidelity": "Precise",
+            "CFrame": [-2.091419, 1.568674, 23.360309, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "InitialSize": [0.667392, 1.317455, 0.824007],
+            "Size": [0.667392, 1.317455, 0.824007]
+          }
+        },
+        "UpperTorso": {
+          "$className": "MeshPart",
+          "BodyBackAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0, -0.112039, 0.559709, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "BodyFrontAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0, -0.112039, -0.44029, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "HingeConstraint": {
+            "$className": "HingeConstraint",
+            "$properties": {
+              "LowerAngle": -30,
+              "UpperAngle": 30,
+              "LimitsEnabled": true
+            }
+          },
+          "LeftCollarAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-1, 0.88796, 0.059709, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "LeftShoulderRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [-1, 0.650959, 0.059709, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "NeckAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0, 0.88796, 0.059709, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "NeckRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0, 0.887959, 0.059709, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightCollarAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.999999, 0.88796, 0.059709, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "RightShoulderRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0.999999, 0.650959, 0.059709, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "UpperTorso": {
+            "$className": "WrapTarget",
+            "$properties": {
+              "CageOrigin": [0.000011, 0.112384, 0.025414, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031687",
+              "Stiffness": 1,
+              "ImportOrigin": [-0.000011, -1.277793, 0.035327, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "Waist": {
+            "$className": "Motor6D",
+            "$properties": {
+              "C1": [0, -0.71204, 0.059709, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C0": [0, 0.121535, 0.047964, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "WaistRigAttachment": {
+            "$className": "Attachment",
+            "$properties": {
+              "CFrame": [0, -0.71204, 0.059709, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+            }
+          },
+          "$properties": {
+            "CollisionGroup": "Players",
+            "Color": [175, 148, 131],
+            "MeshId": "http://www.roblox.com/asset/?id=1660648364",
+            "Size": [1.997455, 1.83751, 1.110688],
+            "InitialSize": [1.997455, 1.83751, 1.110688],
+            "RenderFidelity": "Precise",
+            "CFrame": [-2.561267, 3.103929, 23.329385, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "CollisionGroupId": 1
+          }
+        },
+        "$properties": {
+          "Tags": ["Player"]
+        }
+      },
       "StarterPlayerScripts": {
         "$path": "src/Client"
       },
       "$properties": {
-        "CharacterMaxSlopeAngle": 60,
         "CameraMaxZoomDistance": 128,
+        "CharacterMaxSlopeAngle": 60,
         "CharacterUseJumpPower": false
       }
     }
