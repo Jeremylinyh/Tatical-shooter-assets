@@ -49,6 +49,9 @@ local function moveToPlayer(NPC: Model,target : Model)
 			return -- TODO: handle this better
 		end
 		local waypoints = createPath(NPC:GetPivot().Position,target:GetPivot().Position)
+		if not waypoints then
+			return -- TODO: handle this better
+		end
 		for nextWaypointIndex= 1, math.min(#waypoints,recomputeWaypointAfter),1 do
 			humanoid:MoveTo(waypoints[nextWaypointIndex].Position)
 			local reached : boolean = humanoid.MoveToFinished:Wait()
