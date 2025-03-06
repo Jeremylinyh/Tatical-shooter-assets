@@ -12,6 +12,7 @@ local isLoud : boolean = false
 
 local waitBetweenEachSpawning = 3
 local maxActiveAllowed = 8
+local squadInWave = 6
 
 Players.PlayerAdded:Connect(function(player)
 	player:SetAttribute("Threat",3)
@@ -72,6 +73,7 @@ local function SetupSquad(spawnPart : Part)
 		NPC.Parent = workspace
 		NPC.Parent = workspace
 		NPC:PivotTo(indidualSpawn[count].WorldCFrame)
+		NPC:SetAttribute("Primary","ASR")
 		table.insert(squadMembers,NPC)
 	end
 
@@ -88,9 +90,16 @@ end
 game:GetService("ServerScriptService"):WaitForChild("GlobalStates"):WaitForChild("LoudBegin").Event
 	:Connect(function()
 	isLoud = true
+	local squadsSpawned = 0
 	while isLoud do
 			local target : Player = IdentifyTarget()
 			local members = SetupSquad(selectSpawnPart(target)) 
+			squadInWave += 1
+			if squadsSpawned >= squadInWave then
+				-- wave Break
+				wait(30)
+				squadsSpawned = 0
+			end
 		
 		script.Parent:WaitForChild("EnemySquadBehaviorInit"):Fire(members,target)
 		--print(#members)

@@ -7,7 +7,7 @@ gunstats.AimWalkSpeedDecreaseFactor = 0.5
 gunstats.Burst = math.huge -- math.huge for full auto
 gunstats.CooldownBetweenShots = 0.1
 gunstats.AnimationIDhold = 913402848
-gunstats.WeaponSwayMultiplier = 0.1 -- higher = more sway
+gunstats.WeaponSwayMultiplier = 0.36 -- higher = more sway
 gunstats.RecoilCosinePeriod = 10-- 2pi * this number
 gunstats.RecoilBase = 100 -- this^-x
 gunstats.RecoilTimeScale = 3

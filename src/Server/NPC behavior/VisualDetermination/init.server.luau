@@ -26,10 +26,20 @@ local function castRayToTarget(NPC : Model,start : Vector3, finish: Vector3) : R
 	return workspace:Raycast(start, finish-start, params)
 	end
 
-	local function seenBodyPart(NPC : Model,bodyPart) : boolean
-	for i = -1, 1 do
-		local startPos : Vector3 = NPC:WaitForChild("Head").Position
-		startPos += i * NPC:WaitForChild("Head").CFrame.RightVector
+local function seenBodyPart(NPC : Model,bodyPart) : boolean
+		
+	local real = {}
+	real[-1] = -1
+	real[0] = 1
+	real[1] = 0
+	local NPCCF = NPC:GetPivot()
+	for index = -1, 1 do
+		if not NPC or not NPC:FindFirstChild("Humanoid") or NPC.Humanoid.Health <= 0 then
+			return
+		end
+		local i = real[index]
+		local startPos : Vector3 = NPCCF.Position + Vector3.yAxis * 1.6
+		startPos += i * NPCCF.RightVector * 1.6
 		local endPos : Vector3 = bodyPart.Position
 		endPos += i * bodyPart.CFrame.RightVector
 
@@ -38,30 +48,31 @@ local function castRayToTarget(NPC : Model,start : Vector3, finish: Vector3) : R
 		if not result then
 			--return true -- no obstacle
 		elseif result.Instance.Parent == bodyPart.Parent then
-			return true
+			return true,i
 		end
 		wait()
+		
 	end
 
 	return false
 end
 
 local function sawPlayer(NPC: Model,playerCharacter : Model)
-	local seen : boolean = seenBodyPart(NPC,playerCharacter:WaitForChild("Head"))
+	local seen : boolean,a = seenBodyPart(NPC,playerCharacter:WaitForChild("Head"))
 	if seen then
-		return seen
+		return seen,a
 	end
 	wait()
-	local seen : boolean = seenBodyPart(NPC,playerCharacter:WaitForChild("UpperTorso"))
+	local seen : boolean,a = seenBodyPart(NPC,playerCharacter:WaitForChild("UpperTorso"))
 	if seen then
-		return seen
+		return seen,a
 	end
 	wait()
-	local seen : boolean = seenBodyPart(NPC,playerCharacter:WaitForChild("LowerTorso"))
-	if seen then
-		return seen
-	end
-	wait()
+	--local seen : boolean,a = seenBodyPart(NPC,playerCharacter:WaitForChild("LowerTorso"))
+	--if seen then
+	--	return seen,a
+	--end
+	--wait()
 	return false
 end
 
@@ -81,10 +92,10 @@ local function SeeingPlayer(NPC: Model) : Model
 		--print("facing")
 		if difference:Dot(pivot.LookVector) > 0 then
 			
-			local seen : boolean = sawPlayer(NPC,v)
+			local seen : boolean,a = sawPlayer(NPC,v)
 			if seen then
 				NPC:SetAttribute("Alerted",true)
-				return v
+				return v,a
 			end
 		end
 		wait()

@@ -4,12 +4,13 @@ local CS : CollectionService = game:GetService("CollectionService")
 
 local doorActionTag : string = "BoxInput"
 
-local function processInputEvent(reciever : BindableEvent)
+local function processInputEvent(powerBox : Model)
+	local reciever = powerBox:WaitForChild("Left"):WaitForChild("ConnectInputs")
 	local doorModel : Model = reciever.Parent.Parent
 	reciever.Event:Connect(function(input : InputObject)
 		--print(input)
 		if typeof(input) == "number" then
-			doorModel:WaitForChild("Push"):FireServer(input/6)
+			
 		else
 			--it's a input event
 			local keyboard : InputObject = input
@@ -20,7 +21,7 @@ local function processInputEvent(reciever : BindableEvent)
 	end)
 end
 
-for i,v : BindableEvent in CS:GetTagged(doorActionTag) do
+for i,v : Model in CS:GetTagged(doorActionTag) do
 	processInputEvent(v)
 end
 

@@ -8,6 +8,7 @@ game:GetService("ServerScriptService"):WaitForChild("GlobalStates"):WaitForChild
 	end)
 
 local function addBallSocketTo(character : model)
+	--print(character)
 	local humanoid : Humanoid = character:WaitForChild("Humanoid")
 	humanoid:ChangeState(Enum.HumanoidStateType.Physics)
 	for i,v in pairs(humanoid:GetChildren()) do
@@ -29,10 +30,20 @@ local function addBallSocketTo(character : model)
 				--print(v,v.CFrame.Rotation)
 			end
 		end
+		
+		if bodypart:IsA("Part") or bodypart:IsA("MeshPart") then
+			bodypart.CanCollide = true
+			bodypart.CanTouch = false
+			bodypart.CanQuery = false
+			bodypart.CollisionGroup = "Debris"
+		end
+		
 		if weld and not bodypart:FindFirstChildOfClass(constraintType) then
 			--if bodypart:FindFirstChildOfClass("HingeConstraint") then
 			--	bodypart:FindFirstChildOfClass("HingeConstraint"):Destroy()
 			--end
+			
+			
 			if not bodypart:FindFirstChildOfClass("HingeConstraint") then
 				local firstatt = Instance.new("Attachment")
 				firstatt.Parent = weld.Part0
@@ -46,10 +57,7 @@ local function addBallSocketTo(character : model)
 				ball.Attachment0 = firstatt
 				ball.Attachment1 = secatt
 
-				bodypart.CanCollide = true
-				bodypart.CanTouch = false
-				bodypart.CanQuery = false
-				bodypart.CollisionGroup = "Debris"
+				
 				--ball.Active = true
 				ball.Parent = bodypart
 				ball.Enabled = true
