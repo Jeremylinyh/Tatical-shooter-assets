@@ -1,0 +1,15 @@
+{
+  "className": "Part",
+  "properties": {
+    "BottomSurface": "Smooth",
+    "CFrame": [-9.073646, 0.301677, 27.893798, 0, 0, -0.999995, 0, 1, 0, 1, 0, 0],
+    "CanCollide": false,
+    "CanQuery": false,
+    "CanTouch": false,
+    "Color": [17, 17, 17],
+    "Material": "SmoothPlastic",
+    "PivotOffset": [0.024548, 0.286604, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+    "Size": [0.049097, 0.573208, 0.147291],
+    "TopSurface": "Smooth"
+  }
+}

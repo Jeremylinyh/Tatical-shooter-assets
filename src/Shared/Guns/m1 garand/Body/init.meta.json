@@ -1,0 +1,12 @@
+{
+  "className": "UnionOperation",
+  "properties": {
+    "CFrame": [-9.073645, 0.437137, 30.150505, 0, 0, -1, 0, 1, 0, 1, 0, 0],
+    "CanCollide": false,
+    "CanQuery": false,
+    "CanTouch": false,
+    "Color": [106, 57, 9],
+    "Material": "Wood",
+    "Size": [4.464317, 0.84412, 0.147294]
+  }
+}

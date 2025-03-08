@@ -8,7 +8,7 @@ local function characterPrimary() : string
 end
 
 local function characterSecondary() : string
-	return "ASR"
+	return "m1 garand"
 	-- TODO: implement
 end
 

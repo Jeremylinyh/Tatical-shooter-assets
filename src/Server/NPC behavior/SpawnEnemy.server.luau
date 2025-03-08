@@ -89,6 +89,7 @@ end
 
 game:GetService("ServerScriptService"):WaitForChild("GlobalStates"):WaitForChild("LoudBegin").Event
 	:Connect(function()
+	print("loud")
 	isLoud = true
 	local squadsSpawned = 0
 	while isLoud do

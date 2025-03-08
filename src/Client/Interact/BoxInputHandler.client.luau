@@ -1,13 +1,17 @@
 -- handles input recieved by the boxes
 
 local CS : CollectionService = game:GetService("CollectionService")
-
+local player : Player = game:GetService("Players").LocalPlayer
 local doorActionTag : string = "BoxInput"
 
 local function processInputEvent(powerBox : Model)
 	local reciever = powerBox:WaitForChild("Left"):WaitForChild("ConnectInputs")
 	local doorModel : Model = reciever.Parent.Parent
 	reciever.Event:Connect(function(input : InputObject)
+		if powerBox:GetAttribute("Usedby") ~= "" and 
+			powerBox:GetAttribute("Usedby") ~= tostring(player.UserId) then
+			return
+		end
 		--print(input)
 		if typeof(input) == "number" then
 			

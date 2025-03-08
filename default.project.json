@@ -14,11 +14,11 @@
         "BodyColor": {
           "$className": "BodyColors",
           "$properties": {
-            "RightLegColor3": [0.105882, 0.164705, 0.207843],
             "TorsoColor3": [0.686274, 0.580392, 0.513725],
             "HeadColor3": [0.686274, 0.580392, 0.513725],
-            "RightArmColor3": [0.686274, 0.580392, 0.513725],
             "LeftArmColor3": [0.686274, 0.580392, 0.513725],
+            "RightLegColor3": [0.105882, 0.164705, 0.207843],
+            "RightArmColor3": [0.686274, 0.580392, 0.513725],
             "LeftLegColor3": [0.105882, 0.164705, 0.207843]
           }
         },
@@ -76,8 +76,8 @@
             "$className": "HingeConstraint",
             "$properties": {
               "LimitsEnabled": true,
-              "UpperAngle": 30,
-              "LowerAngle": -30
+              "LowerAngle": -30,
+              "UpperAngle": 30
             }
           },
           "Mesh": {
@@ -89,8 +89,8 @@
           "Neck": {
             "$className": "Motor6D",
             "$properties": {
-              "C1": [0, -0.5, -0.000272, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "C0": [0, 0.887959, 0.059709, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+              "C0": [0, 0.887959, 0.059709, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C1": [0, -0.5, -0.000272, 1, 0, 0, 0, 1, 0, 0, 0, 1]
             }
           },
           "NeckRigAttachment": {
@@ -118,11 +118,9 @@
             }
           },
           "$properties": {
-            "Size": [2, 1, 1],
-            "CanTouch": false,
-            "TopSurface": "Smooth",
-            "CollisionGroupId": 1,
             "CollisionGroup": "NPC",
+            "CFrame": [-2.592508, 4.491537, 23.389368, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "BottomSurface": "Smooth",
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
@@ -130,26 +128,28 @@
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
             },
+            "Size": [2, 1, 1],
             "CanCollide": false,
             "Color": [175, 148, 131],
-            "CFrame": [-2.592508, 4.491537, 23.389368, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
-            "BottomSurface": "Smooth"
+            "TopSurface": "Smooth",
+            "CollisionGroupId": 1,
+            "CanTouch": false
           }
         },
         "Humanoid": {
           "$className": "Humanoid",
           "$properties": {
-            "HipHeight": 1.973971,
-            "UseJumpPower": false,
-            "HealthDisplayDistance": 0,
-            "JumpHeight": 0,
             "MaxSlopeAngle": 60,
-            "JumpPower": 0,
+            "NameDisplayDistance": 0,
             "DisplayDistanceType": "None",
             "HealthDisplayType": "AlwaysOff",
+            "HipHeight": 1.973971,
+            "UseJumpPower": false,
+            "JumpPower": 0,
             "RigType": "R15",
-            "NameDisplayDistance": 0,
-            "AutoJumpEnabled": false
+            "AutoJumpEnabled": false,
+            "JumpHeight": 0,
+            "HealthDisplayDistance": 0
           }
         },
         "HumanoidRootPart": {
@@ -173,21 +173,21 @@
             }
           },
           "$properties": {
-            "Size": [2, 2, 1],
-            "CFrame": [-2.558746, 2.991917, 23.389095, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
-            "CollisionGroup": "NPC",
-            "CollisionGroupId": 1,
-            "Transparency": 1,
-            "CanTouch": false,
             "CanQuery": false,
+            "CollisionGroupId": 1,
+            "Size": [2, 2, 1],
             "CanCollide": false,
+            "CollisionGroup": "NPC",
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
               "elasticity": 0.5,
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
-            }
+            },
+            "CanTouch": false,
+            "Transparency": 1,
+            "CFrame": [-2.558746, 2.991917, 23.389095, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1]
           }
         },
         "LeftFoot": {
@@ -195,8 +195,8 @@
           "HingeConstraint": {
             "$className": "HingeConstraint",
             "$properties": {
-              "LowerAngle": -30,
               "UpperAngle": 30,
+              "LowerAngle": -30,
               "LimitsEnabled": true
             }
           },
@@ -216,10 +216,10 @@
           "LeftFoot": {
             "$className": "WrapTarget",
             "$properties": {
-              "Stiffness": 1,
-              "CageOrigin": [-0.003505, -0.013295, 0.014818, 1, 0, 0, 0, 1, 0, 0, 0, 1],
               "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031743",
-              "ImportOrigin": [0.446206, 1.759108, 0.087234, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+              "ImportOrigin": [0.446206, 1.759108, 0.087234, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "Stiffness": 1,
+              "CageOrigin": [-0.003505, -0.013295, 0.014818, 1, 0, 0, 0, 1, 0, 0, 0, 1]
             }
           },
           "OriginalSize": {
@@ -229,12 +229,13 @@
             }
           },
           "$properties": {
-            "Color": [27, 42, 53],
             "CanCollide": false,
-            "RenderFidelity": "Precise",
-            "MeshId": "http://www.roblox.com/asset/?id=1660648380",
             "InitialSize": [0.791291, 0.448562, 1.194592],
-            "CollisionGroupId": 1,
+            "MeshId": "http://www.roblox.com/asset/?id=1660648380",
+            "RenderFidelity": "Precise",
+            "CanTouch": false,
+            "CFrame": [-2.931921, 0.233129, 23.288778, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "Size": [0.791291, 0.448562, 1.194592],
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
@@ -242,10 +243,9 @@
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
             },
-            "CollisionGroup": "NPC",
-            "CanTouch": false,
-            "CFrame": [-2.931921, 0.233129, 23.288778, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
-            "Size": [0.791291, 0.448562, 1.194592]
+            "CollisionGroupId": 1,
+            "Color": [27, 42, 53],
+            "CollisionGroup": "NPC"
           }
         },
         "LeftHand": {
@@ -253,8 +253,8 @@
           "BallSocketConstraint": {
             "$className": "BallSocketConstraint",
             "$properties": {
-              "UpperAngle": 80,
-              "LimitsEnabled": true
+              "LimitsEnabled": true,
+              "UpperAngle": 80
             }
           },
           "LeftGripAttachment": {
@@ -266,17 +266,17 @@
           "LeftHand": {
             "$className": "WrapTarget",
             "$properties": {
-              "Stiffness": 1,
               "ImportOrigin": [1.496375, 0.006742, -0.022669, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031681",
-              "CageOrigin": [0.013838, -0.196017, 0.016318, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+              "Stiffness": 1,
+              "CageOrigin": [0.013838, -0.196017, 0.016318, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031681"
             }
           },
           "LeftWrist": {
             "$className": "Motor6D",
             "$properties": {
-              "C0": [-0.061237, -0.375807, -0.000198, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "C1": [-0.015459, 0.122498, -0.006242, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+              "C1": [-0.015459, 0.122498, -0.006242, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C0": [-0.061237, -0.375807, -0.000198, 1, 0, 0, 0, 1, 0, 0, 0, 1]
             }
           },
           "LeftWristRigAttachment": {
@@ -286,12 +286,7 @@
             }
           },
           "$properties": {
-            "CanCollide": false,
-            "CollisionGroupId": 1,
-            "RenderFidelity": "Precise",
-            "Color": [175, 148, 131],
-            "Size": [0.762772, 0.938823, 0.747549],
-            "MeshId": "http://www.roblox.com/asset/?id=1660648264",
+            "InitialSize": [0.762772, 0.938823, 0.747549],
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
@@ -299,10 +294,15 @@
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
             },
-            "InitialSize": [0.762772, 0.938823, 0.747549],
             "CanTouch": false,
+            "CanCollide": false,
+            "CollisionGroupId": 1,
+            "CollisionGroup": "NPC",
+            "RenderFidelity": "Precise",
+            "Color": [175, 148, 131],
             "CFrame": [-4.023834, 2.111219, 23.395338, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
-            "CollisionGroup": "NPC"
+            "MeshId": "http://www.roblox.com/asset/?id=1660648264",
+            "Size": [0.762772, 0.938823, 0.747549]
           }
         },
         "LeftLowerArm": {
@@ -310,8 +310,8 @@
           "HingeConstraint": {
             "$className": "HingeConstraint",
             "$properties": {
-              "LowerAngle": -120,
               "LimitsEnabled": true,
+              "LowerAngle": -120,
               "UpperAngle": 0
             }
           },
@@ -331,10 +331,10 @@
           "LeftLowerArm": {
             "$className": "WrapTarget",
             "$properties": {
-              "Stiffness": 1,
-              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031690",
+              "CageOrigin": [-0.012987, -0.069168, 0.0278, 1, 0, 0, 0, 1, 0, 0, 0, 1],
               "ImportOrigin": [1.476632, -0.627031, -0.028002, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "CageOrigin": [-0.012987, -0.069168, 0.0278, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+              "Stiffness": 1,
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031690"
             }
           },
           "LeftWristRigAttachment": {
@@ -344,14 +344,8 @@
             }
           },
           "$properties": {
-            "Size": [0.813783, 0.909431, 0.862115],
             "CollisionGroupId": 1,
             "CanCollide": false,
-            "RenderFidelity": "Precise",
-            "Color": [175, 148, 131],
-            "CollisionGroup": "NPC",
-            "InitialSize": [0.813783, 0.909431, 0.862115],
-            "MeshId": "http://www.roblox.com/asset/?id=1660648303",
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
@@ -359,8 +353,14 @@
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
             },
-            "CFrame": [-3.989284, 2.61043, 23.389293, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
-            "CanTouch": false
+            "CanTouch": false,
+            "Size": [0.813783, 0.909431, 0.862115],
+            "RenderFidelity": "Precise",
+            "InitialSize": [0.813783, 0.909431, 0.862115],
+            "CollisionGroup": "NPC",
+            "Color": [175, 148, 131],
+            "MeshId": "http://www.roblox.com/asset/?id=1660648303",
+            "CFrame": [-3.989284, 2.61043, 23.389293, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1]
           }
         },
         "LeftLowerLeg": {
@@ -382,8 +382,8 @@
           "LeftKnee": {
             "$className": "Motor6D",
             "$properties": {
-              "C1": [-0.064824, 0.435609, 0.004521, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "C0": [-0.064824, -0.388599, 0.028787, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+              "C0": [-0.064824, -0.388599, 0.028787, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C1": [-0.064824, 0.435609, 0.004521, 1, 0, 0, 0, 1, 0, 0, 0, 1]
             }
           },
           "LeftKneeRigAttachment": {
@@ -395,10 +395,10 @@
           "LeftLowerLeg": {
             "$className": "WrapTarget",
             "$properties": {
-              "Stiffness": 1,
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031742",
               "CageOrigin": [0.001668, 0.000206, -0.006416, 1, 0, 0, 0, 1, 0, 0, 0, 1],
               "ImportOrigin": [0.441032, 1.245015, 0.011017, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031742"
+              "Stiffness": 1
             }
           },
           "OriginalSize": {
@@ -408,14 +408,12 @@
             }
           },
           "$properties": {
-            "Color": [27, 42, 53],
-            "Size": [0.71061, 0.904104, 0.881967],
-            "RenderFidelity": "Precise",
             "CollisionGroupId": 1,
-            "MeshId": "http://www.roblox.com/asset/?id=1660648395",
-            "CFrame": [-2.942997, 0.725085, 23.384572, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "CollisionGroup": "NPC",
             "CanCollide": false,
-            "InitialSize": [0.71061, 0.904104, 0.881967],
+            "CanTouch": false,
+            "Color": [27, 42, 53],
+            "RenderFidelity": "Precise",
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
@@ -423,8 +421,10 @@
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
             },
-            "CollisionGroup": "NPC",
-            "CanTouch": false
+            "Size": [0.71061, 0.904104, 0.881967],
+            "CFrame": [-2.942997, 0.725085, 23.384572, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "InitialSize": [0.71061, 0.904104, 0.881967],
+            "MeshId": "http://www.roblox.com/asset/?id=1660648395"
           }
         },
         "LeftUpperArm": {
@@ -432,10 +432,10 @@
           "BallSocketConstraint": {
             "$className": "BallSocketConstraint",
             "$properties": {
-              "TwistUpperAngle": 0,
-              "UpperAngle": 100,
               "TwistLowerAngle": 0,
-              "LimitsEnabled": true
+              "LimitsEnabled": true,
+              "TwistUpperAngle": 0,
+              "UpperAngle": 100
             }
           },
           "LeftElbowRigAttachment": {
@@ -466,20 +466,14 @@
           "LeftUpperArm": {
             "$className": "WrapTarget",
             "$properties": {
-              "Stiffness": 1,
-              "ImportOrigin": [1.310011, -1.503525, -0.015357, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031684",
               "CageOrigin": [0.002402, 0.042511, -0.009144, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031684"
+              "Stiffness": 1,
+              "ImportOrigin": [1.310011, -1.503525, -0.015357, 1, 0, 0, 0, 1, 0, 0, 0, 1]
             }
           },
           "$properties": {
             "RenderFidelity": "Precise",
-            "CollisionGroupId": 1,
-            "CanCollide": false,
-            "CanTouch": false,
-            "CollisionGroup": "NPC",
-            "Size": [0.664127, 1.068652, 0.81289],
-            "MeshId": "http://www.roblox.com/asset/?id=1660648319",
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
@@ -487,9 +481,15 @@
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
             },
+            "InitialSize": [0.664127, 1.105775, 0.81289],
+            "CanTouch": false,
+            "CollisionGroup": "NPC",
             "Color": [175, 148, 131],
+            "CanCollide": false,
+            "CollisionGroupId": 1,
             "CFrame": [-3.857054, 3.341903, 23.413181, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
-            "InitialSize": [0.664127, 1.105775, 0.81289]
+            "Size": [0.664127, 1.068652, 0.81289],
+            "MeshId": "http://www.roblox.com/asset/?id=1660648319"
           }
         },
         "LeftUpperLeg": {
@@ -497,9 +497,9 @@
           "HingeConstraint": {
             "$className": "HingeConstraint",
             "$properties": {
-              "LowerAngle": 0,
               "LimitsEnabled": true,
-              "UpperAngle": 80
+              "UpperAngle": 80,
+              "LowerAngle": 0
             }
           },
           "LeftHip": {
@@ -524,8 +524,8 @@
           "LeftUpperLeg": {
             "$className": "WrapTarget",
             "$properties": {
-              "CageOrigin": [-0.013728, -0.029107, 0.007107, 1, 0, 0, 0, 1, 0, 0, 0, 1],
               "ImportOrigin": [0.456428, 0.435866, 0.022177, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "CageOrigin": [-0.013728, -0.029107, 0.007107, 1, 0, 0, 0, 1, 0, 0, 0, 1],
               "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031688",
               "Stiffness": 1
             }
@@ -538,7 +538,11 @@
           },
           "$properties": {
             "Color": [27, 42, 53],
-            "Size": [0.667392, 1.317455, 0.824007],
+            "MeshId": "http://www.roblox.com/asset/?id=1660648407",
+            "CFrame": [-2.961547, 1.549084, 23.360307, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "CanCollide": false,
+            "CollisionGroupId": 1,
+            "CollisionGroup": "NPC",
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
@@ -546,14 +550,10 @@
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
             },
-            "MeshId": "http://www.roblox.com/asset/?id=1660648407",
-            "CanCollide": false,
-            "CollisionGroupId": 1,
-            "RenderFidelity": "Precise",
-            "CanTouch": false,
-            "CFrame": [-2.961547, 1.549084, 23.360307, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
             "InitialSize": [0.667392, 1.317455, 0.824007],
-            "CollisionGroup": "NPC"
+            "CanTouch": false,
+            "RenderFidelity": "Precise",
+            "Size": [0.667392, 1.317455, 0.824007]
           }
         },
         "LowerTorso": {
@@ -567,9 +567,9 @@
           "LowerTorso": {
             "$className": "WrapTarget",
             "$properties": {
-              "CageOrigin": [-0.000079, -0.128927, 0.014312, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031736",
               "Stiffness": 1,
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031736",
+              "CageOrigin": [-0.000079, -0.128927, 0.014312, 1, 0, 0, 0, 1, 0, 0, 0, 1],
               "ImportOrigin": [0.000078, -0.188488, 0.03448, 1, 0, 0, 0, 1, 0, 0, 0, 1]
             }
           },
@@ -617,8 +617,12 @@
             }
           },
           "$properties": {
+            "CanTouch": false,
+            "RenderFidelity": "Precise",
             "MeshId": "http://www.roblox.com/asset/?id=1660648469",
+            "Color": [175, 148, 131],
             "CanCollide": false,
+            "CollisionGroup": "NPC",
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
@@ -627,13 +631,9 @@
               "elasticityWeight": 1.0
             },
             "CollisionGroupId": 1,
-            "Size": [1.651959, 0.500104, 0.998407],
-            "Color": [175, 148, 131],
             "CFrame": [-2.542505, 2.270564, 23.341131, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
-            "CanTouch": false,
-            "InitialSize": [1.651959, 0.500104, 0.998407],
-            "CollisionGroup": "NPC",
-            "RenderFidelity": "Precise"
+            "Size": [1.651959, 0.500104, 0.998407],
+            "InitialSize": [1.651959, 0.500104, 0.998407]
           }
         },
         "RightFoot": {
@@ -649,8 +649,8 @@
           "RightAnkle": {
             "$className": "Motor6D",
             "$properties": {
-              "C0": [0.064824, -0.49039, 0.004521, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "C1": [0.064824, 0.00169, 0.100317, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+              "C1": [0.064824, 0.00169, 0.100317, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C0": [0.064824, -0.49039, 0.004521, 1, 0, 0, 0, 1, 0, 0, 0, 1]
             }
           },
           "RightAnkleRigAttachment": {
@@ -662,20 +662,18 @@
           "RightFoot": {
             "$className": "WrapTarget",
             "$properties": {
-              "Stiffness": 1,
               "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031811",
+              "CageOrigin": [0.003467, -0.013295, 0.014845, 1, 0, 0, 0, 1, 0, 0, 0, 1],
               "ImportOrigin": [-0.446168, 1.759108, 0.087207, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "CageOrigin": [0.003467, -0.013295, 0.014845, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+              "Stiffness": 1
             }
           },
           "$properties": {
-            "CanCollide": false,
+            "CollisionGroup": "NPC",
             "RenderFidelity": "Precise",
-            "CFrame": [-2.061791, 0.252718, 23.28878, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
-            "Color": [27, 42, 53],
-            "CollisionGroupId": 1,
-            "Size": [0.79129, 0.448562, 1.194591],
+            "InitialSize": [0.79129, 0.448562, 1.194591],
             "MeshId": "http://www.roblox.com/asset/?id=1660648424",
+            "CFrame": [-2.061791, 0.252718, 23.28878, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
@@ -683,9 +681,11 @@
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
             },
-            "CollisionGroup": "NPC",
-            "InitialSize": [0.79129, 0.448562, 1.194591],
-            "CanTouch": false
+            "Size": [0.79129, 0.448562, 1.194591],
+            "CollisionGroupId": 1,
+            "CanTouch": false,
+            "CanCollide": false,
+            "Color": [27, 42, 53]
           }
         },
         "RightHand": {
@@ -693,8 +693,8 @@
           "BallSocketConstraint": {
             "$className": "BallSocketConstraint",
             "$properties": {
-              "LimitsEnabled": true,
-              "UpperAngle": 80
+              "UpperAngle": 80,
+              "LimitsEnabled": true
             }
           },
           "RightGripAttachment": {
@@ -707,16 +707,16 @@
             "$className": "WrapTarget",
             "$properties": {
               "CageOrigin": [-0.013752, -0.196063, 0.016372, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "Stiffness": 1,
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031772",
               "ImportOrigin": [-1.496461, 0.006787, -0.022724, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031772"
+              "Stiffness": 1
             }
           },
           "RightWrist": {
             "$className": "Motor6D",
             "$properties": {
-              "C0": [0.061237, -0.375807, -0.000198, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "C1": [0.015459, 0.122498, -0.006243, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+              "C1": [0.015459, 0.122498, -0.006243, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C0": [0.061237, -0.375807, -0.000198, 1, 0, 0, 0, 1, 0, 0, 0, 1]
             }
           },
           "RightWristRigAttachment": {
@@ -726,12 +726,14 @@
             }
           },
           "$properties": {
-            "Size": [0.762772, 0.938823, 0.747549],
-            "CollisionGroup": "NPC",
-            "CFrame": [-1.055506, 2.178046, 23.395338, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
-            "Color": [175, 148, 131],
             "RenderFidelity": "Precise",
-            "CanCollide": false,
+            "CollisionGroup": "NPC",
+            "Size": [0.762772, 0.938823, 0.747549],
+            "CollisionGroupId": 1,
+            "MeshId": "http://www.roblox.com/asset/?id=1660648337",
+            "CanTouch": false,
+            "InitialSize": [0.762772, 0.938823, 0.747549],
+            "Color": [175, 148, 131],
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
@@ -739,10 +741,8 @@
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
             },
-            "InitialSize": [0.762772, 0.938823, 0.747549],
-            "MeshId": "http://www.roblox.com/asset/?id=1660648337",
-            "CollisionGroupId": 1,
-            "CanTouch": false
+            "CFrame": [-1.055506, 2.178046, 23.395338, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "CanCollide": false
           }
         },
         "RightLowerArm": {
@@ -750,16 +750,16 @@
           "HingeConstraint": {
             "$className": "HingeConstraint",
             "$properties": {
-              "LowerAngle": -120,
+              "UpperAngle": 0,
               "LimitsEnabled": true,
-              "UpperAngle": 0
+              "LowerAngle": -120
             }
           },
           "RightElbow": {
             "$className": "Motor6D",
             "$properties": {
-              "C1": [0.061237, 0.384192, -0.000198, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "C0": [0.209897, -0.344119, -0.024085, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+              "C0": [0.209897, -0.344119, -0.024085, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C1": [0.061237, 0.384192, -0.000198, 1, 0, 0, 0, 1, 0, 0, 0, 1]
             }
           },
           "RightElbowRigAttachment": {
@@ -784,9 +784,11 @@
             }
           },
           "$properties": {
-            "CollisionGroupId": 1,
-            "CanTouch": false,
+            "InitialSize": [0.813783, 0.909431, 0.862116],
+            "RenderFidelity": "Precise",
+            "CollisionGroup": "NPC",
             "CFrame": [-1.112488, 2.675197, 23.389293, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "Size": [0.813783, 0.909431, 0.862116],
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
@@ -794,13 +796,11 @@
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
             },
-            "Color": [175, 148, 131],
-            "Size": [0.813783, 0.909431, 0.862116],
             "MeshId": "http://www.roblox.com/asset/?id=1660648342",
-            "InitialSize": [0.813783, 0.909431, 0.862116],
+            "Color": [175, 148, 131],
             "CanCollide": false,
-            "CollisionGroup": "NPC",
-            "RenderFidelity": "Precise"
+            "CollisionGroupId": 1,
+            "CanTouch": false
           }
         },
         "RightLowerLeg": {
@@ -809,8 +809,8 @@
             "$className": "HingeConstraint",
             "$properties": {
               "UpperAngle": 0,
-              "LowerAngle": -120,
-              "LimitsEnabled": true
+              "LimitsEnabled": true,
+              "LowerAngle": -120
             }
           },
           "RightAnkleRigAttachment": {
@@ -822,8 +822,8 @@
           "RightKnee": {
             "$className": "Motor6D",
             "$properties": {
-              "C0": [0.064824, -0.388599, 0.028786, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "C1": [0.064824, 0.435609, 0.004521, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+              "C1": [0.064824, 0.435609, 0.004521, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C0": [0.064824, -0.388599, 0.028786, 1, 0, 0, 0, 1, 0, 0, 0, 1]
             }
           },
           "RightKneeRigAttachment": {
@@ -835,14 +835,19 @@
           "RightLowerLeg": {
             "$className": "WrapTarget",
             "$properties": {
-              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031814",
-              "Stiffness": 1,
               "CageOrigin": [-0.001567, 0.0008, -0.006127, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "ImportOrigin": [-0.441133, 1.24442, 0.010727, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031814",
+              "ImportOrigin": [-0.441133, 1.24442, 0.010727, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "Stiffness": 1
             }
           },
           "$properties": {
-            "CFrame": [-2.072867, 0.744675, 23.384574, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "CanTouch": false,
+            "CollisionGroupId": 1,
+            "CanCollide": false,
+            "RenderFidelity": "Precise",
+            "Size": [0.71061, 0.904104, 0.881968],
+            "CollisionGroup": "NPC",
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
@@ -850,15 +855,10 @@
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
             },
-            "CollisionGroupId": 1,
-            "CanTouch": false,
-            "Size": [0.71061, 0.904104, 0.881968],
-            "CollisionGroup": "NPC",
+            "InitialSize": [0.71061, 0.904104, 0.881968],
             "Color": [27, 42, 53],
             "MeshId": "http://www.roblox.com/asset/?id=1660648441",
-            "RenderFidelity": "Precise",
-            "CanCollide": false,
-            "InitialSize": [0.71061, 0.904104, 0.881968]
+            "CFrame": [-2.072867, 0.744675, 23.384574, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1]
           }
         },
         "RightUpperArm": {
@@ -866,10 +866,10 @@
           "BallSocketConstraint": {
             "$className": "BallSocketConstraint",
             "$properties": {
-              "UpperAngle": 100,
               "TwistLowerAngle": 0,
-              "TwistUpperAngle": 0,
-              "LimitsEnabled": true
+              "LimitsEnabled": true,
+              "UpperAngle": 100,
+              "TwistUpperAngle": 0
             }
           },
           "RightElbowRigAttachment": {
@@ -901,20 +901,19 @@
             "$className": "WrapTarget",
             "$properties": {
               "ImportOrigin": [-1.313013, -1.504105, -0.017113, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031744",
               "Stiffness": 1,
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031744",
               "CageOrigin": [0.000599, 0.043092, -0.007389, 1, 0, 0, 0, 1, 0, 0, 0, 1]
             }
           },
           "$properties": {
-            "RenderFidelity": "Precise",
             "CanTouch": false,
-            "CollisionGroup": "NPC",
-            "CollisionGroupId": 1,
-            "InitialSize": [0.664127, 1.105775, 0.812891],
-            "Color": [175, 148, 131],
-            "MeshId": "http://www.roblox.com/asset/?id=1660648351",
             "Size": [0.664127, 1.068652, 0.812891],
+            "CanCollide": false,
+            "CollisionGroupId": 1,
+            "CollisionGroup": "NPC",
+            "RenderFidelity": "Precise",
+            "Color": [175, 148, 131],
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
@@ -922,8 +921,9 @@
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
             },
-            "CanCollide": false,
-            "CFrame": [-1.277504, 3.399978, 23.413181, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1]
+            "CFrame": [-1.277504, 3.399978, 23.413181, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "MeshId": "http://www.roblox.com/asset/?id=1660648351",
+            "InitialSize": [0.664127, 1.105775, 0.812891]
           }
         },
         "RightUpperLeg": {
@@ -931,16 +931,16 @@
           "HingeConstraint": {
             "$className": "HingeConstraint",
             "$properties": {
+              "LimitsEnabled": true,
               "UpperAngle": 80,
-              "LowerAngle": 0,
-              "LimitsEnabled": true
+              "LowerAngle": 0
             }
           },
           "RightHip": {
             "$className": "Motor6D",
             "$properties": {
-              "C1": [0.064824, 0.4334, 0.028786, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "C0": [0.499999, -0.278464, 0.047964, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+              "C0": [0.499999, -0.278464, 0.047964, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "C1": [0.064824, 0.4334, 0.028786, 1, 0, 0, 0, 1, 0, 0, 0, 1]
             }
           },
           "RightHipRigAttachment": {
@@ -958,15 +958,15 @@
           "RightUpperLeg": {
             "$className": "WrapTarget",
             "$properties": {
-              "ImportOrigin": [-0.456293, 0.432147, 0.023177, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "CageOrigin": [0.013592, -0.025388, 0.006107, 1, 0, 0, 0, 1, 0, 0, 0, 1],
               "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031748",
-              "Stiffness": 1
+              "Stiffness": 1,
+              "CageOrigin": [0.013592, -0.025388, 0.006107, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+              "ImportOrigin": [-0.456293, 0.432147, 0.023177, 1, 0, 0, 0, 1, 0, 0, 0, 1]
             }
           },
           "$properties": {
             "Size": [0.667392, 1.317455, 0.824007],
-            "CanTouch": false,
+            "RenderFidelity": "Precise",
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
@@ -974,14 +974,14 @@
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
             },
-            "RenderFidelity": "Precise",
-            "CollisionGroupId": 1,
-            "InitialSize": [0.667392, 1.317455, 0.824007],
             "CollisionGroup": "NPC",
             "Color": [27, 42, 53],
             "CFrame": [-2.091419, 1.568674, 23.360309, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "InitialSize": [0.667392, 1.317455, 0.824007],
+            "MeshId": "http://www.roblox.com/asset/?id=1660648451",
             "CanCollide": false,
-            "MeshId": "http://www.roblox.com/asset/?id=1660648451"
+            "CollisionGroupId": 1,
+            "CanTouch": false
           }
         },
         "UpperTorso": {
@@ -1002,8 +1002,8 @@
             "$className": "HingeConstraint",
             "$properties": {
               "LowerAngle": -30,
-              "UpperAngle": 30,
-              "LimitsEnabled": true
+              "LimitsEnabled": true,
+              "UpperAngle": 30
             }
           },
           "LeftCollarAttachment": {
@@ -1045,10 +1045,10 @@
           "UpperTorso": {
             "$className": "WrapTarget",
             "$properties": {
+              "ImportOrigin": [-0.000011, -1.277793, 0.035327, 1, 0, 0, 0, 1, 0, 0, 0, 1],
               "CageOrigin": [0.000011, 0.112384, 0.025414, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031687",
               "Stiffness": 1,
-              "ImportOrigin": [-0.000011, -1.277793, 0.035327, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+              "CageMeshId": "https://assetdelivery.roblox.com/v1/asset/?id=8665031687"
             }
           },
           "Waist": {
@@ -1065,23 +1065,23 @@
             }
           },
           "$properties": {
-            "CollisionGroup": "NPC",
-            "CFrame": [-2.561267, 3.103929, 23.329385, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
-            "Size": [1.997455, 1.83751, 1.110688],
-            "RenderFidelity": "Precise",
-            "Color": [175, 148, 131],
-            "InitialSize": [1.997455, 1.83751, 1.110688],
-            "MeshId": "http://www.roblox.com/asset/?id=1660648364",
-            "CanCollide": false,
-            "CanTouch": false,
-            "CollisionGroupId": 1,
             "CustomPhysicalProperties": {
               "density": 0.7,
               "friction": 0.0,
               "elasticity": 0.5,
               "frictionWeight": 1.0,
               "elasticityWeight": 1.0
-            }
+            },
+            "RenderFidelity": "Precise",
+            "CollisionGroup": "NPC",
+            "Color": [175, 148, 131],
+            "CollisionGroupId": 1,
+            "CanCollide": false,
+            "CanTouch": false,
+            "CFrame": [-2.561267, 3.103929, 23.329385, 0.999746, -0.022507, 0, 0.022507, 0.999746, 0, 0, 0, 1],
+            "MeshId": "http://www.roblox.com/asset/?id=1660648364",
+            "InitialSize": [1.997455, 1.83751, 1.110688],
+            "Size": [1.997455, 1.83751, 1.110688]
           }
         },
         "$properties": {
@@ -1092,8 +1092,8 @@
         "$path": "src/Client"
       },
       "$properties": {
-        "CharacterMaxSlopeAngle": 60,
         "CharacterUseJumpPower": false,
+        "CharacterMaxSlopeAngle": 60,
         "CameraMaxZoomDistance": 128
       }
     }

@@ -60,7 +60,7 @@ local attackLoop
 local callSelfProxy
 
 local function fireGun(...)
-	print("kaboom")
+	--print("kaboom")
 	-- TODO: implement
 end
 
@@ -248,7 +248,11 @@ local function init(members, player : Player)
 		
 		for i,v in pairs(members) do
 			
-			
+		for j,k in pairs(v:GetChildren()) do
+			if k:IsA("BasePart") then
+				k:SetNetworkOwner(nil)
+			end
+		end
 		
 			if not v:FindFirstChild("Humanoid") then
 				v:Destroy()

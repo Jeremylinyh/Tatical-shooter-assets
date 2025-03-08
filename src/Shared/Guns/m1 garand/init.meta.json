@@ -2,11 +2,10 @@
   "className": "Model",
   "properties": {
     "Attributes": {
-      "Magazine": 3000,
-      "Type": "ASR",
+      "Magazine": 14,
+      "Type": "m1 garand",
       "LastFired": 0
     },
-    "Scale": 0.069551,
     "Tags": ["Firearm"]
   }
 }
