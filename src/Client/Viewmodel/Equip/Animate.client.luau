@@ -120,7 +120,9 @@ local function process(delta : number)
 	local newRecoil : number = applyRecoil()
 	local newSpread : number = applySpread()
 	local climb : number = gunstats[currentWeapon:GetAttribute("Type")].Climb
-	workspace.CurrentCamera.CFrame *= CFrame.Angles((newRecoil-recoil)/3 + newRecoil/climb,newSpread-spread,0)
+	workspace.CurrentCamera.CFrame *= CFrame.Angles((newRecoil-recoil)/
+		gunstats[currentWeapon:GetAttribute("Type")].RecoilDivisor
+		+ newRecoil/climb,newSpread-spread,0)
 	spread = newSpread
 	recoil = newRecoil
 	placeGunAt *= CFrame.Angles(recoil,spread,0) * CFrame.new(0,0,recoil*1.6)

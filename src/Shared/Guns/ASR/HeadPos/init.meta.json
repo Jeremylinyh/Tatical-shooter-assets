@@ -2,14 +2,14 @@
   "className": "Part",
   "properties": {
     "BottomSurface": "Smooth",
-    "CFrame": [-2.34811, 2.915641, 20.388694, 0.001773, -0.877025, 0.480439, -0.078732, 0.478826, 0.874371, -0.996894, -0.039376, -0.068201],
+    "CFrame": [-2.348109, 2.915641, 20.388694, 0.001772, -0.877025, 0.480439, -0.078731, 0.478825, 0.87437, -0.996894, -0.039376, -0.0682],
     "CanCollide": false,
     "CanQuery": false,
     "CanTouch": false,
     "CastShadow": false,
-    "Color": [58, 59, 59],
+    "Color": [198, 197, 197],
     "Material": "SmoothPlastic",
-    "Size": [0.034775, 0.029559, 0.052163],
+    "Size": [0.034775, 0.029558, 0.052163],
     "TopSurface": "Smooth",
     "Transparency": 1
   }

@@ -19,7 +19,12 @@ local function isReloading(player : Player) : boolean
 end
 
 local function lastFiredWithinReasonableTime(player : Player, playerCurrentGun : Model) : boolean
-	return playerCurrentGun:GetAttribute("Magazine") > 0
+	local lastFired = playerCurrentGun:GetAttribute("LastFired")
+	local currentGunType : string = playerCurrentGun:GetAttribute("Type")
+
+	local statsgun = gunstats[currentGunType]
+	
+	return (time()-lastFired) >= statsgun.CooldownBetweenShots - 0.01
 end
 
 local function allowedToFire(player : Player, currentWeapon : Model) : boolean
@@ -60,8 +65,8 @@ local function prefireChecksPassed(player : Player, playerCurrentGun : Model) : 
 	return true
 end
 
-local function thereAreBulletsInMagazine() : boolean
-	return true
+local function thereAreBulletsInMagazine(playerCurrentGun) : boolean
+	return playerCurrentGun:GetAttribute("Magazine") > 0
 end
 -- false = halt
 local function beganReload(began : boolean)
@@ -70,39 +75,46 @@ end
 
 local function handleWindowHit(raycastResult : RaycastResult)
 	--local hitwindow = true
-	--local sizex = raycastResult.Instance.Size.X
-	--local sizey = raycastResult.Instance.Size.Y
+	game:GetService("CollectionService"):RemoveTag(raycastResult.Instance,"window")
+	local sizex = raycastResult.Instance.Size.X
+	local sizey = raycastResult.Instance.Size.Y
 
-	--local glassdimensions = math.round(((sizex+sizey)/2) /3)
+	local glassdimensions = math.round(((sizex+sizey)/2) /3)
+	
+	if glassdimensions <= 0 then
+		raycastResult.Instance:Destroy()
+		return
+	end
+	
+	for x = -sizex/glassdimensions, sizex/glassdimensions do
 
-	--for x = -sizex/glassdimensions, sizex/glassdimensions do
+		for y = -sizey/glassdimensions, sizey/glassdimensions do
+			--print("shatter")
+			local glass = raycastResult.Instance:Clone()
+			glass.Size = Vector3.new(glassdimensions/2,glassdimensions/2,raycastResult.Instance.Size.Z/6) --raycastResult.Instance.Size/(glassdimensions)
+			glass.Position = raycastResult.Instance.Position + (glassdimensions*x/2)*raycastResult.Instance.CFrame.RightVector + (glassdimensions*y/2) * raycastResult.Instance.CFrame.UpVector
+			glass.Anchored = false
+			glass.CanCollide = true
+			glass.CanQuery = false
+			glass.CanTouch = false
+			glass.CollisionGroup = "Debris"
+			glass.Parent = workspace
+			--table.insert(raycastParams.FilterDescendantsInstances,glass)
+			--glass.CollisionGroup = "Debris"
+			--glass.Transparency = 0
+			Debris:AddItem(glass,0.6)
+		end
 
-	--	for y = -sizey/glassdimensions, sizey/glassdimensions do
-	--		--print("shatter")
-	--		local glass = raycastResult.Instance:Clone()
-	--		glass.Size = Vector3.new(glassdimensions/2,glassdimensions/2,raycastResult.Instance.Size.Z/6) --raycastResult.Instance.Size/(glassdimensions)
-	--		glass.Position = raycastResult.Instance.Position + (glassdimensions*x/2)*raycastResult.Instance.CFrame.RightVector + (glassdimensions*y/2) * raycastResult.Instance.CFrame.UpVector
-	--		glass.Anchored = false
-	--		glass.CanCollide = true
-	--		glass.CanQuery = false
-	--		glass.CanTouch = false
-	--		glass.Parent = workspace
-	--		--table.insert(raycastParams.FilterDescendantsInstances,glass)
-	--		--glass.CollisionGroup = "Debris"
-	--		--glass.Transparency = 0
-	--		Debris:AddItem(glass,0.6)
-	--	end
+	end
 
-	--end
-
-	--raycastResult.Instance.CanQuery = true
-	--raycastResult.Instance.CanCollide = false
-	--raycastResult.Instance.CanTouch = false
-	--raycastResult.Instance.CollisionGroup = "Suspicious"
-	--raycastResult.Instance.Transparency = 1
-	--raycastResult.Instance.Parent = workspace
-	--game:GetService("CollectionService"):RemoveTag(raycastResult.Instance,"window")
-	--:Destroy()
+	raycastResult.Instance.CanQuery = true
+	raycastResult.Instance.CanCollide = false
+	raycastResult.Instance.CanTouch = false
+	raycastResult.Instance.CollisionGroup = "Suspicious"
+	raycastResult.Instance.Transparency = 1
+	raycastResult.Instance.Parent = workspace
+	game:GetService("CollectionService"):RemoveTag(raycastResult.Instance,"window")
+	raycastResult.Instance:Destroy()
 end
 
 local function placeBulletHole(raycastResult : RaycastResult)
@@ -141,11 +153,11 @@ local function bullet(player : Player,cam : CFrame)
 	
 	local currentGunType : string = playerCurrentGun:GetAttribute("Type")
 	
-	
+	playerCurrentGun:SetAttribute("LastFired",time()-0.06)
 	
 	local statsgun = gunstats[currentGunType]
 	
-	if thereAreBulletsInMagazine() then
+	if thereAreBulletsInMagazine(playerCurrentGun) then
 		playerCurrentGun:SetAttribute("Magazine",playerCurrentGun:GetAttribute("Magazine") -1)
 		beganReload(false)
 	else
@@ -153,7 +165,7 @@ local function bullet(player : Player,cam : CFrame)
 		return
 	end
 	
-	playerCurrentGun:SetAttribute("LastFired",time())
+	
 
 	local statsgun = gunstats[currentGunType]
 	local maxdis = statsgun.BulletDestroy
@@ -224,7 +236,7 @@ local function bullet(player : Player,cam : CFrame)
 					raycastResult.Instance.Parent.Humanoid:TakeDamage(damagedealt)
 				end
 
-			elseif raycastResult.Instance:HasTag("window") then
+			elseif raycastResult.Instance:HasTag("glass") then
 				handleWindowHit(raycastResult)
 			end
 

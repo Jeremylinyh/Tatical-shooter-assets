@@ -39,7 +39,7 @@ local function IdentifyTarget() : Model
 	end
 
 	for i,v : Player in PlayerList do
-		if not v.Character and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health > 0 then
+		if not v.Character and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health >0 then
 			continue
 		end
 		local threat = math.abs(getThreatLevel(v))
@@ -83,13 +83,16 @@ end
 
 -- select the random active one
 local function selectSpawnPart(target : CFrame) : Part
-	local spawnList = workspace:WaitForChild("EnemySpawns"):WaitForChild("Active"):GetChildren()
+	local spawnList = workspace.Level:WaitForChild("EnemySpawns"):WaitForChild("Active"):GetChildren()
 	return spawnList[EnemyRandom:NextInteger(1,#spawnList)]
 end
 
-game:GetService("ServerScriptService"):WaitForChild("GlobalStates"):WaitForChild("LoudBegin").Event
+local loudBeginConnection : RBXScriptConnection
+loudBeginConnection = 
+	game:GetService("ServerScriptService"):WaitForChild("GlobalStates"):WaitForChild("LoudBegin").Event
 	:Connect(function()
 	print("loud")
+	loudBeginConnection:Disconnect()
 	isLoud = true
 	local squadsSpawned = 0
 	while isLoud do

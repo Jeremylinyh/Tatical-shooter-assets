@@ -1,13 +1,15 @@
 -- chooses the spawn
 
-local arrayOfSpawn = workspace:WaitForChild("PossibleSpawns"):GetChildren()
+local arrayOfSpawn = workspace:WaitForChild("Level"):WaitForChild("PlayerSpawns"):GetChildren()
 local changeSpawnEvent = game:GetService("ReplicatedStorage"):WaitForChild("ChooseSpawn"):WaitForChild("Next")
 local setPlayerCameraPosEvent = game:GetService("ReplicatedStorage"):WaitForChild("KeepCameraAt"):WaitForChild("Location")
 local currentIndex = {}
 local currentSpawnLocation = {}
 
 local function processSpawnLocation(location : Instance,player : Player)
-	currentSpawnLocation[player] = location.CFrame
+	currentSpawnLocation[player] = location:GetChildren()
+	table.remove(currentSpawnLocation[player],table.find(currentSpawnLocation[player]
+		,location:FindFirstChild("CamPos")))
 	if not player then
 		return
 	end
@@ -34,15 +36,16 @@ local function setCollisionGroup(character : Model)
 end
 
 script.Parent:WaitForChild("SpawnPlayer").Event:Connect(function()
-	for i : Player,v : CFrame in pairs(currentSpawnLocation) do
+	local counter = 1
+	for i : Player,v in pairs(currentSpawnLocation) do
 		i.Character.Parent = workspace
 		if not i.Character then
 			i.CharacterAdded:Wait()
 		end
-		i.Character:PivotTo(v)
+		i.Character:PivotTo(v[counter].WorldCFrame)
 		i.Character:FindFirstChildOfClass("Humanoid").BreakJointsOnDeath = false
 		setCollisionGroup(i.Character)
-		
+		counter += 1
 	end
 	return
 end)

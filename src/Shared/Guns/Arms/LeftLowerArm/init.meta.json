@@ -1,17 +1,17 @@
 {
   "className": "MeshPart",
   "properties": {
-    "CFrame": [1.241096, 2.62477, -2.05428, 0.999996, 0, 0, 0, 0.999996, 0, 0, 0, 1],
+    "CFrame": [1.241096, 2.624769, -2.05428, 0.999996, 0, 0, 0, 0.999996, 0, 0, 0, 1],
     "CanCollide": false,
     "CanQuery": false,
     "CanTouch": false,
     "CastShadow": false,
     "CollisionGroup": "Players",
     "CollisionGroupId": 1,
-    "Color": [175, 148, 131],
+    "Color": [81, 108, 125],
     "InitialSize": [0.813783, 0.909431, 0.862115],
     "MeshId": "http://www.roblox.com/asset/?id=1660648303",
     "RenderFidelity": "Precise",
-    "Size": [0.813783, 0.909431, 0.862115]
+    "Size": [0.813782, 0.90943, 0.862115]
   }
 }

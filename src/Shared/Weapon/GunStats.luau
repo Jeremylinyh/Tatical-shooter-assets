@@ -16,6 +16,7 @@ gunstats.RecoilMaxScale = 0.16
 gunstats.MinSpread = math.rad(1)
 gunstats.MaxSpread = math.rad(10)
 gunstats.Climb = 36 -- climb/this number
+gunstats.RecoilDivisor = 3
 -- IMPORTANT!!!!!!
 -- Should double check the following, I was idiot back then
 -- IMPORTANT!!!!!!
@@ -62,17 +63,18 @@ gunstats.EquipTime = 1 -- how long does it take to draw the gun
 gunstats.AimTime = 0.3
 gunstats.AimWalkSpeedDecreaseFactor = 0.5
 gunstats.Burst = 1 -- math.huge for full auto
-gunstats.CooldownBetweenShots = 0.2
+gunstats.CooldownBetweenShots = 1
 gunstats.AnimationIDhold = 913402848
 gunstats.WeaponSwayMultiplier = 0.36 -- higher = more sway
 gunstats.RecoilCosinePeriod = 10-- 2pi * this number
 gunstats.RecoilBase = 1000 -- this^-x
 gunstats.RecoilTimeScale = 2
-gunstats.RecoilMinScale = 0.1
-gunstats.RecoilMaxScale = 0.16
+gunstats.RecoilMinScale = 0.30
+gunstats.RecoilMaxScale = 0.36
 gunstats.MinSpread = math.rad(5)
 gunstats.MaxSpread = math.rad(10)
 gunstats.Climb = 70 -- climb/this number
+gunstats.RecoilDivisor = 1.6
 -- IMPORTANT!!!!!!
 -- Should double check the following, I was idiot back then
 -- IMPORTANT!!!!!!

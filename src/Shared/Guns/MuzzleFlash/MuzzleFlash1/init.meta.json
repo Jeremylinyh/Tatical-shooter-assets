@@ -5,11 +5,11 @@
     "CanCollide": false,
     "CanQuery": false,
     "CanTouch": false,
-    "Color": [253, 234, 141],
+    "Color": [3, 22, 115],
     "InitialSize": [4.65627, 3.57256, 4.88769],
     "Material": "Neon",
     "MeshId": "http://www.roblox.com/asset/?id=92588061",
     "RenderFidelity": "Precise",
-    "Size": [0.399999, 2.172599, 0.399999]
+    "Size": [0.399998, 2.172599, 0.399998]
   }
 }

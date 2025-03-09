@@ -1,15 +1,15 @@
 {
   "className": "MeshPart",
   "properties": {
-    "CFrame": [-3.157358, 5.203402, 22.948303, 0, -1, 0, 0, 0, 1, -1, 0, 0],
+    "CFrame": [-3.157357, 5.203402, 22.948303, 0, -1, 0, 0, 0, 1, -1, 0, 0],
     "CanCollide": false,
     "CanQuery": false,
     "CanTouch": false,
-    "Color": [253, 234, 141],
+    "Color": [3, 22, 115],
     "InitialSize": [4.65627, 3.57256, 4.88769],
     "Material": "Neon",
     "MeshId": "http://www.roblox.com/asset/?id=92588061",
     "RenderFidelity": "Precise",
-    "Size": [0.399999, 0.3402, 0.399999]
+    "Size": [0.399998, 0.3402, 0.399998]
   }
 }

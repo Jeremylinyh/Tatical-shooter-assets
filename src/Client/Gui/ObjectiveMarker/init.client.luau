@@ -68,6 +68,13 @@ RunService.PreRender:Connect(function(delta)
 
 		--Set the marker position.
 		local preclamp = Vector2.new(math.clamp(X,MinX,MaxX),math.clamp(Y,MinY,MaxY))
+		
+		--local scaleX = math.abs(MaxX)/math.abs(X)
+		--local scaleY = math.abs(MaxY)/math.abs(Y)
+		--local trueScale = math.min(scaleX,scaleY)
+		--trueScale = math.min(1,trueScale)
+		--local preclamp = Vector2.new(X,Y) * trueScale
+		
 		local newPos : UDim2 = UDim2.fromOffset(preclamp.X,preclamp.Y)
 		
 		local weight = math.abs(preclamp.X - X) + math.abs(preclamp.Y-Y)

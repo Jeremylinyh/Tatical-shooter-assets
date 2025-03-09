@@ -17,15 +17,27 @@ table.insert(reloadButtons,Enum.KeyCode.R)
 local currentBurstStreak : number = 0
 local firing : boolean = false
 
+local function lastFiredWithinReasonableTime(player : Player, playerCurrentGun : Model) : boolean
+	local lastFired = playerCurrentGun:GetAttribute("LastFired")
+	local currentGunType : string = playerCurrentGun:GetAttribute("Type")
+
+	local statsgun = gunstats[currentGunType]
+	
+	return (time()-lastFired) >= statsgun.CooldownBetweenShots - 0.01
+end
+
 local function ejectShell(weapon : Model)
 	coroutine.wrap(function(weapon : Model)
+		--print("eject!")
 		local shell : Model = game:GetService("ReplicatedStorage"):WaitForChild("Guns").Shell:Clone()
 		shell:PivotTo(weapon.Body.ShellSpawn.WorldCFrame)
 		shell.Parent = workspace
 		local center : Part = shell.PrimaryPart
-		shell.PrimaryPart.AssemblyLinearVelocity = game:GetService("Players").LocalPlayer.Character.PrimaryPart.AssemblyLinearVelocity
+		shell.PrimaryPart.AssemblyLinearVelocity = 
+			game:GetService("Players").LocalPlayer.Character.PrimaryPart.AssemblyLinearVelocity
 		center:ApplyImpulse(weapon.Eject.CFrame.RightVector/16 + weapon.Eject.CFrame.UpVector/64)
 		Deb:AddItem(shell,1)
+		-- TODO: figure out why first shot does not eject
 	end)(weapon)
 	
 end
@@ -67,15 +79,23 @@ end
 local function fireWeapon(fireButton : RemoteEvent,weaponType : Model)
 	currentBurstStreak = 0
 	
-	while firing and currentBurstStreak < gunstats[weaponType:GetAttribute("Type")].Burst and weaponType:GetAttribute("Magazine")>0 do
+	while firing and currentBurstStreak < gunstats[weaponType:GetAttribute("Type")].Burst 
+		and weaponType:GetAttribute("Magazine")>0 do
 		-- fire
+		
+		if not lastFiredWithinReasonableTime(game:GetService("Players").LocalPlayer,weaponType) then
+			return
+		else
+			--weaponType:SetAttribute("LastFired",time())
+		end
 		--print("pew")
+		cycleChamber(weaponType,gunstats[weaponType:GetAttribute("Type")].CooldownBetweenShots)
+		ejectShell(weaponType,gunstats[weaponType:GetAttribute("Type")].CooldownBetweenShots)
 		fireButton:FireServer(CFrame.new(workspace.CurrentCamera.CFrame.Position)
 			*game:GetService("Players").LocalPlayer.PlayerScripts.Viewmodel.GetCurrentRecoil:Invoke())
 		game:GetService("Players").LocalPlayer.PlayerScripts.Viewmodel.Gunfire:Fire(time())
 		showMuzzleFlash(weaponType)
-		cycleChamber(weaponType,gunstats[weaponType:GetAttribute("Type")].CooldownBetweenShots)
-		ejectShell(weaponType,gunstats[weaponType:GetAttribute("Type")].CooldownBetweenShots)
+		
 		wait(gunstats[weaponType:GetAttribute("Type")].CooldownBetweenShots)
 	end
 	
@@ -87,6 +107,7 @@ local function processInputEvent(reciever : BindableEvent)
 		if helperFunctions.InputInList(input,shootButtons) then
 			if began then
 				-- commence firing
+				
 				firing = true
 				fireWeapon(reciever:WaitForChild("FireWeapon"),reciever.Parent)
 			else
