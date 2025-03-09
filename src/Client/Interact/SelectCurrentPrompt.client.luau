@@ -27,20 +27,21 @@ local function sortByDistance()
 	table.sort(prompts,function(a : Instance,b : Instance)
 		local distanceToA : number = (a.CFrame.Position * Vector3.new(1,0,1) - camera.CFrame.Position * Vector3.new(1,0,1)).Magnitude
 		local distanceToB : number = (b.CFrame.Position * Vector3.new(1,0,1) - camera.CFrame.Position * Vector3.new(1,0,1)).Magnitude
-		return distanceToA > distanceToB
+		return distanceToA < distanceToB
 	end)
 end
 
 local function selectCurrentPrompt()
 	local currentSelected : Instance = nil
 	local currentHighest : number = -math.huge
-	for index = 1, 6, 1 do
+	for index = 1,6, 1 do
 		if not prompts[index] then
 			break
 		end
 		local camera = workspace.CurrentCamera
-		local distanceToPrompt = (prompts[index].Position * Vector3.new(1,0,1) - camera.CFrame.Position * Vector3.new(1,0,1)).Magnitude
+		local distanceToPrompt = (prompts[index].Position - camera.CFrame.Position ).Magnitude
 		if distanceToPrompt < maxPromptDistance then
+			--print(prompts[index])
 			local tocamera : Vector3 = prompts[index].Position - camera.CFrame.Position
 			
 			if tocamera:Dot(prompts[index].CFrame.LookVector) < 0 then

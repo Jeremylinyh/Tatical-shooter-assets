@@ -59,20 +59,20 @@ module["ASR"] = gunstats
 -- below is our CHA stats
 gunstats = {}
 gunstats.EquipTime = 1 -- how long does it take to draw the gun
-gunstats.AimTime = 0.16
+gunstats.AimTime = 0.3
 gunstats.AimWalkSpeedDecreaseFactor = 0.5
 gunstats.Burst = 1 -- math.huge for full auto
-gunstats.CooldownBetweenShots = 0.1
+gunstats.CooldownBetweenShots = 0.2
 gunstats.AnimationIDhold = 913402848
 gunstats.WeaponSwayMultiplier = 0.36 -- higher = more sway
 gunstats.RecoilCosinePeriod = 10-- 2pi * this number
 gunstats.RecoilBase = 1000 -- this^-x
-gunstats.RecoilTimeScale = 3
+gunstats.RecoilTimeScale = 2
 gunstats.RecoilMinScale = 0.1
 gunstats.RecoilMaxScale = 0.16
-gunstats.MinSpread = math.rad(1)
+gunstats.MinSpread = math.rad(5)
 gunstats.MaxSpread = math.rad(10)
-gunstats.Climb = 36 -- climb/this number
+gunstats.Climb = 70 -- climb/this number
 -- IMPORTANT!!!!!!
 -- Should double check the following, I was idiot back then
 -- IMPORTANT!!!!!!
@@ -107,7 +107,7 @@ gunstats.DisplayName = "Gun-gun"
 
 gunstats.HowFarSlideMove = 1 -- non optimal stats, will be improved
 gunstats.HowLongSlideComeBack = 1
-gunstats.magsize =  6
+gunstats.magsize =  14
 gunstats.MaxReserve = 60
 gunstats.Magnification = 1 -- will be in attachments
 

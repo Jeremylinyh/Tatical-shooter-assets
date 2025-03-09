@@ -15,7 +15,7 @@ local templatesInUse = {}
 
 local markerTagName = "ObjectiveMarker"
 
-local BorderSize = 0.5
+local BorderSize = 160
 
 game:GetService("ReplicatedStorage"):WaitForChild("Vote"):WaitForChild("StartGame").OnClientEvent:Wait()
 
@@ -26,7 +26,7 @@ RunService.PreRender:Connect(function(delta)
 	
 
 	for i,placeAt : Attachment in pairs(markersList) do
-		local marker = templatesInUse[placeAt] 
+		local marker : ImageLabel = templatesInUse[placeAt] 
 		if not marker then
 			marker = markerTemplate:Clone()
 			marker.Parent = frame
@@ -51,7 +51,6 @@ RunService.PreRender:Connect(function(delta)
 		local MinX,MaxX = BorderSize/2,ViewportSize.X - (BorderSize/2)
 		local MinY,MaxY = BorderSize/2,ViewportSize.Y - (BorderSize/2)
 
-
 		--Correct the values if the Z is negative (target is behind the camera).
 		if Point.Z < 0 then
 			--Invert the positions.
@@ -68,8 +67,19 @@ RunService.PreRender:Connect(function(delta)
 		end
 
 		--Set the marker position.
-		marker.Position = UDim2.new(0,math.clamp(X,MinX,MaxX),0,math.clamp(Y,MinY,MaxY))
+		local preclamp = Vector2.new(math.clamp(X,MinX,MaxX),math.clamp(Y,MinY,MaxY))
+		local newPos : UDim2 = UDim2.fromOffset(preclamp.X,preclamp.Y)
 		
+		local weight = math.abs(preclamp.X - X) + math.abs(preclamp.Y-Y)
+		weight/=160
+		weight = math.clamp(weight,0,1)
+		local difference : Vector2 = Vector2.new(X-preclamp.X,Y-preclamp.Y)
+		local angle = math.atan2(difference.Y,difference.X) 
+		local rotation = math.deg(angle - math.pi/2) 
+		--print(postclamp-preclamp)
+		
+		marker.Position = newPos
+		marker.Rotation = rotation * weight -- 90
 		
 	end
 
