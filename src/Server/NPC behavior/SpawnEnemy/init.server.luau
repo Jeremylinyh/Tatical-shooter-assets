@@ -11,7 +11,7 @@ local activeNPCcount : number = 0
 local isLoud : boolean = false
 
 local waitBetweenEachSpawning = 3
-local maxActiveAllowed = 8
+local maxActiveAllowed = 6
 local squadInWave = 6
 
 Players.PlayerAdded:Connect(function(player)
@@ -63,17 +63,22 @@ local function selectEnemyTemplate() : Model
 	return game:GetService("ServerStorage"):WaitForChild("NPC"):WaitForChild("Assault").Enemy:Clone()
 end
 
+local function setUpSingularUnit(location : CFrame)
+	local NPC = selectEnemyTemplate()
+	NPC.Parent = workspace.Level.Enemies
+	NPC:PivotTo(location)
+	NPC:SetAttribute("Primary","ASR")
+	return NPC
+	
+end
+
 local function SetupSquad(spawnPart : Part)
 	local squadMembers = {}
 	local indidualSpawn = spawnPart:GetChildren()
 	local squadCount = #indidualSpawn
 	
 	for count = 1, squadCount, 1 do
-		local NPC : Model = selectEnemyTemplate()
-		NPC.Parent = workspace
-		NPC.Parent = workspace
-		NPC:PivotTo(indidualSpawn[count].WorldCFrame)
-		NPC:SetAttribute("Primary","ASR")
+		local NPC : Model = setUpSingularUnit(indidualSpawn[count].WorldCFrame)
 		table.insert(squadMembers,NPC)
 	end
 
@@ -82,30 +87,24 @@ local function SetupSquad(spawnPart : Part)
 end
 
 -- select the random active one
-local function selectSpawnPart(target : CFrame) : Part
+local function selectSpawnPart() : Part
 	local spawnList = workspace.Level:WaitForChild("EnemySpawns"):WaitForChild("Active"):GetChildren()
 	return spawnList[EnemyRandom:NextInteger(1,#spawnList)]
 end
 
-local loudBeginConnection : RBXScriptConnection
-loudBeginConnection = 
-	game:GetService("ServerScriptService"):WaitForChild("GlobalStates"):WaitForChild("LoudBegin").Event
-	:Connect(function()
-	print("loud")
-	loudBeginConnection:Disconnect()
-	isLoud = true
+local function spawnWave()
 	local squadsSpawned = 0
 	while isLoud do
-			local target : Player = IdentifyTarget()
-			local members = SetupSquad(selectSpawnPart(target)) 
-			squadInWave += 1
-			if squadsSpawned >= squadInWave then
-				-- wave Break
-				wait(30)
-				squadsSpawned = 0
-			end
-		
-		script.Parent:WaitForChild("EnemySquadBehaviorInit"):Fire(members,target)
+		local target : Player = IdentifyTarget()
+		local members = SetupSquad(selectSpawnPart()) 
+		squadInWave += 1
+		if squadsSpawned >= squadInWave then
+			-- wave Break
+			wait(30)
+			squadsSpawned = 0
+		end
+
+		script.Parent:WaitForChild("PlanOfAttack"):WaitForChild("Init"):Fire(members,target)
 		--print(#members)
 		for i,v in pairs(members) do
 			activeNPCcount += 1
@@ -115,13 +114,71 @@ loudBeginConnection =
 				activeNPCcount -= 1
 			end)
 		end
-		
+
 		wait(waitBetweenEachSpawning)
 		--print(activeNPCcount)
 		while activeNPCcount >= maxActiveAllowed do
-				wait(waitBetweenEachSpawning)
+			wait(waitBetweenEachSpawning)
 			--print(activeNPCcount,"no longer spawning")
 		end
 	end
-end)
+end
 
+local chooseable = {}
+local function setChooseable()
+	local defensiblePoints = workspace.Level.WaypointsLoud:WaitForChild("Cover"):GetChildren()
+	chooseable = {}
+	for i,v in defensiblePoints do
+		if not v:GetAttribute("Occupied") then
+			table.insert(chooseable,v)
+		end
+	end
+end
+
+local function chooseSpecialDestination()
+	if EnemyRandom:NextNumber() > 0.5 then
+		-- powerbox
+	else
+		setChooseable()
+		--print(#chooseable)
+		return chooseable[EnemyRandom:NextInteger(1,#chooseable-1)]
+	end
+end
+
+local function spawnSpecial()
+	local spawnAt = selectSpawnPart()
+	
+	local waypoint = chooseSpecialDestination()
+	--print(waypoint)
+	if not waypoint then
+		return
+	end
+	local Unit = setUpSingularUnit(spawnAt.CFrame)
+	waypoint:SetAttribute("Occupied",true)
+	local target : CFrame = waypoint.CFrame
+	--print("spawned special unit")
+	game.ServerScriptService["NPC behavior"].CalmlyWalkToPoint.Begin:Fire(Unit,target)
+end
+
+local function specialUnitSpawnLoop()
+	while isLoud do
+		spawnSpecial()
+		wait(3)
+		repeat
+			--print(#chooseable)
+			wait(1)
+			setChooseable()
+		until #chooseable > 0
+	end
+end
+
+local loudBeginConnection : RBXScriptConnection
+loudBeginConnection = 
+	game:GetService("ServerScriptService"):WaitForChild("GlobalStates"):WaitForChild("LoudBegin").Event
+	:Connect(function()
+	print("loud")
+	loudBeginConnection:Disconnect()
+	isLoud = true
+	spawnWave()
+	--specialUnitSpawnLoop()
+end)

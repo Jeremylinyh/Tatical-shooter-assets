@@ -8,7 +8,7 @@
     "CastShadow": false,
     "CollisionGroup": "Players",
     "CollisionGroupId": 1,
-    "Color": [81, 108, 125],
+    "Color": [175, 148, 131],
     "InitialSize": [0.664127, 1.105775, 0.81289],
     "MeshId": "http://www.roblox.com/asset/?id=1660648319",
     "RenderFidelity": "Precise",

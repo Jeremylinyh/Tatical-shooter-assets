@@ -63,7 +63,7 @@ gunstats.EquipTime = 1 -- how long does it take to draw the gun
 gunstats.AimTime = 0.3
 gunstats.AimWalkSpeedDecreaseFactor = 0.5
 gunstats.Burst = 1 -- math.huge for full auto
-gunstats.CooldownBetweenShots = 1
+gunstats.CooldownBetweenShots = 0.5
 gunstats.AnimationIDhold = 913402848
 gunstats.WeaponSwayMultiplier = 0.36 -- higher = more sway
 gunstats.RecoilCosinePeriod = 10-- 2pi * this number

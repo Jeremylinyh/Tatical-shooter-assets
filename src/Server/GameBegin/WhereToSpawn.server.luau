@@ -38,7 +38,7 @@ end
 script.Parent:WaitForChild("SpawnPlayer").Event:Connect(function()
 	local counter = 1
 	for i : Player,v in pairs(currentSpawnLocation) do
-		i.Character.Parent = workspace
+		i.Character.Parent = workspace.Level.Players
 		if not i.Character then
 			i.CharacterAdded:Wait()
 		end
