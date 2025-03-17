@@ -8,7 +8,7 @@ gunstats.Burst = math.huge -- math.huge for full auto
 gunstats.CooldownBetweenShots = 0.1
 gunstats.AnimationIDhold = 913402848
 gunstats.WeaponSwayMultiplier = 0.21 -- higher = more sway
-gunstats.RecoilCosinePeriod = 10-- 2pi * this number
+gunstats.RecoilCosinePeriod = 8-- 2pi * this number
 gunstats.RecoilBase = 1000 -- this^-x
 gunstats.RecoilTimeScale = 3
 gunstats.RecoilMinScale = 0.1
@@ -66,7 +66,7 @@ gunstats.Burst = 1 -- math.huge for full auto
 gunstats.CooldownBetweenShots = 0.5
 gunstats.AnimationIDhold = 913402848
 gunstats.WeaponSwayMultiplier = 0.36 -- higher = more sway
-gunstats.RecoilCosinePeriod = 10-- 2pi * this number
+gunstats.RecoilCosinePeriod = 8-- 2pi * this number
 gunstats.RecoilBase = 1000 -- this^-x
 gunstats.RecoilTimeScale = 2
 gunstats.RecoilMinScale = 0.30
