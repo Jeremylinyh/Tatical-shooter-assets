@@ -1,7 +1,7 @@
 {
   "className": "UnionOperation",
   "properties": {
-    "CFrame": [-9.073645, 0.800893, 31.719858, 0, 0, -1, 0, 1, 0, 1, 0, 0],
+    "CFrame": [-9.073645, 4.741264, 31.719858, 0, 0, -1, 0, 1, 0, 1, 0, 0],
     "CanCollide": false,
     "CanQuery": false,
     "CanTouch": false,

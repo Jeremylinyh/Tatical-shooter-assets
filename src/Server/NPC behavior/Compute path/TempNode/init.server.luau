@@ -8,32 +8,35 @@
 
 -- returns a list of attached Nodes
 local function addSelfAsNode(position : Vector3,nodesFolder,visual : BasePart)
-	position += Vector3.new(0,1.6,0)
+	--position += Vector3.new(0,1.6,0)
 
 	local boxParams : RaycastParams = RaycastParams.new()
 	boxParams.CollisionGroup = "Path"
 	local validPoints = {}
-	local boxSize = Vector3.new(4,6,1)
+	local potentialPoints = {}
+	local boxSize = Vector3.new(4,6,0.01)
 
 	for i, node : BasePart in nodesFolder:GetChildren() do
 		-- check that an agent can conceivably walk there
 		if not node:IsA("BasePart") then
 			continue
 		end
-		local goalPos = node.Position + Vector3.new(0,1.6,0)
+		local goalPos = node.Position --+ Vector3.new(0,1.6,0)
 		local difference = goalPos - position
 		local shapeCF = CFrame.lookAt(position,goalPos)
 		-- prevent noclip
 		--shapeCF = handleInitialNoClip(shapeCF)
 
-		local result = workspace:Blockcast(shapeCF, boxSize, difference)
-
-		if result and result.Instance.Parent ~= nodesFolder then
+		local result = workspace:Blockcast(shapeCF + Vector3.new(0,3,0), boxSize, difference,boxParams)
+		local rayResult = workspace:Raycast(shapeCF.Position,difference,boxParams)
+		
+		if rayResult and rayResult.Instance.Parent ~= nodesFolder then
 			-- something in the way
 		elseif not table.find(validPoints,node) then
+			table.insert(potentialPoints,node)
 			
-			local rayResult = workspace:Raycast(shapeCF.Position,difference,boxParams)
-			if rayResult and rayResult.Instance.Parent ~= nodesFolder then
+			
+			if result and result.Instance.Parent ~= nodesFolder then
 				-- this can happen if box is initially in a wall
 				continue
 			end
@@ -47,7 +50,7 @@ local function addSelfAsNode(position : Vector3,nodesFolder,visual : BasePart)
 	if visual then
 		visual:ClearAllChildren()
 		visual.Parent = workspace
-		visual.Position = position - Vector3.new(0,1.6,0)
+		--visual.Position = position - Vector3.new(0,1.6,0)
 		Instance.new("Attachment").Parent = visual
 		for i,v : BasePart in ipairs(validPoints) do
 			local beam = script.Beam:Clone()
@@ -57,7 +60,9 @@ local function addSelfAsNode(position : Vector3,nodesFolder,visual : BasePart)
 		end
 	end
 	-- visual
-
+	if #validPoints <= 0 then
+		validPoints = potentialPoints
+	end
 	return validPoints
 end
 

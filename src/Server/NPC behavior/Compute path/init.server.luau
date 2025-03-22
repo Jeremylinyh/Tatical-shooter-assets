@@ -1,12 +1,14 @@
 -- returns waypoint. may replace with a custom algorithm later
 
-local PathfindingService = game:GetService("PathfindingService")
+local nodes = workspace.Level.Navigation
 
-local path = PathfindingService:CreatePath({
-	AgentCanJump = false,
-})
+local function lastResort(character,destination : CFrame)
+	local PathfindingService = game:GetService("PathfindingService")
 
-local function findPathToCFrame(character,destination : CFrame)
+	local path = PathfindingService:CreatePath({
+		AgentCanJump = false,
+	})
+	
 	local success, errorMessage = pcall(function()
 		path:ComputeAsync(character.PrimaryPart.Position, destination.Position)
 	end)
@@ -15,9 +17,27 @@ local function findPathToCFrame(character,destination : CFrame)
 		-- Get the path waypoints
 		return path:GetWaypoints()
 	else
-		print("no path")
+		
 	end
-	return {}
+	return false
+end
+
+local function findPathToCFrame(character : Model,destination : CFrame)
+	local startConnections = script.TempNode.Attach:Invoke(character:GetPivot().Position,nodes)
+	
+	local finishConnections = script.TempNode.Attach:Invoke(destination.Position,nodes)
+	
+	if #startConnections <= 0 or #finishConnections <= 0 then
+		local default = lastResort(character,destination)
+		if default then
+			return default
+		else
+			character.Humanoid.Health = 0
+			return default
+		end
+	end
+	
+	-- the A* algorithm
 end
 
 script.Execute.OnInvoke = findPathToCFrame

@@ -2,9 +2,9 @@
   "className": "Model",
   "properties": {
     "Attributes": {
-      "Magazine": 14,
+      "LastFired": 0,
       "Type": "m1 garand",
-      "LastFired": 0
+      "Magazine": 1000
     },
     "Tags": ["Firearm"]
   }
