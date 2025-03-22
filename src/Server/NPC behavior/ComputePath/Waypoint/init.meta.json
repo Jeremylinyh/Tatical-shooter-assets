@@ -1,0 +1,13 @@
+{
+  "className": "Part",
+  "properties": {
+    "Anchored": true,
+    "BottomSurface": "Smooth",
+    "CanCollide": false,
+    "CanQuery": false,
+    "CanTouch": false,
+    "Color": [255, 255, 0],
+    "Size": [1, 1, 1],
+    "TopSurface": "Smooth"
+  }
+}
