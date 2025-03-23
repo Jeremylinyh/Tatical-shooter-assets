@@ -7,6 +7,7 @@ local finish = workspace:WaitForChild("Test"):WaitForChild("End")
 wait(1)
 
 while true do
-	wait(0.1)
-	script.Parent.Execute:Invoke(start,finish)
+	wait(1)
+	script.Parent.Execute:Invoke(start.CFrame,finish.CFrame)
+	--break
 end

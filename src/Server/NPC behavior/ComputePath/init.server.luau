@@ -1,3 +1,4 @@
+--!native
 -- returns waypoint. may replace with a custom algorithm later
 
 -- to future maintainers, I was small brain, beware which tables use .Name and which use instance...
@@ -59,38 +60,87 @@ local function findPathToCFrame(startPos : CFrame,destination : CFrame)
 	local NodeInfo = {}
 	
 	-- distance from start to start is 0
+	local startAttachment = Instance.new("Attachment")
+	startAttachment.CFrame = startPos
+	local originals = {}
 	for i,v in ipairs(startConnections) do
 		--print(v.Name)
 		NodeInfo[v.Name] = {}
 		NodeInfo[v.Name].Cost = (v.Position - startPos.Position).Magnitude
 		NodeInfo[v.Name].PreviousNode = nil
-		table.insert(openList,v)
+		
+		local duckTypedBeam = {}
+		duckTypedBeam.Attachment0 = startAttachment
+		duckTypedBeam.Attachment1 = v.Attachment
+		
+		table.insert(originals,duckTypedBeam)
+		--print(duckTypedBeam)
 	end
-	
+	table.insert(openList,{originals,nil}) --openList[-1] = {originals,nil}
+	--print(openList[2147483646],#openList,{originals,nil})
+	--print({startConnections,nil})
 	local cheapest = {}
-	local previous = nil
-	while #openList > 0 do
-		task.wait()
-		cheapest.Node = nil
-		cheapest.Cost = math.huge
-		for i, node in ipairs(openList) do
+	--local previous = nil
+	
+	-- I commited the function in function. deal with it.
+	local function searchOpen(tosearch : {Beam},from : BasePart)
+		for i, connection : Beam in ipairs(tosearch) do
+			--if cheapest.Node and closedList[cheapest.Node.Name] then
+			--	continue
+			--end
+			--print(connection,from)
+			local candidA = connection.Attachment0.Parent
+			local candidB = connection.Attachment1.Parent
+			--print(candidA,candidB,from)
+			if from and (not candidA or not candidB) then
+				continue
+			end
+			local node = candidA
+			if candidA == from then
+				node = candidB
+			end
+			--print(node)
+			if not node or closedList[node.Name] then
+				--print("closed")
+				--print(node,from,index)
+				continue
+			end
+			--print(node,node.Parent,from)
+			
+			
 			if not NodeInfo[node.Name] then
 				NodeInfo[node.Name] = {}
 			end
-			
+
 			--print(NodeInfo[node.Name].PreviousNode)
 			local newcost = estimateCost(node,NodeInfo,destination.Position,startPos)
 			--print(newcost)
 			if (not NodeInfo[node.Name].Cost) or newcost < NodeInfo[node.Name].Cost then
 				NodeInfo[node.Name].Cost = newcost
-				NodeInfo[node.Name].PreviousNode = previous
+				NodeInfo[node.Name].PreviousNode = from
 			end
 			if newcost < cheapest.Cost then
 				--print(typeof(node))
 				cheapest.Node = node
 				cheapest.Cost = newcost
+				cheapest.Connection = connection
 			end
 			--print(node.Name,NodeInfo[node.Name])
+		end
+		--print(cheapest.Node,cheapest.Cost)
+	end
+	--print(#openList)
+	while next(openList) do
+		task.wait()
+		cheapest.Node = nil
+		cheapest.Connection = nil
+		cheapest.Cost = math.huge
+		
+		for i,v in ipairs(openList) do
+			--print(i)
+			searchOpen(v[1],v[2],i) -- I promise this is not minified code
+			-- v[1] is list of beams, v[2] is previous node
+			--print(cheapest.Node)
 		end
 		
 		if not cheapest.Node then
@@ -103,29 +153,34 @@ local function findPathToCFrame(startPos : CFrame,destination : CFrame)
 			return retracePath(destination,cheapest.Node,NodeInfo)
 		end
 		
-		previous = cheapest.Node
+		--previous = cheapest.Node
 		
 		--local visual = script.Waypoint:Clone()
 		--visual.Parent = workspace
 		--visual.Position = cheapest.Node.Position
 		
 		--print(NodeInfo[previous.Name])
-		table.remove(openList,table.find(openList,cheapest.Node))
-		table.insert(closedList,cheapest.Node.Name)
-		local nodeID = table.find(Nodes,previous)
+		
+		closedList[cheapest.Node.Name] = true
+		--openList[cheapest.Index] = nil
+		local nodeID = table.find(Nodes,cheapest.Node)
+		--print(#openList,graph[nodeID])
 		--print(graph[nodeID],nodeID,Nodes[1])
 		if graph[nodeID] then
-			for i,beam : Beam in graph[nodeID] do
-				local v = beam.Attachment0.Parent
-				if not table.find(closedList,v.Name) then
-					table.insert(openList,v)
-				end
+			--local toInsert = {}
+			--for i,beam : Beam in graph[nodeID] do
+			--	local v = beam.Attachment0.Parent
+			--	if not table.find(closedList,v.Name) then
+			--		table.insert(openList,v)
+			--	end
 				
-				v = beam.Attachment1.Parent
-				if not table.find(closedList,v.Name) then
-					table.insert(openList,v)
-				end
-			end
+			--	v = beam.Attachment1.Parent
+			--	if not table.find(closedList,v.Name) then
+			--		table.insert(openList,v)
+			--	end
+			--end
+			table.insert(openList,{graph[nodeID],cheapest.Node}) --openList[nodeID] = {graph[nodeID],cheapest.Node}
+			--print({graph[nodeID],cheapest.Node})
 		end
 		
 	end
