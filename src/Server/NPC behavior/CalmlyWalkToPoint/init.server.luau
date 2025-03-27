@@ -5,24 +5,24 @@ local movesBeforeReCompute = 16
 local variationSize = 6
 
 local function variedFinish(humanoid : Humanoid,waypoints,index)
-	local prevW : Vector3 = waypoints[index].Position
-	local nextW : Vector3 = waypoints[index + 1].Position
+	--local prevW : Vector3 = waypoints[index].Position
+	--local nextW : Vector3 = waypoints[index + 1].Position
 	
-	if prevW and nextW then
-		local nextPos = prevW:Lerp(nextW,blindnessRandom:NextNumber())
-		humanoid:MoveTo(nextPos)
-		humanoid.MoveToFinished:Wait()
-	else
-		return
-	end
+	--if prevW and nextW then
+	--	local nextPos = prevW:Lerp(nextW,blindnessRandom:NextNumber())
+	--	humanoid:MoveTo(nextPos)
+	--	humanoid.MoveToFinished:Wait()
+	--else
+	--	return
+	--end
 end
 
 local function followPath(character,waypoints)
-	local variation : number = blindnessRandom:NextInteger(0,variationSize)
+	--local variation : number = blindnessRandom:NextInteger(0,variationSize)
 	
-	local continueUntil = movesBeforeReCompute + (variation)
+	--local continueUntil = movesBeforeReCompute + (variation)
 	
-	continueUntil = math.min(continueUntil,#waypoints-1)
+	local continueUntil = #waypoints --math.min(continueUntil,#waypoints-1)
 	
 	local nextWaypointIndex
 	local reachedConnection
@@ -33,9 +33,10 @@ local function followPath(character,waypoints)
 	-- Detect when movement to next waypoint is complete
 	if not reachedConnection then
 		reachedConnection = humanoid.MoveToFinished:Connect(function(reached)
+			--print("next")
 			local playerSeen : boolean = 
 				
-				script.Parent.CanSeePlayer.SeenPlayer:Invoke(character)  
+				script.Parent.CanSeePlayer.SeenPlayer:Invoke(character)  and false
 			
 			--print(playerSeen)
 			
@@ -44,7 +45,7 @@ local function followPath(character,waypoints)
 				variedFinish(humanoid,waypoints,nextWaypointIndex)
 				return
 			end
-			
+			--print(waypoints[nextWaypointIndex])
 			if reached and nextWaypointIndex < continueUntil and waypoints[nextWaypointIndex] then
 				-- Increase waypoint index and move to next waypoint
 				nextWaypointIndex += 1
@@ -62,10 +63,12 @@ local function followPath(character,waypoints)
 			end
 		end)
 	end
-
+	
 	-- Initially move to second waypoint (first waypoint is path start; skip it)
-	nextWaypointIndex = 2
+	nextWaypointIndex = 1
+	--print(waypoints[0],waypoints[1])
 	humanoid:MoveTo(waypoints[nextWaypointIndex].Position)
+	wait(1000)
 end
 
 script:WaitForChild("Execute").OnInvoke = followPath

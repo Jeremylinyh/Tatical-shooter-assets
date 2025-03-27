@@ -1,0 +1,11 @@
+{
+  "className": "Model",
+  "properties": {
+    "Attributes": {
+      "LastFired": 0,
+      "Magazine": 3000,
+      "Type": "AK53"
+    },
+    "Tags": ["Firearm"]
+  }
+}
