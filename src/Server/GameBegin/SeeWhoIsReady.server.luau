@@ -24,7 +24,7 @@ players.PlayerAdded:Connect(function(player)
 		player.CharacterAdded:Wait()
 		character = player.Character
 	end
-	character.Parent = game:GetService("ServerStorage")
+	character.Parent = game:GetService("ReplicatedStorage")
 	
 	tally[player] = false
 	informClient()
