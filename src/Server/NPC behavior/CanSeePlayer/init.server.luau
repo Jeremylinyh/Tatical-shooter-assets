@@ -90,7 +90,7 @@ local function SeeingPlayer(NPC: Model) : Model
 		local difference : Vector3 = target - pivot.Position
 		difference = difference.Unit
 		--print("facing")
-		if difference:Dot(pivot.LookVector) > 0 then
+		if true or difference:Dot(pivot.LookVector) > 0 then -- nasty bypass
 			
 			local seen : boolean,a = sawPlayer(NPC,v)
 			if seen then

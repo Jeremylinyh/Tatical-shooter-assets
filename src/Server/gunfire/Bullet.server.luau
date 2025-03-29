@@ -231,9 +231,9 @@ local function bullet(player : Player,cam : CFrame)
 			if raycastResult.Instance.Parent:FindFirstChild("Humanoid") then
 				--print("death")
 				if raycastResult.Instance.Name == "Head" then
-					raycastResult.Instance.Parent.Humanoid:TakeDamage(damagedealt*4)
-				else
 					raycastResult.Instance.Parent.Humanoid:TakeDamage(damagedealt)
+				else
+					raycastResult.Instance.Parent.Humanoid:TakeDamage(damagedealt/4)
 				end
 
 			elseif raycastResult.Instance:HasTag("glass") then
