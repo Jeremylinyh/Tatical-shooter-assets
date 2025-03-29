@@ -5,6 +5,7 @@
 -- literally a script I drafted in google docs during class lol
 
 local Players : Players = game:GetService("Players")
+local CS : CollectionService = game:GetService("CollectionService")
 
 local EnemyRandom : Random = Random.new()
 local activeNPCcount : number = 0
@@ -68,6 +69,7 @@ local function setUpSingularUnit(location : CFrame)
 	NPC.Parent = workspace.Level.Enemies
 	NPC:PivotTo(location)
 	NPC:SetAttribute("Primary","ASR")
+	CS:AddTag(NPC,"Enemy")
 	return NPC
 	
 end

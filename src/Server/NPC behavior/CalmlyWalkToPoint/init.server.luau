@@ -6,6 +6,13 @@ local variationSize = 6
 
 local reactionTime = 0.36
 
+-- return most optimal direction to adjust
+-- how I think it should work is loop through all NPC
+-- actually maybe I make another script with memoization or something idk
+local function tooCloseToAnotherNPC(character) : Vector3
+	return script.Parent.TooCloseToOther.Evaluate:Invoke(character)
+end
+
 local function variedFinish(humanoid : Humanoid,waypoints,index)
 	--local prevW : Vector3 = waypoints[index].Position
 	--local nextW : Vector3 = waypoints[index + 1].Position
@@ -17,13 +24,14 @@ local function variedFinish(humanoid : Humanoid,waypoints,index)
 	--else
 	--	return
 	--end
-end
-
--- return most optimal direction to adjust
--- how I think it should work is loop through all NPC
--- actually maybe I make another script with memoization or something idk
-local function tooCloseToAnotherNPC(character) : Vector3
 	
+	local adjustment : Vector3 = tooCloseToAnotherNPC(humanoid.Parent)
+	if adjustment then
+		--reachedConnection:Disconnect()
+		-- move away
+		humanoid:MoveTo(humanoid.Parent:GetPivot().Position + adjustment)
+		humanoid.MoveToFinished:Wait()
+	end
 end
 
 local function followPath(character,waypoints)
@@ -36,8 +44,8 @@ local function followPath(character,waypoints)
 	local nextWaypointIndex
 	local reachedConnection : RBXScriptConnection
 	
-	local humanoid = character:WaitForChild("Humanoid")
-
+	local humanoid : Humanoid = character:WaitForChild("Humanoid")
+	humanoid.AutoRotate = true
 	-- Detect when movement to next waypoint is complete
 	if not reachedConnection then
 		reachedConnection = humanoid.MoveToFinished:Connect(function(reached)
@@ -82,16 +90,18 @@ local function followPath(character,waypoints)
 	--print(playerSeen)
 		if playerSeen then
 			reachedConnection:Disconnect()
+			wait(blindnessRandom:NextNumber())
+			--local difference = tooCloseToAnotherNPC(character) or Vector3.new()
 			humanoid:MoveTo(humanoid.Parent:GetPivot().Position) -- stay still
 		end
 		
-		local adjustment : Vector3 = tooCloseToAnotherNPC(character)
-		if adjustment then
-			reachedConnection:Disconnect()
-			-- move away
-			humanoid:MoveTo(humanoid.Parent:GetPivot().Position + adjustment)
-			humanoid.MoveToFinished:Wait()
-		end
+		--local adjustment : Vector3 = tooCloseToAnotherNPC(character)
+		--if adjustment then
+		--	reachedConnection:Disconnect()
+		--	-- move away
+		--	humanoid:MoveTo(humanoid.Parent:GetPivot().Position + adjustment)
+		--	humanoid.MoveToFinished:Wait()
+		--end
 	end
 	return
 end

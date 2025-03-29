@@ -27,8 +27,17 @@ local function attackLoop(NPC : Model,target : Model)
 	--print("walked")
 	local playerSeen : Model = script.Parent.CanSeePlayer.SeenPlayer:Invoke(NPC)
 	while playerSeen do
-		--print("playerSeen")
-		wait(6) -- TODO: sync this time with attack loop
+		local humanoid : Humanoid = NPC.Humanoid
+		humanoid.AutoRotate = false
+		local difference = script.Parent.TooCloseToOther.Evaluate:Invoke(NPC) or Vector3.new()
+		--print(difference)
+		if difference then
+			humanoid:MoveTo(
+				NPC:GetPivot().Position
+					+ difference
+			) 
+		end
+		wait(3) -- TODO: sync this time with attack loop
 		-- let the gun take care of itself
 		playerSeen = script.Parent.CanSeePlayer.SeenPlayer:Invoke(NPC)
 	end
