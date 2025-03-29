@@ -127,11 +127,11 @@ gunstats.WeaponSwayMultiplier = 0.21 -- higher = more sway
 gunstats.RecoilCosinePeriod = 8-- 2pi * this number
 gunstats.RecoilBase = 1000 -- this^-x
 gunstats.RecoilTimeScale = 3
-gunstats.RecoilMinScale = 0.1
-gunstats.RecoilMaxScale = 0.16
-gunstats.MinSpread = math.rad(1)
+gunstats.RecoilMinScale = 0.2
+gunstats.RecoilMaxScale = 0.26
+gunstats.MinSpread = math.rad(2)
 gunstats.MaxSpread = math.rad(10)
-gunstats.Climb = 36 -- climb/this number
+gunstats.Climb = 70 -- climb/this number
 gunstats.RecoilDivisor = 3
 -- IMPORTANT!!!!!!
 -- Should double check the following, I was idiot back then

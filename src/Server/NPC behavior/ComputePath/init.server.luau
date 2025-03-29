@@ -161,7 +161,7 @@ local function findPathToCFrame(startPos : CFrame,destination : CFrame)
 		end
 		
 		if table.find(finishConnections,cheapest.Node) then
-			print("Path found")
+			--print("Path found")
 			return retracePath(destination,cheapest.Node,NodeInfo)
 		end
 		

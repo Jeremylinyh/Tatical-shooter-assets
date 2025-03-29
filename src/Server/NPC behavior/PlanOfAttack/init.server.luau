@@ -21,12 +21,13 @@ local function attackLoop(NPC : Model,target : Model)
 	local waypoints = script.Parent.ComputePath.Execute:Invoke(NPC:GetPivot(),target:GetPivot())
 	if not next(waypoints) then
 		wait(3)
-		return
+		--return
 	end
 	script.Parent.CalmlyWalkToPoint.Execute:Invoke(NPC,waypoints)
+	--print("walked")
 	local playerSeen : Model = script.Parent.CanSeePlayer.SeenPlayer:Invoke(NPC)
 	while playerSeen do
-		print("playerSeen")
+		--print("playerSeen")
 		wait(6) -- TODO: sync this time with attack loop
 		-- let the gun take care of itself
 		playerSeen = script.Parent.CanSeePlayer.SeenPlayer:Invoke(NPC)
@@ -47,8 +48,9 @@ local function individualNPCCommand(NPC : Model,target : Model)
 	
 	while humanoid.Health > 0 do
 		if target and target:FindFirstChild("Humanoid") and target.Humanoid.Health > 0 then
+			--print("looping attack")
 			attackLoop(NPC,target)
-			return
+			--return
 		else
 			-- get a new target or smth idk
 			humanoid.Health = 0

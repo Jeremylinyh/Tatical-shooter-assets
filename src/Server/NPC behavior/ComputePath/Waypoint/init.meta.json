@@ -6,7 +6,7 @@
     "CanCollide": false,
     "CanQuery": false,
     "CanTouch": false,
-    "Color": [255, 255, 0],
+    "Color": [1, 1, 0],
     "Size": [1.6, 1.6, 1.6],
     "TopSurface": "Smooth"
   }

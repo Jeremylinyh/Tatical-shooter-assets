@@ -4,6 +4,8 @@ local blindnessRandom : Random = Random.new()
 local movesBeforeReCompute = 16
 local variationSize = 6
 
+local reactionTime = 0.36
+
 local function variedFinish(humanoid : Humanoid,waypoints,index)
 	--local prevW : Vector3 = waypoints[index].Position
 	--local nextW : Vector3 = waypoints[index + 1].Position
@@ -17,6 +19,13 @@ local function variedFinish(humanoid : Humanoid,waypoints,index)
 	--end
 end
 
+-- return most optimal direction to adjust
+-- how I think it should work is loop through all NPC
+-- actually maybe I make another script with memoization or something idk
+local function tooCloseToAnotherNPC(character) : Vector3
+	
+end
+
 local function followPath(character,waypoints)
 	--local variation : number = blindnessRandom:NextInteger(0,variationSize)
 	
@@ -25,8 +34,7 @@ local function followPath(character,waypoints)
 	local continueUntil = #waypoints --math.min(continueUntil,#waypoints-1)
 	
 	local nextWaypointIndex
-	local reachedConnection
-	local blockedConnection
+	local reachedConnection : RBXScriptConnection
 	
 	local humanoid = character:WaitForChild("Humanoid")
 
@@ -34,13 +42,11 @@ local function followPath(character,waypoints)
 	if not reachedConnection then
 		reachedConnection = humanoid.MoveToFinished:Connect(function(reached)
 			--print("next")
-			local playerSeen : boolean = 
-				
-				script.Parent.CanSeePlayer.SeenPlayer:Invoke(character)  and false
+			
 			
 			--print(playerSeen)
 			
-			if reached and (nextWaypointIndex == continueUntil or playerSeen) then
+			if reached and (nextWaypointIndex == continueUntil) then
 				reachedConnection:Disconnect()
 				variedFinish(humanoid,waypoints,nextWaypointIndex)
 				return
@@ -68,7 +74,26 @@ local function followPath(character,waypoints)
 	nextWaypointIndex = 1
 	--print(waypoints[0],waypoints[1])
 	humanoid:MoveTo(waypoints[nextWaypointIndex].Position)
-	wait(1000)
+	while reachedConnection and reachedConnection.Connected do
+		wait(reactionTime)
+		local playerSeen : boolean = 
+
+			script.Parent.CanSeePlayer.SeenPlayer:Invoke(character)
+	--print(playerSeen)
+		if playerSeen then
+			reachedConnection:Disconnect()
+			humanoid:MoveTo(humanoid.Parent:GetPivot().Position) -- stay still
+		end
+		
+		local adjustment : Vector3 = tooCloseToAnotherNPC(character)
+		if adjustment then
+			reachedConnection:Disconnect()
+			-- move away
+			humanoid:MoveTo(humanoid.Parent:GetPivot().Position + adjustment)
+			humanoid.MoveToFinished:Wait()
+		end
+	end
+	return
 end
 
 script:WaitForChild("Execute").OnInvoke = followPath
