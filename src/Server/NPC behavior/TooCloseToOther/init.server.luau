@@ -46,6 +46,7 @@ while wait(updateFrequency) do
 			local weight = math.pow(distanceInBetween,2) 
 			weight = math.max(0.3,weight) 
 			weight = 1/weight
+			weight = math.max(1,weight)
 			--print(weight)
 			difference = difference*weight
 			--print(difference.Magnitude == 0,difference)

@@ -91,7 +91,7 @@ local function handleWindowHit(raycastResult : RaycastResult)
 		for y = -sizey/glassdimensions, sizey/glassdimensions do
 			--print("shatter")
 			local glass = raycastResult.Instance:Clone()
-			glass.Size = Vector3.new(glassdimensions/2,glassdimensions/2,raycastResult.Instance.Size.Z/6) --raycastResult.Instance.Size/(glassdimensions)
+			glass.Size = Vector3.new(glassdimensions/2,glassdimensions/2,raycastResult.Instance.Size.Z) --raycastResult.Instance.Size/(glassdimensions)
 			glass.Position = raycastResult.Instance.Position + (glassdimensions*x/2)*raycastResult.Instance.CFrame.RightVector + (glassdimensions*y/2) * raycastResult.Instance.CFrame.UpVector
 			glass.Anchored = false
 			glass.CanCollide = true

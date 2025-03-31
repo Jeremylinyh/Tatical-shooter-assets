@@ -31,13 +31,17 @@ local function attackLoop(NPC : Model,target : Model)
 		humanoid.AutoRotate = false
 		local difference = script.Parent.TooCloseToOther.Evaluate:Invoke(NPC) or Vector3.new()
 		--print(difference)
+		local startTime = time()
 		if difference then
+			humanoid.AutoRotate = true
 			humanoid:MoveTo(
 				NPC:GetPivot().Position
 					+ difference
 			) 
+			humanoid.MoveToFinished:Wait()
+			humanoid.AutoRotate = false
 		end
-		wait(3) -- TODO: sync this time with attack loop
+		wait(3-(time()-startTime)) -- TODO: sync this time with attack loop
 		-- let the gun take care of itself
 		playerSeen = script.Parent.CanSeePlayer.SeenPlayer:Invoke(NPC)
 	end

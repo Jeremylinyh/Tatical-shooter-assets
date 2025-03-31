@@ -41,12 +41,16 @@ local function seenBodyPart(NPC : Model,bodyPart) : boolean
 		local startPos : Vector3 = NPCCF.Position + Vector3.yAxis * 1.6
 		startPos += i * NPCCF.RightVector * 1.6
 		local endPos : Vector3 = bodyPart.Position
-		endPos += i * bodyPart.CFrame.RightVector
+		if bodyPart.Name == "Head" then
+			endPos += i * bodyPart.CFrame.RightVector  * 0.4
+		else
+			endPos += i * bodyPart.CFrame.RightVector
+		end
 
 		local result : RaycastResult = castRayToTarget(NPC,startPos,endPos)
 		--print(result)
 		if not result then
-			--return true -- no obstacle
+			--return true,i -- no obstacle
 		elseif result.Instance.Parent == bodyPart.Parent then
 			return true,i
 		end

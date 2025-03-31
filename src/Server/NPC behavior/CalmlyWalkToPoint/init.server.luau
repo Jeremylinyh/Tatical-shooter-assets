@@ -24,12 +24,21 @@ local function variedFinish(humanoid : Humanoid,waypoints,index)
 	--else
 	--	return
 	--end
+	humanoid.AutoRotate = false
+	local adjustment : Vector3 = tooCloseToAnotherNPC(humanoid.Parent)
+	if adjustment then
+		--reachedConnection:Disconnect()
+		-- move away
+		humanoid:MoveTo(humanoid.Parent:GetPivot().Position + adjustment)
+		humanoid.MoveToFinished:Wait()
+	end
 	
 	local adjustment : Vector3 = tooCloseToAnotherNPC(humanoid.Parent)
 	if adjustment then
 		--reachedConnection:Disconnect()
 		-- move away
 		humanoid:MoveTo(humanoid.Parent:GetPivot().Position + adjustment)
+		
 		humanoid.MoveToFinished:Wait()
 	end
 end
