@@ -19,7 +19,7 @@ function module.loadAnimationFromID(ID : number,animator : Animator,priority : E
 	if priority then
 		animationTrack.Priority = priority
 	else
-		animationTrack.Priority = Enum.AnimationPriority.Core
+		animationTrack.Priority = Enum.AnimationPriority.Idle
 	end
 	--print(animationTrack.Priority)
 	return animationTrack

@@ -11,7 +11,11 @@ local lowestBond : number = -100
 local gunstats = require(game:GetService("ReplicatedStorage"):WaitForChild("Weapon"):WaitForChild("GunStats"))
 
 local function getPlayerCurrentGun(player : Player) : Model
-	return script.Parent:WaitForChild("GetCurrentGunType"):Invoke(player)
+	if player:IsA("Player") then
+		return script.Parent:WaitForChild("GetCurrentGunType"):Invoke(player)
+	else
+		return player:FindFirstChild(player:GetAttribute("Weapon"))
+	end
 end
 
 local function isReloading(player : Player) : boolean
@@ -38,10 +42,8 @@ local function gunIsFullyDrawn(player : Player,gun : Model) : boolean
 end
 
 local function prefireChecksPassed(player : Player, playerCurrentGun : Model) : boolean
+	--print(player,playerCurrentGun)
 	if not playerCurrentGun or (not gunstats[playerCurrentGun:GetAttribute("Type")]) then
-		return false
-	end
-	if not player:IsA("Player") then
 		return false
 	end
 
@@ -58,8 +60,15 @@ local function prefireChecksPassed(player : Player, playerCurrentGun : Model) : 
 	end
 
 
-	if not gunIsFullyDrawn(player,playerCurrentGun) then
-		return false
+	if player:IsA("Player") then
+		if not gunIsFullyDrawn(player,playerCurrentGun) then
+			return false
+		end
+		
+		local man : Humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+		if not (man and man.Health > 0) then
+			return false
+		end
 	end
 	
 	return true
@@ -176,7 +185,11 @@ local function bullet(player : Player,cam : CFrame)
 	local front = Instance.new("Attachment")
 	local back = Instance.new("Attachment")
 
-	visual.Parent = player.Character
+	if player:IsA("Player") then
+		visual.Parent = player.Character
+	else
+		visual.Parent = player
+	end
 	back.Parent = workspace.BulletHolder
 	front.Parent = workspace.BulletHolder
 	visual.Attachment1 = back
@@ -216,7 +229,11 @@ local function bullet(player : Player,cam : CFrame)
 		--print(maxdis)
 		--print(maxdis,(nextpos.Position-currentpos.Position).Magnitude)
 		local raycastParams = RaycastParams.new()
-		raycastParams.FilterDescendantsInstances = {player.Character}
+		if player:IsA("Player") then
+			raycastParams.FilterDescendantsInstances = {player.Character}
+		else
+			raycastParams.FilterDescendantsInstances = {workspace.Level.Enemies}
+		end
 		raycastParams.FilterType = Enum.RaycastFilterType.Exclude
 		raycastParams.IgnoreWater = true
 		raycastParams.CollisionGroup = "Bullets"
@@ -224,7 +241,7 @@ local function bullet(player : Player,cam : CFrame)
 		--print(raycastResult.Instance.Parent:FindFirstChild("Humanoid"))
 		if raycastResult then-- and raycastResult.Distance > (handlength-2) then
 			--print(raycastResult.Instance)
-			placeBulletHole(raycastResult)
+			
 
 			local damagedealt = statsgun.Damage*(currentspeed/statsgun.BulletLength) -- WTF is this (will be refactored)
 
@@ -238,6 +255,8 @@ local function bullet(player : Player,cam : CFrame)
 
 			elseif raycastResult.Instance:HasTag("glass") then
 				handleWindowHit(raycastResult)
+			else
+				placeBulletHole(raycastResult)
 			end
 
 
@@ -264,7 +283,7 @@ local function bullet(player : Player,cam : CFrame)
 
 				--else
 				--print(currentspeed)
-				if currentspeed > 0 and nextpos.Position.Y > lowestBond then
+				if currentspeed > 0 and nextpos.Position.Y > lowestBond and not raycastResult.Instance.Parent:FindFirstChild("Humanoid") then
 					placeBulletHole(reversecast)
 				else
 					--print("stuck")
@@ -332,6 +351,7 @@ end
 
 local function processInputEvent(gun : Model)
 	gun:WaitForChild("RecieveInput"):WaitForChild("FireWeapon").OnServerEvent:Connect(bullet)
+	gun:WaitForChild("RecieveInput"):WaitForChild("ServerFire").Event:Connect(bullet)
 end
 
 for i,v : BindableEvent in CS:GetTagged(GunTag) do

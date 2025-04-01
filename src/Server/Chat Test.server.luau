@@ -11,7 +11,7 @@ game:GetService("ServerScriptService"):WaitForChild("GameBegin"):WaitForChild("S
 	:Connect(function()
 	notReady = false
 		local textCollection = {0.1,indicators.Coordinator.."Alright, this mission is quite simple.|"
-			,indicators.Coordinator.."Walk up to the lever, flip them, keep them flipped.|"
+			,indicators.Coordinator.."Turn on some powerboxes. You know how to do that right?|"
 			,indicators.Coordinator.."Any questions? No? Then lets get to work.|"
 	}
 	clientTextReciver:FireAllClients(textCollection)

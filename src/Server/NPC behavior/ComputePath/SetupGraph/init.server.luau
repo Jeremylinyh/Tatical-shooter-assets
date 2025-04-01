@@ -45,7 +45,7 @@ local function BakeGraph(beamFolder)
 		table.insert(graph[BID], beam)
 
 	end
-	print(#graph)
+--	print(#graph)
 	return graph, Nodes --, connections 
 end
 

@@ -13,35 +13,46 @@ local function loadAnimations(v : Model)
 		:WaitForChild("Animator"))
 	memberAnimation.Crouch = helper.loadAnimationFromID(characterStats.CrouchAnim,v.Humanoid.Animator)
 	animations[v] = memberAnimation
-	currentlyPlaying[v] = memberAnimation.Walk
+	currentlyPlaying[v] = memberAnimation.Crouch
+	local aimAnim = helper.loadAnimationFromID((94666640841990),v.Humanoid.Animator,Enum.AnimationPriority.Action4)
+	aimAnim:Play()
 end
 
 local function attackLoop(NPC : Model,target : Model) 
 	--print(target:GetPivot().Position)
 	local waypoints = script.Parent.ComputePath.Execute:Invoke(NPC:GetPivot(),target:GetPivot())
-	if not next(waypoints) then
+	if not waypoints or not next(waypoints) then
 		wait(3)
-		--return
+		return
+	end
+	if currentlyPlaying[NPC] ~= animations[NPC].Walk then
+		currentlyPlaying[NPC]:Stop()
+		currentlyPlaying[NPC] = animations[NPC].Walk
+		currentlyPlaying[NPC]:Play()
 	end
 	script.Parent.CalmlyWalkToPoint.Execute:Invoke(NPC,waypoints)
 	--print("walked")
 	local playerSeen : Model = script.Parent.CanSeePlayer.SeenPlayer:Invoke(NPC)
+	
 	while playerSeen do
+		if currentlyPlaying[NPC] ~= animations[NPC].Crouch then
+			currentlyPlaying[NPC]:Stop()
+			currentlyPlaying[NPC] = animations[NPC].Crouch
+			currentlyPlaying[NPC]:Play()
+		end
 		local humanoid : Humanoid = NPC.Humanoid
 		humanoid.AutoRotate = false
 		local difference = script.Parent.TooCloseToOther.Evaluate:Invoke(NPC) or Vector3.new()
 		--print(difference)
 		local startTime = time()
 		if difference then
-			humanoid.AutoRotate = true
-			humanoid:MoveTo(
-				NPC:GetPivot().Position
-					+ difference
-			) 
-			humanoid.MoveToFinished:Wait()
+			--humanoid.AutoRotate = true
+			humanoid:Move(difference) 
+			wait(0.36)
+			humanoid:Move(Vector3.zero)
 			humanoid.AutoRotate = false
 		end
-		wait(3-(time()-startTime)) -- TODO: sync this time with attack loop
+		wait(6) -- TODO: sync this time with attack loop
 		-- let the gun take care of itself
 		playerSeen = script.Parent.CanSeePlayer.SeenPlayer:Invoke(NPC)
 	end

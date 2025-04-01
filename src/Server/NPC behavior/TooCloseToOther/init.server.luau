@@ -2,7 +2,7 @@
 
 local CS : CollectionService = game:GetService("CollectionService")
 
-local updateFrequency : number = 1 -- seconds
+local updateFrequency : number = 0.1 -- seconds
 local targetTag : string = "Enemy"
 local memory = {} -- stores each NPC autoadjust each "frame"
 
@@ -12,7 +12,11 @@ script:WaitForChild("Evaluate").OnInvoke = function(character)
 	local optimal : Vector3 = memory[character]
 	
 	if not optimal or ( optimal.X == 0 and optimal.Z == 0 ) then
-		optimal = nil
+		return nil
+	--else
+	--	if optimal.Magnitude < 3 then
+	--		optimal = optimal.Unit * 3
+	--	end
 	end
 	--print(optimal)
 	return optimal
@@ -43,12 +47,12 @@ while wait(updateFrequency) do
 			
 			difference = difference/distanceInBetween
 			--
-			local weight = math.pow(distanceInBetween,2) 
-			weight = math.max(0.3,weight) 
-			weight = 1/weight
-			weight = math.max(1,weight)
+			--local weight = math.pow(distanceInBetween,2) 
+			--weight = math.max(0.3,weight) 
+			--weight = 1/weight
+			--weight = math.max(1,weight)
 			--print(weight)
-			difference = difference*weight
+			difference = difference--*weight
 			--print(difference.Magnitude == 0,difference)
 			
 			if not updatedMemory[currentSelf] then
@@ -58,8 +62,8 @@ while wait(updateFrequency) do
 				updatedMemory[other] = Vector3.new()
 			end
 			--print(difference)
-			updatedMemory[currentSelf] += difference
-			updatedMemory[other] -= difference
+			updatedMemory[currentSelf] -= difference
+			updatedMemory[other] += difference
 		end
 	end
 	

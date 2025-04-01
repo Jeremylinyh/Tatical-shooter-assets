@@ -5,6 +5,8 @@ local Security = require(game:GetService("ServerScriptService"):WaitForChild("Se
 local classname : string = "BoxInput"
 local loud = game.ServerScriptService.GlobalStates.LoudBegin
 local dangerous = true
+local howmanybox = #(workspace.Level.Objectives:GetChildren())
+local howmanyactivated = 0
 
 local function onInteractSucess(box : Model,player : Player)
 	local security = box:FindFirstChild("Security")
@@ -52,27 +54,28 @@ local function theBox(box : Model)
 		end
 		
 		-- if not in use (indicated by coro == nil), hold f started, else, kill the coroutine
-		 if coro then
+		if coro then
 			coroutine.close(coro)
 			coro = nil
 			--print("F was pressed again")
 			freezePlayer(player,false)
 			--print(player.UserId,tostring(player.UserId))
 			setCurrentInteractor(box,"")
-		 else
+		else
 			freezePlayer(player,true)
 			coro = coroutine.create(function()
 				setCurrentInteractor(box,tostring(player.UserId))
 				wait(2)
-				print("2")
+				--print("2")
 				freezePlayer(player,false)
 				boxIsOn = true
+				howmanyactivated += 1
 				onInteractSucess(box,player)
 				--print(player.UserId,tostring(player.UserId))
 				
 			end)
 			coroutine.resume(coro)
-		 end
+		end
 	end)
 	
 	-- Enemy has disabled the box
@@ -81,8 +84,19 @@ local function theBox(box : Model)
 	end)
 end
 
+
+-- J: I suggest making this a different script so what boxes do would be more clear.
+-- not required but slightly more readable in case we forgot how boxes works in the future.
+
+-- alternatively you can make this one line by doing howmanybox = #CS:GetTagged(classname)
+-- thx, I have no idea how to work with collectionservice lol
 for i,box : Model in pairs(CS:GetTagged(classname)) do
 	theBox(box)
+	print(howmanybox)
+end
+-- suggest to change to <= to allow scrs situation: 4 avaliable, only 3 required
+if howmanybox == howmanyactivated then
+	print("All boxes activated")
 end
 
 CS:GetInstanceAddedSignal(classname):Connect(theBox)

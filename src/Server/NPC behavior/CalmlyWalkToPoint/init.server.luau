@@ -4,7 +4,7 @@ local blindnessRandom : Random = Random.new()
 local movesBeforeReCompute = 16
 local variationSize = 6
 
-local reactionTime = 0.36
+local reactionTime = 0.1
 
 -- return most optimal direction to adjust
 -- how I think it should work is loop through all NPC
@@ -25,22 +25,25 @@ local function variedFinish(humanoid : Humanoid,waypoints,index)
 	--	return
 	--end
 	humanoid.AutoRotate = false
-	local adjustment : Vector3 = tooCloseToAnotherNPC(humanoid.Parent)
-	if adjustment then
-		--reachedConnection:Disconnect()
-		-- move away
-		humanoid:MoveTo(humanoid.Parent:GetPivot().Position + adjustment)
-		humanoid.MoveToFinished:Wait()
-	end
+	--local adjustment : Vector3 = tooCloseToAnotherNPC(humanoid.Parent)
+	--if adjustment then
+	--	--reachedConnection:Disconnect()
+	--	-- move away
+	--	humanoid:Move(adjustment)
+	--	wait(0.36)
+	--	humanoid:Move(Vector3.zero)
+	--	--local adjustment : Vector3 = tooCloseToAnotherNPC(humanoid.Parent)
+	--	--if adjustment then
+	--	--	--reachedConnection:Disconnect()
+	--	--	-- move away
+	--	--	humanoid:MoveTo(humanoid.Parent:GetPivot().Position + adjustment)
+
+	--	--	wait(0.36)
+	--	--end
+	--	--humanoid:MoveTo(humanoid.Parent:GetPivot().Position)
+	--end
 	
-	local adjustment : Vector3 = tooCloseToAnotherNPC(humanoid.Parent)
-	if adjustment then
-		--reachedConnection:Disconnect()
-		-- move away
-		humanoid:MoveTo(humanoid.Parent:GetPivot().Position + adjustment)
-		
-		humanoid.MoveToFinished:Wait()
-	end
+	
 end
 
 local function followPath(character,waypoints)
@@ -74,6 +77,8 @@ local function followPath(character,waypoints)
 				nextWaypointIndex += 1
 				humanoid:MoveTo(waypoints[nextWaypointIndex].Position)
 			else
+				--print("early termination")
+				variedFinish(humanoid,waypoints,nextWaypointIndex)
 				reachedConnection:Disconnect()
 				--blockedConnection:Disconnect()
 				--wait(1)
@@ -99,9 +104,10 @@ local function followPath(character,waypoints)
 	--print(playerSeen)
 		if playerSeen then
 			reachedConnection:Disconnect()
-			wait(blindnessRandom:NextNumber())
+			--wait(blindnessRandom:NextNumber())
 			--local difference = tooCloseToAnotherNPC(character) or Vector3.new()
 			humanoid:MoveTo(humanoid.Parent:GetPivot().Position) -- stay still
+			variedFinish(humanoid,waypoints,nextWaypointIndex)
 		end
 		
 		--local adjustment : Vector3 = tooCloseToAnotherNPC(character)
