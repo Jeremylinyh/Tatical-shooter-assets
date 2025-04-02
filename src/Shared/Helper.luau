@@ -18,10 +18,12 @@ function module.loadAnimationFromID(ID : number,animator : Animator,priority : E
 	animationTrack.Looped = true
 	if priority then
 		animationTrack.Priority = priority
+		--animationTrack:AdjustWeight(1000000)
 	else
 		animationTrack.Priority = Enum.AnimationPriority.Idle
+		--animationTrack:AdjustWeight(0.0000001)
 	end
-	--print(animationTrack.Priority)
+--	print(animationTrack.Priority)
 	return animationTrack
 end
 

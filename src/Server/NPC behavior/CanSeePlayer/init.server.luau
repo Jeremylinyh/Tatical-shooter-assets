@@ -90,6 +90,11 @@ local function SeeingPlayer(NPC: Model) : Model
 			return
 		end
 		
+		if not (v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0) then
+			table.remove(characters,i)
+			continue
+		end
+		
 		local target : Vector3 = v:GetPivot().Position
 		local difference : Vector3 = target - pivot.Position
 		difference = difference.Unit

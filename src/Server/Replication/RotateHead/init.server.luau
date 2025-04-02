@@ -10,7 +10,10 @@ local function rotateJoint(character,jointName : string,original : CFrame,rotati
 	if not extra then
 		extra = CFrame.new()
 	end
-	local joint : Motor6D = character:WaitForChild(jointName):FindFirstChildOfClass("Motor6D")
+	if not character:FindFirstChild(jointName) then
+		return
+	end
+	local joint : Motor6D = character:FindFirstChild(jointName):FindFirstChildOfClass("Motor6D")
 	if not joint then
 		return
 	end
@@ -23,7 +26,13 @@ local function rotateArms(character : Model,neckRotation : number)
 	local antiTorso : CFrame = CFrame.new()
 	if neckRotation ~= 0 then
 		antiTorso = character.UpperTorso.CFrame.Rotation:Inverse() * character:GetPivot().Rotation
-		local waist = character:WaitForChild("UpperTorso"):WaitForChild("Waist");
+		if not character:FindFirstChild("UpperTorso") then
+			return
+		end
+		local waist = character:FindFirstChild("UpperTorso"):FindFirstChild("Waist");
+		if not waist then
+			return
+		end
 		antiTorso *= waist.C0 
 	end
 	

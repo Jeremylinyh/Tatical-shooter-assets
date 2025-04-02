@@ -14,8 +14,9 @@ local function loadAnimations(v : Model)
 	memberAnimation.Crouch = helper.loadAnimationFromID(characterStats.CrouchAnim,v.Humanoid.Animator)
 	animations[v] = memberAnimation
 	currentlyPlaying[v] = memberAnimation.Crouch
-	local aimAnim = helper.loadAnimationFromID((94666640841990),v.Humanoid.Animator,Enum.AnimationPriority.Action4)
+	local aimAnim = helper.loadAnimationFromID((100272572157095),v.Humanoid.Animator,Enum.AnimationPriority.Action4)
 	aimAnim:Play()
+--	print(aimAnim.Priority)
 end
 
 local function attackLoop(NPC : Model,target : Model) 
@@ -28,6 +29,7 @@ local function attackLoop(NPC : Model,target : Model)
 	if currentlyPlaying[NPC] ~= animations[NPC].Walk then
 		currentlyPlaying[NPC]:Stop()
 		currentlyPlaying[NPC] = animations[NPC].Walk
+		--print(currentlyPlaying[NPC].Priority)
 		currentlyPlaying[NPC]:Play()
 	end
 	script.Parent.CalmlyWalkToPoint.Execute:Invoke(NPC,waypoints)

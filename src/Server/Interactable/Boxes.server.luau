@@ -5,7 +5,8 @@ local Security = require(game:GetService("ServerScriptService"):WaitForChild("Se
 local classname : string = "BoxInput"
 local loud = game.ServerScriptService.GlobalStates.LoudBegin
 local dangerous = true
-local howmanybox = #(workspace.Level.Objectives:GetChildren())
+local howmanybox = #(workspace.Level.Objectives.Required:GetChildren())
+--print(howmanybox)
 local howmanyactivated = 0
 
 local function onInteractSucess(box : Model,player : Player)
@@ -22,6 +23,15 @@ local function onInteractSucess(box : Model,player : Player)
 	local protected = box:FindFirstChild("Protected")
 	if protected and dangerous == true then
 		loud:Fire()
+	end
+	
+	--objective handler
+	if not security then
+		howmanyactivated = howmanyactivated + 1
+	end
+	--print(howmanyactivated)
+	if howmanybox == howmanyactivated then
+		print("All boxes activated")
 	end
 end
 
@@ -69,7 +79,6 @@ local function theBox(box : Model)
 				--print("2")
 				freezePlayer(player,false)
 				boxIsOn = true
-				howmanyactivated += 1
 				onInteractSucess(box,player)
 				--print(player.UserId,tostring(player.UserId))
 				
@@ -92,11 +101,8 @@ end
 -- thx, I have no idea how to work with collectionservice lol
 for i,box : Model in pairs(CS:GetTagged(classname)) do
 	theBox(box)
-	print(howmanybox)
 end
 -- suggest to change to <= to allow scrs situation: 4 avaliable, only 3 required
-if howmanybox == howmanyactivated then
-	print("All boxes activated")
-end
+
 
 CS:GetInstanceAddedSignal(classname):Connect(theBox)
