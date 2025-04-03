@@ -24,9 +24,9 @@ local function castRayToTarget(NPC : Model,start : Vector3, finish: Vector3) : R
 	params.CollisionGroup = "Eyesight" -- TODO: create
 
 	return workspace:Raycast(start, finish-start, params)
-	end
+end
 
-local function seenBodyPart(NPC : Model,bodyPart) : boolean
+local function seenBodyPart(NPC : Model,bodyPart,hip) : boolean
 		
 	local real = {}
 	real[-1] = -1
@@ -38,16 +38,23 @@ local function seenBodyPart(NPC : Model,bodyPart) : boolean
 			return
 		end
 		local i = real[index]
-		local startPos : Vector3 = NPCCF.Position + Vector3.yAxis * 1.6
-		startPos += i * NPCCF.RightVector * 1.6
-		local endPos : Vector3 = bodyPart.Position
-		if bodyPart.Name == "Head" then
-			endPos += i * bodyPart.CFrame.RightVector  * 0.4
-		else
-			endPos += i * bodyPart.CFrame.RightVector
+		local startPos : CFrame = NPCCF
+		if not hip then
+			startPos *= CFrame.new(Vector3.yAxis * 1.6)
 		end
-
-		local result : RaycastResult = castRayToTarget(NPC,startPos,endPos)
+		startPos *= CFrame.new(i * NPCCF.RightVector * 1.6)
+		local endPos : Vector3 = bodyPart.CFrame
+		if bodyPart.Name == "Head" then
+			endPos *= CFrame.new(i * bodyPart.CFrame.RightVector  * 0.4)
+		else
+			endPos *= CFrame.new(i * bodyPart.CFrame.RightVector)
+		end
+		--endPos *= CFrame.new(i * bodyPart.CFrame.RightVector  * 0.4)
+		local result : RaycastResult = castRayToTarget(
+			NPC,
+			startPos.Position,
+			endPos.Position
+		)
 		--print(result)
 		if not result then
 			--return true,i -- no obstacle
@@ -61,17 +68,20 @@ local function seenBodyPart(NPC : Model,bodyPart) : boolean
 	return false
 end
 
-local function sawPlayer(NPC: Model,playerCharacter : Model)
-	local seen : boolean,a = seenBodyPart(NPC,playerCharacter:WaitForChild("Head"))
+local function sawPlayer(NPC: Model,playerCharacter : Model,hip)
+	
+	local seen : boolean,a = seenBodyPart(NPC,playerCharacter:WaitForChild("UpperTorso"),hip)
 	if seen then
 		return seen,a
 	end
 	wait()
-	local seen : boolean,a = seenBodyPart(NPC,playerCharacter:WaitForChild("UpperTorso"))
-	if seen then
-		return seen,a
+	if not hip then
+		local seen : boolean,a = seenBodyPart(NPC,playerCharacter:WaitForChild("Head"),hip)
+		if seen then
+			return seen,a,true
+		end
+		wait()
 	end
-	wait()
 	--local seen : boolean,a = seenBodyPart(NPC,playerCharacter:WaitForChild("LowerTorso"))
 	--if seen then
 	--	return seen,a
@@ -81,7 +91,7 @@ local function sawPlayer(NPC: Model,playerCharacter : Model)
 end
 
 -- return player character if it can be seen (return the first one seen)
-local function SeeingPlayer(NPC: Model) : Model
+local function SeeingPlayer(NPC: Model,hip : boolean) : Model
 	local pivot : CFrame = NPC:GetPivot()
 	
 	for i,v : Model in pairs(characters) do
@@ -101,10 +111,10 @@ local function SeeingPlayer(NPC: Model) : Model
 		--print("facing")
 		if true or difference:Dot(pivot.LookVector) > 0 then -- nasty bypass
 			
-			local seen : boolean,a = sawPlayer(NPC,v)
+			local seen : boolean,a,head = sawPlayer(NPC,v,hip)
 			if seen then
 				NPC:SetAttribute("Alerted",true)
-				return v,a
+				return v,a,head
 			end
 		end
 		wait()

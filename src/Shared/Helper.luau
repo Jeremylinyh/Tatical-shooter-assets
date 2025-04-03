@@ -11,9 +11,12 @@ function module.InputInList(input : InputObject,list)
 	return false
 end
 
-function module.loadAnimationFromID(ID : number,animator : Animator,priority : Enum.AnimationPriority) : AnimationTrack
+function module.loadAnimationFromID(ID : number,animator : Animator,priority : Enum.AnimationPriority,specName : string) : AnimationTrack
 	local animation = Instance.new("Animation")
 	animation.AnimationId = "rbxassetid://"..ID
+	if specName then
+		animation.Name = specName
+	end
 	local animationTrack = animator:LoadAnimation(animation)
 	animationTrack.Looped = true
 	if priority then
@@ -23,6 +26,7 @@ function module.loadAnimationFromID(ID : number,animator : Animator,priority : E
 		animationTrack.Priority = Enum.AnimationPriority.Idle
 		--animationTrack:AdjustWeight(0.0000001)
 	end
+	
 --	print(animationTrack.Priority)
 	return animationTrack
 end

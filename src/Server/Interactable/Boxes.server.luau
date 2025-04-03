@@ -10,10 +10,12 @@ local howmanybox = #(workspace.Level.Objectives.Required:GetChildren())
 local howmanyactivated = 0
 
 local function onInteractSucess(box : Model,player : Player)
+	box:SetAttribute("On",true)
+	box:FindFirstChild("FullyRewired"):Fire()
 	local security = box:FindFirstChild("Security")
 	if security then
 		if security.Value == true then
-			box.Part.Color = Color3.fromRGB(100,100,100)
+			--box.Part.Color = Color3.fromRGB(100,100,100)
 			dangerous = false
 		end
 	end

@@ -30,7 +30,7 @@ gunstats.SmokeWait = 1 -- how long until smoke
 gunstats.Damage = 100
 gunstats.FullDamage = 10 -- under this distance, full damage
 gunstats.DropOff = 0.1 -- each stud minus damage by 1
-gunstats.Brittleness = 10 -- this number times density when bullet in wall
+gunstats.Brittleness = 100 -- this number times density when bullet in wall
 gunstats.BulletDestroy = 600 -- after this distance, deal no damage
 gunstats.BulletLength = 45 -- length of the visible bullet
 gunstats.CastLength = 1 -- length of each raycast
@@ -51,7 +51,7 @@ gunstats.DisplayName = "Refactored Pistol"
 
 gunstats.HowFarSlideMove = 1 -- non optimal stats, will be improved
 gunstats.HowLongSlideComeBack = 1
-gunstats.magsize =  6
+gunstats.magsize =  30
 gunstats.MaxReserve = 60
 gunstats.Magnification = 1 -- will be in attachments
 

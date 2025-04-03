@@ -43,14 +43,14 @@ local function retracePath(finish : CFrame,finishingNode : BasePart,NodeInfo)
 		result[#traversedNodes-i + 1]=v
 	end
 	--print(#traversedNodes)
-	for i,v in ipairs(result) do
-		--wait(1)
-		--print(i)
-		local visual = script.Waypoint:Clone()
-		visual.Parent = workspace
-		visual.Position = v.Position
-		game:GetService("Debris"):AddItem(visual,100)
-	end
+	--for i,v in ipairs(result) do
+	--	--wait(1)
+	--	--print(i)
+	--	local visual = script.Waypoint:Clone()
+	--	visual.Parent = workspace
+	--	visual.Position = v.Position
+	--	game:GetService("Debris"):AddItem(visual,100)
+	--end
 	--wait(100)
 	return result
 end

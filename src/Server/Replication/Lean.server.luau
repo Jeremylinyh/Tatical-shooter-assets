@@ -12,7 +12,13 @@ local function processLean(character : Model,tilt)
 	if tilt and tonumber(tilt) then
 		local eqlean = -tonumber(tilt)/2
 		--local neck = player.Character:WaitForChild("Head"):WaitForChild("Neck")
-		local waist = character:WaitForChild("UpperTorso"):WaitForChild("Waist")
+		if not character:FindFirstChild("UpperTorso") then
+			return
+		end
+		local waist = character.UpperTorso:FindFirstChild("Waist")
+		if not waist then
+			return
+		end
 		local lowerTorsoUp : number = math.round(character.LowerTorso.CFrame.UpVector.Y)
 		--print((1-lowerTorsoUp),lowerTorsoUp)
 		waist.C0 = waistC0 * CFrame.fromEulerAnglesYXZ(0,0, lowerTorsoUp*eqlean);

@@ -28,7 +28,7 @@ local function lastFiredWithinReasonableTime(player : Player, playerCurrentGun :
 
 	local statsgun = gunstats[currentGunType]
 	
-	return (time()-lastFired) >= statsgun.CooldownBetweenShots - 0.01
+	return (time()-lastFired) >= statsgun.CooldownBetweenShots - 0.1
 end
 
 local function allowedToFire(player : Player, currentWeapon : Model) : boolean
@@ -222,7 +222,7 @@ local function bullet(player : Player,cam : CFrame)
 	--if raycastResult then
 	--	currentspeed = 0
 	--end
-
+	local frontest : CFrame = back.CFrame
 	while maxdis > 0 and currentspeed > 0 and currentpos.Position.Y > lowestBond do
 
 		--maxdis -= currentspeed
@@ -239,6 +239,13 @@ local function bullet(player : Player,cam : CFrame)
 		raycastParams.CollisionGroup = "Bullets"
 		local raycastResult = workspace:Raycast(currentpos.Position, nextpos.Position-currentpos.Position,raycastParams)
 		--print(raycastResult.Instance.Parent:FindFirstChild("Humanoid"))
+		
+		if raycastResult  then
+			frontest = CFrame.new(raycastResult.Position)
+		else
+			frontest = nextpos
+		end
+		
 		if raycastResult then-- and raycastResult.Distance > (handlength-2) then
 			--print(raycastResult.Instance)
 			
@@ -331,6 +338,7 @@ local function bullet(player : Player,cam : CFrame)
 		end
 		nextpos = nextpos+cam.LookVector*currentspeed-Vector3.yAxis*gravity
 		t.Completed:Wait()
+		
 		--local goal = {}
 		--goal.CFrame = currentpos
 		--TweenService:Create(bull,TweenInfo.new(windspeeds[currentgun],Enum.EasingStyle.Linear),goal):Play()
@@ -342,6 +350,8 @@ local function bullet(player : Player,cam : CFrame)
 		--front.CFrame = nextpos
 	end 
 	--print("bullet destroyed",currentspeed,currentpos.Position.Y)
+	front.WorldCFrame = frontest
+	wait(0.1)
 	visual:Destroy()
 	front:Destroy()
 	back:Destroy()

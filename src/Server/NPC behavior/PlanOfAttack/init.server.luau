@@ -12,9 +12,14 @@ local function loadAnimations(v : Model)
 	memberAnimation.Walk = helper.loadAnimationFromID(characterStats.WalkAnim,v.Humanoid
 		:WaitForChild("Animator"))
 	memberAnimation.Crouch = helper.loadAnimationFromID(characterStats.CrouchAnim,v.Humanoid.Animator)
+	memberAnimation.Idle = helper.loadAnimationFromID(characterStats.IdleAnim,v.Humanoid.Animator)
 	animations[v] = memberAnimation
 	currentlyPlaying[v] = memberAnimation.Crouch
-	local aimAnim = helper.loadAnimationFromID((100272572157095),v.Humanoid.Animator,Enum.AnimationPriority.Action4)
+	local aimAnim = helper.loadAnimationFromID(
+		(100272572157095),
+		v.Humanoid.Animator,Enum.AnimationPriority.Action4,
+		"Aim"
+	)
 	aimAnim:Play()
 --	print(aimAnim.Priority)
 end
@@ -35,12 +40,21 @@ local function attackLoop(NPC : Model,target : Model)
 	script.Parent.CalmlyWalkToPoint.Execute:Invoke(NPC,waypoints)
 	--print("walked")
 	local playerSeen : Model = script.Parent.CanSeePlayer.SeenPlayer:Invoke(NPC)
+	local canSeeWhenCrouch = (script.Parent.CanSeePlayer.SeenPlayer:Invoke(NPC,true))
 	
 	while playerSeen do
-		if currentlyPlaying[NPC] ~= animations[NPC].Crouch then
+		local goalAnime = animations[NPC].Idle
+		if canSeeWhenCrouch then
+			goalAnime = animations[NPC].Crouch
+		end
+--		print(canSeeWhenCrouch,goalAnime == animations[NPC].Idle)
+		if currentlyPlaying[NPC] ~= goalAnime then
 			currentlyPlaying[NPC]:Stop()
-			currentlyPlaying[NPC] = animations[NPC].Crouch
+			currentlyPlaying[NPC] = goalAnime
 			currentlyPlaying[NPC]:Play()
+		--elseif headOnly then
+		--	currentlyPlaying[NPC]:Stop()
+		--	currentlyPlaying[NPC] = animations[NPC].Idle
 		end
 		local humanoid : Humanoid = NPC.Humanoid
 		humanoid.AutoRotate = false
@@ -48,16 +62,46 @@ local function attackLoop(NPC : Model,target : Model)
 		--print(difference)
 		local startTime = time()
 		if difference then
+			--if currentlyPlaying[NPC] ~= animations[NPC].Walk then
+			--	currentlyPlaying[NPC]:Stop()
+			--	currentlyPlaying[NPC] = animations[NPC].Walk
+			--	currentlyPlaying[NPC]:Play()
+			--end
 			--humanoid.AutoRotate = true
 			humanoid:Move(difference) 
 			wait(0.36)
 			humanoid:Move(Vector3.zero)
 			humanoid.AutoRotate = false
+			--if currentlyPlaying[NPC] ~= animations[NPC].Crouch then
+			--	currentlyPlaying[NPC]:Stop()
+			--	currentlyPlaying[NPC] = animations[NPC].Crouch
+			--	currentlyPlaying[NPC]:Play()
+			--end
 		end
-		wait(6) -- TODO: sync this time with attack loop
+		--wait(6) -- TODO: sync this time with attack loop
 		-- let the gun take care of itself
+		
+		for i = 1, 3, 1 do
+			task.wait(1)
+			local goalAnime = animations[NPC].Idle
+			if canSeeWhenCrouch then
+				goalAnime = animations[NPC].Crouch
+			end
+			--		print(canSeeWhenCrouch,goalAnime == animations[NPC].Idle)
+			if currentlyPlaying[NPC] ~= goalAnime then
+				currentlyPlaying[NPC]:Stop()
+				currentlyPlaying[NPC] = goalAnime
+				currentlyPlaying[NPC]:Play()
+				--elseif headOnly then
+				--	currentlyPlaying[NPC]:Stop()
+				--	currentlyPlaying[NPC] = animations[NPC].Idle
+			end
+		end
+		
 		playerSeen = script.Parent.CanSeePlayer.SeenPlayer:Invoke(NPC)
+		canSeeWhenCrouch = (script.Parent.CanSeePlayer.SeenPlayer:Invoke(NPC,true))
 	end
+	script.Parent:WaitForChild("Reload"):WaitForChild("Begin"):Fire(NPC)
 end
 
 local function individualNPCCommand(NPC : Model,target : Model)
@@ -79,7 +123,9 @@ local function individualNPCCommand(NPC : Model,target : Model)
 			--return
 		else
 			-- get a new target or smth idk
-			humanoid.Health = 0
+			--humanoid.Health = 0
+			wait(1)
+			target = workspace.Level.Players:GetChildren()[1]
 		end
 	end
 end
