@@ -101,7 +101,7 @@ local function attackLoop(NPC : Model,target : Model)
 		playerSeen = script.Parent.CanSeePlayer.SeenPlayer:Invoke(NPC)
 		canSeeWhenCrouch = (script.Parent.CanSeePlayer.SeenPlayer:Invoke(NPC,true))
 	end
-	script.Parent:WaitForChild("Reload"):WaitForChild("Begin"):Fire(NPC)
+	--script.Parent:WaitForChild("Reload"):WaitForChild("Begin"):Fire(NPC)
 end
 
 local function individualNPCCommand(NPC : Model,target : Model)

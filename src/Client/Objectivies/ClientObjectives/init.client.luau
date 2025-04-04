@@ -13,8 +13,8 @@ local player : Player = game:GetService("Players").LocalPlayer
 local TS : TweenService = game:GetService("TweenService")
 
 local OBJSwitchSpeed = 0.36
-local prevObj : Enum.Keycode = Enum.Keycode.LeftBracket
-local nexObj : Enum.Keycode = Enum.Keycord.RightBracket
+local prevObj : Enum.KeyCode = Enum.KeyCode.LeftBracket
+local nexObj : Enum.KeyCode = Enum.KeyCode.RightBracket
 
 local objTextHeight = 100 -- Offset for now idk
 local addObjective : RemoteEvent = game:GetService("ReplicatedStorage"):WaitForChild("Objective"):WaitForChild("AddObjective")
@@ -129,7 +129,7 @@ end)
 
 UIS.InputBegan:Connect(function(input,gp)
 	if gp then return end
-	if not player.Character or player.Character:FindFirstChild("Humanoid") then return end
+	if not player.Character or not player.Character:FindFirstChild("Humanoid") then return end
 	if not (player.Character.Humanoid.Health > 0) then return end
 	if not (#Root:GetChildren() > 0) then return end
 

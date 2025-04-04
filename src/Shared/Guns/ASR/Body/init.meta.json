@@ -1,14 +1,14 @@
 {
   "className": "UnionOperation",
   "properties": {
-    "CFrame": [-2.431723, 1.904889, 20.468378, 0.480439, -0.877025, -0.001771, 0.87437, 0.478825, 0.078731, -0.0682, -0.039376, 0.996894],
+    "CFrame": [-2.431723, 1.904888, 20.468378, 0.480439, -0.877025, -0.00177, 0.874369, 0.478825, 0.078731, -0.068199, -0.039376, 0.996894],
     "CanCollide": false,
     "CanQuery": false,
     "CanTouch": false,
     "CastShadow": false,
     "CollisionGroup": "Debris",
     "CollisionGroupId": 2,
-    "Color": [239, 239, 239],
+    "Color": [17, 17, 17],
     "Material": "SmoothPlastic",
     "Size": [3.289, 0.817542, 0.226903]
   }

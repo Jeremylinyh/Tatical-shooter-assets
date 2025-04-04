@@ -17,6 +17,8 @@ gunstats.MinSpread = math.rad(1)
 gunstats.MaxSpread = math.rad(10)
 gunstats.Climb = 36 -- climb/this number
 gunstats.RecoilDivisor = 3
+gunstats.HipCF = CFrame.new(0.36,-0.1,0)
+gunstats.CantCF = CFrame.new(-0.36,-0.1,0) * CFrame.Angles(0,0,math.rad(45))
 -- IMPORTANT!!!!!!
 -- Should double check the following, I was idiot back then
 -- IMPORTANT!!!!!!
@@ -75,6 +77,8 @@ gunstats.MinSpread = math.rad(5)
 gunstats.MaxSpread = math.rad(10)
 gunstats.Climb = 70 -- climb/this number
 gunstats.RecoilDivisor = 1.6
+gunstats.HipCF = CFrame.new(0.36,-0.6,0)
+gunstats.CantCF = CFrame.new(-0.36,-0.6,0) * CFrame.Angles(0,0,math.rad(45))
 -- IMPORTANT!!!!!!
 -- Should double check the following, I was idiot back then
 -- IMPORTANT!!!!!!
@@ -133,6 +137,8 @@ gunstats.MinSpread = math.rad(2)
 gunstats.MaxSpread = math.rad(10)
 gunstats.Climb = 70 -- climb/this number
 gunstats.RecoilDivisor = 3
+gunstats.HipCF = CFrame.new(0.6,-0.27,0.16)
+gunstats.CantCF = CFrame.new(-0.6,-0.27,0.16) * CFrame.Angles(0,0,math.rad(45))
 -- IMPORTANT!!!!!!
 -- Should double check the following, I was idiot back then
 -- IMPORTANT!!!!!!

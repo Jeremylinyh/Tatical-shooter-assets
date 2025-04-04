@@ -1,20 +1,21 @@
 -- so probably comment the objectives first or smth idk yea
 
--- 1. Disable the black powerbox
--- 2. Defend the rest of the powerboxes
--- 3. Exfiltrate idk
+-- 1. Disable the security powerbox
+-- 2. Rewire the rest of the powerboxes
+-- 3. Exfiltrate
 
 local Objectives = workspace:WaitForChild("Level"):WaitForChild("Objectives")
-local blackBox = Objectives:WaitForChild("Security"):WaitForChild("SecurityBox")
+local blackBox : Instance = Objectives:WaitForChild("Security"):WaitForChild("SecurityBox")
 local optionOfBoxes = Objectives:WaitForChild("Required")
 
 local markerTagName = "ObjectiveMarker"
-
+local OBJSender = game:GetService("ReplicatedStorage"):WaitForChild("Objective"):WaitForChild("AddObjective")
 local boxAllowInputTag = "BoxInput"
 
 local function AddMarkerToList(list,inputTag)
 	for i,v in ipairs(list) do
 		v.Left.ArrowAttach:AddTag(markerTagName)
+		v.Left:AddTag("ProxPrompt") -- allow the hold F
 		v:AddTag(inputTag)
 	end
 end
@@ -26,17 +27,29 @@ local function removeMarkersFromList(list,inputTag,except)
 		end
 		v.Left.ArrowAttach:RemoveTag(markerTagName)
 		v:RemoveTag(inputTag)
+		v.Left:RemoveTag("ProxPrompt")
 	end
 end
 
 -- WARNING: NOT TESTED
 local function stageOne()
-	blackBox:WaitForChild("Part").ArrowAttach:AddTag(markerTagName) -- give it the objective Arrow
+	blackBox:WaitForChild("Left").ArrowAttach:AddTag(markerTagName) -- give it the objective Arrow
 	blackBox:AddTag(boxAllowInputTag) -- allow you to hold F
+	blackBox:WaitForChild("Left"):AddTag("ProxPrompt") -- allow the hold F
+	
+	local disabled : RBXScriptConnection
+	disabled = blackBox:GetAttributeChangedSignal("On"):Connect(function()
+		if blackBox:GetAttribute("On") then
+			blackBox:WaitForChild("Left").ArrowAttach:RemoveTag(markerTagName)
+		else
+			blackBox:WaitForChild("Left").ArrowAttach:AddTag(markerTagName)
+		end
+	end)
 	blackBox:WaitForChild("FullyRewired").Event:Wait()
-
 	blackBox:RemoveTag(boxAllowInputTag)	
 	blackBox:RemoveTag(markerTagName)
+	blackBox.Left:RemoveTag("ProxPrompt") 
+	disabled:Disconnect()
 	-- TODO: update the objective tracker UI
 end
 
@@ -48,7 +61,7 @@ local function stageTwo()
 	AddMarkerToList(nextOBJlist,boxAllowInputTag)
 	for i,box : Model in ipairs(nextOBJlist) do
 		local boxOnChange : RBXScriptConnection
-		boxOnChange = box.GetAttributeChangedSignal("On"):Connect(function()
+		boxOnChange = box:GetAttributeChangedSignal("On"):Connect(function()
 			local boxOn = box:GetAttribute("On")
 			if boxOn then
 				blackBox:RemoveTag(boxAllowInputTag) -- don't turn it of that is silly
@@ -57,7 +70,7 @@ local function stageTwo()
 				blackBox:AddTag(boxAllowInputTag) -- Go fix it right now
 			end
 		end)
-		box:WaitForChild("FullyRewired"):Connect(function()
+		box:WaitForChild("FullyRewired").Event:Connect(function()
 			boxOnChange:Disconnect()
 			box.Parent = Objectives.Irrelevant
 			nextOBJlist = optionOfBoxes:GetChildren()

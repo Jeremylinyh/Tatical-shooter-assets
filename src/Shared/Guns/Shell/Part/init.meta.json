@@ -2,10 +2,10 @@
   "className": "Part",
   "properties": {
     "BottomSurface": "Smooth",
-    "CFrame": [-2.599998, 47.006935, 29.279998, 0, 0, -1, 0, 1, 0, 1, 0, 0],
+    "CFrame": [-2.599997, 47.006935, 29.279998, 0, 0, -1, 0, 1, 0, 1, 0, 0],
     "CollisionGroup": "Debris",
     "CollisionGroupId": 2,
-    "Color": [102, 84, 51],
+    "Color": [126, 104, 63],
     "Material": "Concrete",
     "Shape": "Cylinder",
     "Size": [0.3, 0.1, 0.1],

@@ -1,7 +1,7 @@
 {
   "className": "MeshPart",
   "properties": {
-    "CFrame": [3.969952, 3.35308, -2.030392, 0.999996, 0, 0, 0, 0.999996, 0, 0, 0, 1],
+    "CFrame": [3.969952, 3.35308, -2.030391, 0.999996, 0, 0, 0, 0.999996, 0, 0, 0, 1],
     "CanCollide": false,
     "CanQuery": false,
     "CanTouch": false,
@@ -12,6 +12,6 @@
     "InitialSize": [0.664127, 1.105775, 0.812891],
     "MeshId": "http://www.roblox.com/asset/?id=1660648351",
     "RenderFidelity": "Precise",
-    "Size": [0.664126, 1.068652, 0.812891]
+    "Size": [0.664125, 1.068652, 0.812891]
   }
 }

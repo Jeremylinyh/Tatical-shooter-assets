@@ -21,6 +21,7 @@ local function BakeGraph(beamFolder)
 	for i,v in ipairs(beamFolder.Parent:GetChildren()) do
 		if v:FindFirstChildOfClass("Attachment") then
 			table.insert(Nodes,v)
+			v.Transparency = 1
 			--print(v,table.find(Nodes,v.Attachment))
 		end
 	end

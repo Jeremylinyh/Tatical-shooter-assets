@@ -2,11 +2,11 @@
   "className": "Part",
   "properties": {
     "BottomSurface": "Smooth",
-    "CFrame": [-9.073999, 4.83037, 28.602346, -1, 0, 0, 0, 1, 0, 0, 0, -1],
+    "CFrame": [-9.073999, 4.830369, 28.602346, -1, 0, 0, 0, 1, 0, 0, 0, -1],
     "CanCollide": false,
     "CanQuery": false,
     "CanTouch": false,
-    "Color": [239, 239, 239],
+    "Color": [17, 17, 17],
     "Material": "SmoothPlastic",
     "Size": [0.1, 0.1, 1],
     "TopSurface": "Smooth",
