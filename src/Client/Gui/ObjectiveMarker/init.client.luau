@@ -1,6 +1,5 @@
 -- place objective markers
 
-
 -- Marker need to have the following attributes:
 -- AttachedTo: attachment with a WorldPosition
 -- Marker should be an attachment.
@@ -13,23 +12,33 @@ local frame : Frame = screenGui:WaitForChild("ObjectiveDisplayFrame")
 local markerTemplate = script:WaitForChild("Template")
 local templatesInUse = {}
 
-local markerTagName = "ObjectiveMarker"
+local markerTagName = "CKG"
 
 local BorderSize = 160
 
 game:GetService("ReplicatedStorage"):WaitForChild("Vote"):WaitForChild("StartGame").OnClientEvent:Wait()
 
 RunService.PreRender:Connect(function(delta)
+	markerTagName = 
+		game:GetService("Players").LocalPlayer.PlayerScripts.Objectivies.ClientObjectives.GetCurrentOBJ:Invoke()
+		.."ObjectiveMarker"
 
 	local camera = workspace.CurrentCamera
 	local markersList = CS:GetTagged(markerTagName)
 	
-
+	for i,v in pairs(templatesInUse) do
+		if v.Name ~= markerTagName then
+			v:Destroy()
+			templatesInUse[i] = nil
+		end
+	end
+	
 	for i,placeAt : Attachment in pairs(markersList) do
 		local marker : ImageLabel = templatesInUse[placeAt] 
 		if not marker then
 			marker = markerTemplate:Clone()
 			marker.Parent = frame
+			marker.Name = markerTagName
 			templatesInUse[placeAt] = marker
 		end
 
@@ -78,7 +87,7 @@ RunService.PreRender:Connect(function(delta)
 		local newPos : UDim2 = UDim2.fromOffset(preclamp.X,preclamp.Y)
 		
 		local weight = math.abs(preclamp.X - X) + math.abs(preclamp.Y-Y)
-		weight/=160
+		weight/= 160
 		weight = math.clamp(weight,0,1)
 		local difference : Vector2 = Vector2.new(X-preclamp.X,Y-preclamp.Y)
 		local angle = math.atan2(difference.Y,difference.X) 
